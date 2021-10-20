@@ -11,27 +11,12 @@
 #ifndef DETDATAFORMATS_INCLUDE_DATAFORMATS_WIB_WIBFRAME_HPP_
 #define DETDATAFORMATS_INCLUDE_DATAFORMATS_WIB_WIBFRAME_HPP_
 
-#include "ers/Issue.hpp"
-
 #include <bitset>
 #include <iostream>
 #include <vector>
+#include <stdexcept>
 
 namespace dunedaq {
-
-/**
- * @brief An ERS Error indicating that the requested index is out of range
- * @param wib_index_supplied Index that caused the error
- * @param wib_index_min Minium valid index for this function
- * @param wib_index_max Maximum valid index for this function
- * @cond Doxygen doesn't like ERS macros
- */
-ERS_DECLARE_ISSUE(detdataformats,
-                  WibFrameRelatedIndexError,
-                  "Supplied index " << wib_index_supplied << " is outside the allowed range of " << wib_index_min
-                                    << " to " << wib_index_max,
-                  ((int)wib_index_supplied)((int)wib_index_min)((int)wib_index_max)) // NOLINT
-                                                                                     /// @endcond
 
 namespace detdataformats {
 
@@ -257,7 +242,7 @@ struct ColdataSegment
           return adc1ch3_1 | adc1ch3_2 << 4;
       }
     }
-    throw WibFrameRelatedIndexError(ERS_HERE, adc, 0, 1);
+    std::range_error("Supplied WIB channel index is out of the allowed range.");
   }
 
   void set_channel(const uint8_t adc, const uint8_t ch, const uint16_t new_val) // NOLINT(build/unsigned)
@@ -334,7 +319,7 @@ private:
     auto segment_id = (adc / 2) * 2 + ch / 4;
 
     if (segment_id < 0 || segment_id > s_num_seg_per_block - 1) {
-      throw WibFrameRelatedIndexError(ERS_HERE, segment_id, 0, s_num_seg_per_block - 1);
+        throw std::out_of_range("ADC index out of range");      
     }
     return segment_id;
   }
@@ -433,7 +418,7 @@ private:
   void throw_if_invalid_block_index_(const int block_num) const
   {
     if (block_num < 0 || block_num > s_num_block_per_frame - 1) {
-      throw WibFrameRelatedIndexError(ERS_HERE, block_num, 0, s_num_block_per_frame - 1);
+       throw std::out_of_range("FEMB index out of range");
     }
   }
 
