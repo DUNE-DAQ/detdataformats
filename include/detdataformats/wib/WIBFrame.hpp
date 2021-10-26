@@ -242,7 +242,8 @@ struct ColdataSegment
           return adc1ch3_1 | adc1ch3_2 << 4;
       }
     }
-    std::range_error("Supplied WIB channel index is out of the allowed range.");
+    throw std::range_error("Supplied WIB channel index is out of the allowed range.");
+    return 0;
   }
 
   void set_channel(const uint8_t adc, const uint8_t ch, const uint16_t new_val) // NOLINT(build/unsigned)
