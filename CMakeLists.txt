@@ -19,6 +19,8 @@ daq_add_library(*.cpp LINK_LIBRARIES)
 
 ##############################################################################
 # Unit Tests
+daq_add_unit_test(WIBFrame_test                LINK_LIBRARIES dataformats)
+daq_add_unit_test(WIB2Frame_test                LINK_LIBRARIES dataformats)
 
 ##############################################################################
 
