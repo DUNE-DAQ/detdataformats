@@ -6,7 +6,7 @@
  * received with this code.
  */
 
-#include "dataformats/wib2/WIB2Frame.hpp"
+#include "detdataformats/wib2/WIB2Frame.hpp"
 
 /**
  * @brief Name of this test module
@@ -299,7 +299,7 @@ fake_data(frame14* buffer, size_t nframes)
 
 } // namespace wib2unpack
 
-using namespace dunedaq::dataformats;
+using namespace dunedaq::detdataformats;
 
 typedef std::array<uint16_t, 256> vals_type; // NOLINT(build/unsigned)
 
@@ -360,7 +360,7 @@ BOOST_DATA_TEST_CASE(CompareToUnpack, boost::unit_test::data::make(make_vals()),
   // Create the packed array from the unpacked array
   wib2unpack::repack_frame(&unpacked, &packed);
 
-  dunedaq::dataformats::WIB2Frame* wib2frame = reinterpret_cast<dunedaq::dataformats::WIB2Frame*>(&packed); // NOLINT
+  dunedaq::detdataformats::WIB2Frame* wib2frame = reinterpret_cast<dunedaq::detdataformats::WIB2Frame*>(&packed); // NOLINT
   size_t num_errors = 0;
 
   for (int femb = 0; femb < 2; ++femb) {

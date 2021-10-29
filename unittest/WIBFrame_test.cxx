@@ -7,7 +7,7 @@
  * received with this code.
  */
 
-#include "dataformats/wib/WIBFrame.hpp"
+#include "detdataformats/wib/WIBFrame.hpp"
 
 /**
  * @brief Name of this test module
@@ -19,7 +19,7 @@
 #include <string>
 #include <vector>
 
-using namespace dunedaq::dataformats;
+using namespace dunedaq::detdataformats;
 
 BOOST_AUTO_TEST_SUITE(WIBFrame_test)
 
@@ -361,11 +361,11 @@ BOOST_AUTO_TEST_CASE(ColdataBlock_ChannelMethods)
 
   uint8_t invalid_adc = ColdataBlock::s_num_adc_per_block; // NOLINT(build/unsigned)
   BOOST_REQUIRE_EXCEPTION(block.get_channel(invalid_adc, 0),
-                          dunedaq::dataformats::WibFrameRelatedIndexError,
-                          [&](dunedaq::dataformats::WibFrameRelatedIndexError) { return true; });
+                          std::out_of_range,
+                          [&](std::out_of_range) { return true; });
   BOOST_REQUIRE_EXCEPTION(block.set_channel(invalid_adc, 0, 0x123),
-                          dunedaq::dataformats::WibFrameRelatedIndexError,
-                          [&](dunedaq::dataformats::WibFrameRelatedIndexError) { return true; });
+                          std::out_of_range,
+                          [&](std::out_of_range) { return true; });
 }
 BOOST_AUTO_TEST_CASE(ColdataBlock_StreamOperator)
 {
@@ -385,8 +385,8 @@ BOOST_AUTO_TEST_CASE(WIBFrame_StructMethods)
   BOOST_REQUIRE(frame.get_wib_header() != nullptr);
   BOOST_REQUIRE(frame.get_coldata_header(0) != nullptr);
   BOOST_REQUIRE_EXCEPTION(frame.get_coldata_header(WIBFrame::s_num_block_per_frame),
-                          dunedaq::dataformats::WibFrameRelatedIndexError,
-                          [&](dunedaq::dataformats::WibFrameRelatedIndexError) { return true; });
+                          std::out_of_range,
+                          [&](std::out_of_range) { return true; });
 
   BOOST_REQUIRE_NO_THROW(frame.get_block(0));
   ;
@@ -427,21 +427,21 @@ BOOST_AUTO_TEST_CASE(WIBFrame_BlockChannelMethods)
   frame.set_channel(3, 1, 3, 0x888);
 
   BOOST_REQUIRE_EXCEPTION(frame.set_channel(WIBFrame::s_num_block_per_frame, 0, 0x123),
-                          dunedaq::dataformats::WibFrameRelatedIndexError,
-                          [&](dunedaq::dataformats::WibFrameRelatedIndexError) { return true; });
+                          std::out_of_range,
+                          [&](std::out_of_range) { return true; });
   BOOST_REQUIRE_EXCEPTION(frame.set_channel(WIBFrame::s_num_block_per_frame, 0, 0, 0x123),
-                          dunedaq::dataformats::WibFrameRelatedIndexError,
-                          [&](dunedaq::dataformats::WibFrameRelatedIndexError) { return true; });
+                          std::out_of_range,
+                          [&](std::out_of_range) { return true; });
 
   BOOST_REQUIRE_EQUAL(frame.get_channel(0), 0x111);
   BOOST_REQUIRE_EQUAL(frame.get_channel(1, 0), 0x333);
   BOOST_REQUIRE_EQUAL(frame.get_channel(3, 0, 0), 0x777);
   BOOST_REQUIRE_EXCEPTION(frame.get_channel(WIBFrame::s_num_block_per_frame, 0),
-                          dunedaq::dataformats::WibFrameRelatedIndexError,
-                          [&](dunedaq::dataformats::WibFrameRelatedIndexError) { return true; });
+                          std::out_of_range,
+                          [&](std::out_of_range) { return true; });
   BOOST_REQUIRE_EXCEPTION(frame.get_channel(WIBFrame::s_num_block_per_frame, 0, 0),
-                          dunedaq::dataformats::WibFrameRelatedIndexError,
-                          [&](dunedaq::dataformats::WibFrameRelatedIndexError) { return true; });
+                          std::out_of_range,
+                          [&](std::out_of_range) { return true; });
 
   auto block_0 = frame.get_block(0);
   BOOST_REQUIRE_EQUAL(block_0.get_channel(0, 0), 0x111);
