@@ -12,6 +12,10 @@ daq_setup_environment()
 
 daq_add_library(*.cpp LINK_LIBRARIES)
 
+
+##############################################################################
+daq_add_python_bindings(*.cpp LINK_LIBRARIES ${PROJECT_NAME})
+
 ##############################################################################
 # Plugins
 
