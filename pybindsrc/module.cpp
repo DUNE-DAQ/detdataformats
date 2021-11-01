@@ -17,11 +17,11 @@ namespace python {
 
     extern void register_wib(py::module &);
 
-PYBIND11_MODULE(_daq_detdataformats_py, top_module) {
+PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
-    top_module.doc() = "c++ implementation of the dunedaq detdataformats modules"; // optional module docstring
+    m.doc() = "c++ implementation of the dunedaq detdataformats modules"; // optional module docstring
 
-    register_wib(top_module);
+    register_wib(m);
 }
 
 } // namespace python

@@ -29,9 +29,9 @@ register_wib(py::module& m)
         auto wfp = *static_cast<WIBFrame*>(capsule.get_pointer());
         return wfp;
     } ))
-    .def("get_wib_header", static_cast<const WIBHeader* (WIBFrame::*)() const >(&WIBFrame::get_wib_header))
-    .def("get_coldata_header", &WIBFrame::get_coldata_header)
-    .def("get_block", &WIBFrame::get_block)
+    .def("get_wib_header", static_cast<const WIBHeader* (WIBFrame::*)() const >(&WIBFrame::get_wib_header), py::return_value_policy::reference_internal)
+    .def("get_coldata_header", &WIBFrame::get_coldata_header, py::return_value_policy::reference_internal)
+    .def("get_block", &WIBFrame::get_block, py::return_value_policy::reference_internal)
     .def("get_channel", static_cast<uint16_t (WIBFrame::*)(const uint8_t, const uint8_t, const uint8_t) const>(&WIBFrame::get_channel))
     .def("get_channel", static_cast<uint16_t (WIBFrame::*)(const uint8_t, const uint8_t) const>(&WIBFrame::get_channel))
     .def("get_channel", static_cast<uint16_t (WIBFrame::*)(const uint8_t) const>(&WIBFrame::get_channel))
