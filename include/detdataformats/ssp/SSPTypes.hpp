@@ -9,7 +9,7 @@
 #include <cstdlib>
 
 namespace dunedaq {
-namespace dataformats {
+namespace detdataformats {
 
 namespace ssp {
 
