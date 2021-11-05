@@ -16,12 +16,14 @@ namespace detdataformats {
 namespace python {
 
     extern void register_wib(py::module &);
+    extern void register_ssp(py::module &);
 
 PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     m.doc() = "c++ implementation of the dunedaq detdataformats modules"; // optional module docstring
 
     register_wib(m);
+    register_ssp(m);
 }
 
 } // namespace python

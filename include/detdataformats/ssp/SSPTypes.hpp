@@ -9,7 +9,7 @@
 #include <cstdlib>
 
 namespace dunedaq {
-namespace dataformats {
+namespace detdataformats {
 
 namespace ssp {
 
@@ -79,6 +79,8 @@ struct MillisliceHeader
 
   static const size_t sizeInUInts = 9;
 };
+
+const size_t MillisliceHeader::sizeInUInts;
 
 // Structure defined by hardware, i.e. hardware output can be written straight into this struct
 struct EventHeader
