@@ -71,6 +71,10 @@ register_ssp(py::module& m)
 
   py::class_<EventHeader> (m, "EventHeader", pybind11::buffer_protocol())
     .def(py::init<>())
+    .def(py::init([](py::capsule capsule) {
+        auto evp = *static_cast<EventHeader*>(capsule.get_pointer());
+        return evp;
+    } ))
     .def_readwrite("header", &EventHeader::header)
     .def_readwrite("length", &EventHeader::length)
     .def_readwrite("group1", &EventHeader::group1)
