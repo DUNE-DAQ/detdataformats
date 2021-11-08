@@ -60,75 +60,70 @@ register_ssp(py::module& m)
   ;
 
   py::class_<MillisliceHeader> (m, "MillisliceHeader")
-    .def(py::init<>())
-    .def_readwrite("startTime", &MillisliceHeader::startTime)
-    .def_readwrite("endTime", &MillisliceHeader::endTime)
-    .def_readwrite("length", &MillisliceHeader::length)
-    .def_readwrite("nTriggers", &MillisliceHeader::nTriggers)
-    .def_readwrite("triggerType", &MillisliceHeader::triggerType)
-    .def_readonly_static("sizeInUInts", &MillisliceHeader::sizeInUInts)
+    .def_property_readonly("startTime", [](const MillisliceHeader& self) -> unsigned long {return self.startTime;})
+    .def_property_readonly("endTime",  [](const MillisliceHeader& self) -> unsigned long {return self.endTime;})
+    .def_property_readonly("triggerTime",  [](const MillisliceHeader& self) -> unsigned long {return self.triggerTime;})
+    .def_property_readonly("length", [](const MillisliceHeader& self) -> unsigned int {return self.length;})
+    .def_property_readonly("nTriggers", [](const MillisliceHeader& self) -> unsigned int {return self.nTriggers;})
+    .def_property_readonly("triggerType", [](const MillisliceHeader& self) -> unsigned int {return self.triggerType;})
+    .def_property_readonly_static("sizeInUInts", [](const MillisliceHeader& self) -> size_t {return self.sizeInUInts;})
   ;
 
   py::class_<EventHeader> (m, "EventHeader", pybind11::buffer_protocol())
-    .def(py::init<>())
     .def(py::init([](py::capsule capsule) {
         auto evp = *static_cast<EventHeader*>(capsule.get_pointer());
         return evp;
     } ))
-    .def_readwrite("header", &EventHeader::header)
-    .def_readwrite("length", &EventHeader::length)
-    .def_readwrite("group1", &EventHeader::group1)
-    .def_readwrite("triggerID", &EventHeader::triggerID)
-    .def_readwrite("group2", &EventHeader::group2)
-    .def_property("timestamp",
-      [](EventHeader &self) -> pybind11::array {
+    .def_property_readonly("header", [](const EventHeader& self) -> unsigned int {return self.header;})
+    .def_property_readonly("length", [](const EventHeader& self) -> unsigned short {return self.length;})
+    .def_property_readonly("group1", [](const EventHeader& self) -> unsigned short {return self.group1;})
+    .def_property_readonly("triggerID", [](const EventHeader& self) -> unsigned short {return self.triggerID;})
+    .def_property_readonly("group2", [](const EventHeader& self) -> unsigned short {return self.group2;})
+    .def_property_readonly("timestamp",
+      [](const EventHeader& self) -> pybind11::array {
             auto dtype = py::dtype(py::format_descriptor<unsigned short>::format());
             auto base = py::array(dtype, {4}, {sizeof(unsigned short)});
             return pybind11::array(dtype, {4}, {sizeof(unsigned short)}, self.timestamp, base);
-        },
-      [](EventHeader& self,const std::vector<unsigned short>& timestamp){std::copy(&timestamp[0], &timestamp[0]+4, self.timestamp);}, 
+      },
       py::return_value_policy::reference_internal)
-    .def_readwrite("peakSumLow", &EventHeader::peakSumLow)
-    .def_readwrite("group3", &EventHeader::group3)
-    .def_readwrite("preriseLow", &EventHeader::preriseLow)
-    .def_readwrite("group4", &EventHeader::group4)
-    .def_readwrite("intSumHigh", &EventHeader::intSumHigh)
-    .def_readwrite("baseline", &EventHeader::baseline)
-    .def_property("cfdPoint",
-      [](EventHeader &self) -> pybind11::array {
+    .def_property_readonly("peakSumLow", [](const EventHeader& self) -> unsigned short {return self.peakSumLow;})
+    .def_property_readonly("group3", [](const EventHeader & self) -> unsigned short {return self.group3;})
+    .def_property_readonly("preriseLow", [](const EventHeader& self) -> unsigned short {return self.preriseLow;})
+    .def_property_readonly("group4", [](const EventHeader& self) -> unsigned short {return self.group4;})
+    .def_property_readonly("intSumHigh", [](const EventHeader& self) -> unsigned short {return self.intSumHigh;})
+    .def_property_readonly("baseline", [](const EventHeader& self) -> unsigned short {return self.baseline;})
+    .def_property_readonly("cfdPoint",
+      [](const EventHeader& self) -> pybind11::array {
             auto dtype = py::dtype(py::format_descriptor<unsigned short>::format());
             auto base = py::array(dtype, {4}, {sizeof(unsigned short)});
             return pybind11::array(dtype, {4}, {sizeof(unsigned short)}, self.cfdPoint, base);
-        },
-      [](EventHeader& self,const std::vector<unsigned short>& cfdPoint){std::copy(&cfdPoint[0], &cfdPoint[0]+4, self.cfdPoint);}, 
+      },
       py::return_value_policy::reference_internal)
-    .def_property("intTimestamp",
-      [](EventHeader &self) -> pybind11::array {
+    .def_property_readonly("intTimestamp",
+      [](const EventHeader& self) -> pybind11::array {
             auto dtype = py::dtype(py::format_descriptor<unsigned short>::format());
             auto base = py::array(dtype, {4}, {sizeof(unsigned short)});
             return pybind11::array(dtype, {4}, {sizeof(unsigned short)}, self.intTimestamp, base);
-        },
-      [](EventHeader& self,const std::vector<unsigned short>& intTimestamp){std::copy(&intTimestamp[0], &intTimestamp[0]+4, self.intTimestamp);},
+      },
       py::return_value_policy::reference_internal)
   ;
+  
   py::class_<CtrlHeader> (m, "CtrlHeader", pybind11::buffer_protocol())
-    .def(py::init<>())
-    .def_readwrite("length", &CtrlHeader::length)
-    .def_readwrite("address", &CtrlHeader::address)
-    .def_readwrite("command", &CtrlHeader::command)
-    .def_readwrite("size", &CtrlHeader::size)
-    .def_readwrite("status", &CtrlHeader::status)
+    .def_property_readonly("length", [](const CtrlHeader& self) -> unsigned int {return self.length;})
+    .def_property_readonly("address", [](const CtrlHeader& self) -> unsigned int {return self.address;})
+    .def_property_readonly("command", [](const CtrlHeader& self) -> unsigned int {return self.command;})
+    .def_property_readonly("size", [](const CtrlHeader& self) -> unsigned int {return self.size;})
+    .def_property_readonly("status", [](const CtrlHeader& self) -> unsigned int {return self.status;})
   ;
+
   py::class_<CtrlPacket> (m, "CtrlPacket")
-    .def(py::init<>())
-    .def_readwrite("header", &CtrlPacket::header)
-    .def_property("data",
-      [](CtrlPacket &self) -> pybind11::array {
+    .def_property_readonly("header", [](const CtrlPacket& self) -> const CtrlHeader& {return self.header;})
+    .def_property_readonly("data",
+      [](const CtrlPacket& self) -> pybind11::array {
         auto dtype = py::dtype(py::format_descriptor<unsigned int>::format());
         auto base = py::array(dtype, {ssp::max_control_data}, {sizeof(unsigned int)});
         return pybind11::array(dtype, {ssp::max_control_data}, {sizeof(unsigned int)}, self.data, base);
       },
-      [](CtrlPacket& self,const std::vector<unsigned int>& data){std::copy(&data[0], &data[0]+ssp::max_control_data, self.data);}, 
       py::return_value_policy::reference_internal)
   ;
 }

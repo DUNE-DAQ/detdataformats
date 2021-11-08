@@ -77,10 +77,8 @@ struct MillisliceHeader
   unsigned int nTriggers;    // NOLINT
   unsigned int triggerType;  // NOLINT
 
-  static const size_t sizeInUInts = 9;
+  inline static const size_t sizeInUInts = 9;
 };
-
-const size_t MillisliceHeader::sizeInUInts;
 
 // Structure defined by hardware, i.e. hardware output can be written straight into this struct
 struct EventHeader
