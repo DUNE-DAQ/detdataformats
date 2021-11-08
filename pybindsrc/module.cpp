@@ -11,22 +11,34 @@
 
 namespace py = pybind11;
 
+
+
 namespace dunedaq {
 namespace detdataformats {
-namespace python {
 
-    extern void register_wib(py::module &);
-    extern void register_ssp(py::module &);
+namespace wib {
+namespace python {
+extern void register_wib(py::module &);
+}
+}
+
+namespace ssp {
+namespace python {
+extern void register_ssp(py::module &);    
+}
+}
+
+namespace python {
 
 PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     m.doc() = "c++ implementation of the dunedaq detdataformats modules"; // optional module docstring
 
     py::module_ wib_module = m.def_submodule("wib");
-    register_wib(wib_module);
+    wib::python::register_wib(wib_module);
 
     py::module_ ssp_module = m.def_submodule("ssp");
-    register_ssp(ssp_module);
+    ssp::python::register_ssp(ssp_module);
 }
 
 } // namespace python
