@@ -107,6 +107,7 @@ register_ssp(py::module& m)
             return pybind11::array(dtype, {4}, {sizeof(unsigned short)}, self.intTimestamp, base);
       },
       py::return_value_policy::reference_internal)
+    .def_static("sizeof", [](){ return sizeof(EventHeader); })
   ;
   
   py::class_<CtrlHeader> (m, "CtrlHeader", pybind11::buffer_protocol())
