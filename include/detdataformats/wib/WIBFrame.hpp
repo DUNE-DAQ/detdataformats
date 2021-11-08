@@ -17,8 +17,8 @@
 #include <stdexcept>
 
 namespace dunedaq {
-
 namespace detdataformats {
+namespace wib {
 
 using word_t = uint32_t; // NOLINT(build/unsigned)
 using adc_t = uint16_t;  // NOLINT(build/unsigned)
@@ -438,6 +438,7 @@ operator<<(std::ostream& o, WIBFrame const& frame)
   return o;
 }
 
+} // namespace wib
 } // namespace detdataformats
 } // namespace dunedaq
 

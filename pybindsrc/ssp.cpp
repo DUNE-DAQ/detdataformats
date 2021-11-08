@@ -18,12 +18,13 @@ namespace py = pybind11;
 
 namespace dunedaq {
 namespace detdataformats {
+namespace ssp {
 namespace python {
 
 void
 register_ssp(py::module& m)
 { 
-    py::enum_<ssp::Comm_t>(m, "Comm_t")
+    py::enum_<Comm_t>(m, "Comm_t")
     .value("kUSB", ssp::kUSB)
     .value("kEthernet", ssp::kEthernet)
     .value("kEmulated", ssp::kEmulated)
@@ -128,5 +129,6 @@ register_ssp(py::module& m)
   ;
 }
 } // namespace python
+} // namespace wib
 } // namespace detdataformats
 } // namespace dunedaq

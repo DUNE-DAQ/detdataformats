@@ -19,7 +19,9 @@
 #include <cstdlib>
 #include <stdexcept> // For std::out_of_range
 
-namespace dunedaq::detdataformats {
+namespace dunedaq {
+namespace detdataformats {
+namespace wib2 {
 
 /**
  *  @brief Class for accessing raw WIB v2 frames, as used in ProtoDUNE-SP-II
@@ -216,7 +218,9 @@ private:
   }
 };
 
-} // namespace dunedaq::detdataformats
+} // namespace wib2
+} // namespace detdataformats
+} // namespace dunedaq
 
 #endif // DETDATAFORMATS_INCLUDE_DATAFORMATS_WIB2_WIB2FRAME_HPP_
 

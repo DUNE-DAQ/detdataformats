@@ -15,6 +15,7 @@
 
 namespace dunedaq {
 namespace detdataformats {
+namespace pacman {
 
 using word_t = uint32_t; // NOLINT(build/unsigned)
 
@@ -120,6 +121,7 @@ class PACMANFrame
 private:
 };
 
+} // namespace pacman
 } // namespace detdataformats
 } // namespace dunedaq
 

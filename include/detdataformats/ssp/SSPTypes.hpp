@@ -23,8 +23,6 @@ enum Comm_t
 
 static const constexpr int max_control_data = 256; // Maximum size of packet payload on comms channel
 
-} // namespace ssp
-
 //==============================================================================
 // Enumerated Constants
 // These are defined by the SSP hardware spec
@@ -123,6 +121,7 @@ struct CtrlPacket
   unsigned int data[ssp::max_control_data];
 };
 
+} // namespace ssp
 } // namespace dataformats
 } // namespace dunedaq
 

@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 
+using namespace dunedaq::detdataformats::wib2;
+
 // namespace wib2unpack contains functions for manipulating WIB2
 // frames in the format described by EDMS document 2088713:
 // (https://edms.cern.ch/document/2088713/4). The code here is taken
@@ -360,7 +362,7 @@ BOOST_DATA_TEST_CASE(CompareToUnpack, boost::unit_test::data::make(make_vals()),
   // Create the packed array from the unpacked array
   wib2unpack::repack_frame(&unpacked, &packed);
 
-  dunedaq::detdataformats::WIB2Frame* wib2frame = reinterpret_cast<dunedaq::detdataformats::WIB2Frame*>(&packed); // NOLINT
+  WIB2Frame* wib2frame = reinterpret_cast<WIB2Frame*>(&packed); // NOLINT
   size_t num_errors = 0;
 
   for (int femb = 0; femb < 2; ++femb) {

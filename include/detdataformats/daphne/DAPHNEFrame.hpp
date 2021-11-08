@@ -21,7 +21,9 @@
 #include <stdexcept> // For std::out_of_range
 #include <stdint.h>  // For uint32_t etc
 
-namespace dunedaq::detdataformats {
+namespace dunedaq {
+namespace detdataformats {
+namespace daphne {
 
 class DAPHNEFrame
 {
@@ -142,7 +144,9 @@ public:
   }
 };
 
-} // namespace dunedaq::detdataformats
+} // namespace daphne
+} // namespace detdataformats
+} // namespace dunedaq
 
 #endif // DETDATAFORMATS_INCLUDE_DATAFORMATS_DAPHNE_DAPHNEFRAME_HPP_
 

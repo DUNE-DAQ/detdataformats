@@ -17,6 +17,7 @@ namespace py = pybind11;
 
 namespace dunedaq {
 namespace detdataformats {
+namespace wib {
 namespace python {
 
 void
@@ -80,5 +81,6 @@ register_wib(py::module& m)
 }
 
 } // namespace python
+} // namespace ssp
 } // namespace timing
 } // namespace dunedaq

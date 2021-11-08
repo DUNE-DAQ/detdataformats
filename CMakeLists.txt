@@ -10,7 +10,7 @@ daq_setup_environment()
 ##############################################################################
 # Main library
 
-daq_add_library(*.cpp LINK_LIBRARIES)
+daq_add_library(LINK_LIBRARIES)
 
 
 ##############################################################################
