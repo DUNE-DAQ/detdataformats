@@ -22,8 +22,11 @@ PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     m.doc() = "c++ implementation of the dunedaq detdataformats modules"; // optional module docstring
 
-    register_wib(m);
-    register_ssp(m);
+    py::module_ wib_module = m.def_submodule("wib");
+    register_wib(wib_module);
+
+    py::module_ ssp_module = m.def_submodule("ssp");
+    register_ssp(ssp_module);
 }
 
 } // namespace python
