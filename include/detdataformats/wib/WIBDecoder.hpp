@@ -27,4 +27,15 @@ py::array_t<uint16_t> numpy_decoder(void* data, int nframes){
   return ret;
 }
 
+py::array_t<uint64_t> numpy_timestamps(void* data, int nframes){
+  py::array_t<uint64_t> ret(nframes);
+  auto ptr = static_cast<uint64_t*>(ret.request().ptr);
+  for (size_t i=0; i<(size_t)nframes; ++i) {
+    auto fr = reinterpret_cast<WIBFrame*>(static_cast<char*>(data) + i * sizeof(WIBFrame));
+    ptr[i] = fr->get_timestamp();
+  }
+
+  return ret;
+}
+
 } // namespace dunedaq::detdataformats::wib // NOLINT

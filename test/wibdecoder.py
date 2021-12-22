@@ -36,10 +36,11 @@ for i, d in enumerate(trname):
         print(f'Time to decode with the python for loop       {time.time() - t0:.3f} s')
 
         t0 = time.time()
+        timestamps = wib.numpy_timestamps(frag.get_data(), n_frames)
         ary = wib.numpy_decoder(frag.get_data(), n_frames)
         print(f'Time to decode with the C++ -> numpy function {time.time() - t0:.3f} s')
 
-        if (adcs == ary).all():
-            print(f'The array obtained for TR number {i} is the same for the python for loop and the C++ -> numpy function')
+        if (adcs == ary).all() and (ts == timestamps).all():
+            print(f'The arrays obtained for TR number {i} are the same for the python for loop and the C++ -> numpy functions')
         else:
-            print('Test failed, the python for loop and the C++ -> numpy function return different results')
+            print('Test failed, the python for loop and the C++ -> numpy functions return different results')

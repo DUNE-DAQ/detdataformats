@@ -80,6 +80,7 @@ register_wib(py::module& m)
   ;
 
   m.def("numpy_decoder", &numpy_decoder);
+  m.def("numpy_timestamps", &numpy_timestamps);
 
 }
 
