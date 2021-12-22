@@ -7,6 +7,7 @@
  */
 
 #include "detdataformats/wib/WIBFrame.hpp"
+#include "detdataformats/wib/WIBDecoder.hpp"
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -77,6 +78,8 @@ register_wib(py::module& m)
   py::class_<ColdataBlock>(m, "ColdataBlock")
     .def("get_channel", &ColdataBlock::get_channel)
   ;
+
+  m.def("numpy_decoder", &numpy_decoder);
 
 }
 
