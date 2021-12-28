@@ -22,6 +22,12 @@ extern void register_wib(py::module &);
 }
 }
 
+namespace wib2 {
+namespace python {
+  extern void register_wib2(py::module &);
+}
+}
+
 namespace ssp {
 namespace python {
 extern void register_ssp(py::module &);    
@@ -36,6 +42,9 @@ PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     py::module_ wib_module = m.def_submodule("wib");
     wib::python::register_wib(wib_module);
+
+    py::module_ wib2_module = m.def_submodule("wib2");
+    wib::python::register_wib(wib2_module);
 
     py::module_ ssp_module = m.def_submodule("ssp");
     ssp::python::register_ssp(ssp_module);
