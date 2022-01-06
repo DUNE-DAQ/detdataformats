@@ -7,7 +7,7 @@
  */
 
 #include "detdataformats/wib/WIBFrame.hpp"
-#include "detdataformats/wib/WIBDecoder.hpp"
+#include "WIBUnpacker.cpp"
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>

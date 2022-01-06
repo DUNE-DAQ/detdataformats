@@ -7,7 +7,7 @@
  */
 
 #include "detdataformats/daphne/DAPHNEFrame.hpp"
-#include "detdataformats/daphne/DAPHNEDecoder.hpp"
+#include "DAPHNEUnpacker.cpp"
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
