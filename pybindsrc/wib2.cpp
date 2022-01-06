@@ -1,5 +1,5 @@
 /**
- * @file wib2.cpp Python bindings related to the WIB2Frame format
+ * @file wib2.cpp Python bindings for the WIB2Frame format
  *
  * This is part of the DUNE DAQ Software Suite, copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
