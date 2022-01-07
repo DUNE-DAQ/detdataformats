@@ -7,7 +7,7 @@
  */
 
 #include "detdataformats/wib2/WIB2Frame.hpp"
-#include "WIB2Unpacker.cpp"
+#include "WIB2Unpacker.cc"
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
