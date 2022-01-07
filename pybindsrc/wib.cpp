@@ -77,8 +77,8 @@ register_wib(py::module& m)
     .def("get_channel", &ColdataBlock::get_channel)
   ;
 
-  m.def("numpy_decoder", &numpy_decoder);
-  m.def("numpy_timestamps", &numpy_timestamps);
+  m.def("np_array_adc", &np_array_adc);
+  m.def("np_array_timestamp", &np_array_timestamp);
 
 }
 

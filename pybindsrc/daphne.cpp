@@ -54,8 +54,8 @@ register_daphne(py::module& m)
     .def_property_readonly("flex_word_24", [](DAPHNEFrame::Trailer& self) -> uint32_t {return self.flex_word_24;})
   ;
 
-  m.def("numpy_decoder", &numpy_decoder);
-  m.def("numpy_timestamps", &numpy_timestamps);
+  m.def("np_array_adc", &np_array_adc);
+  m.def("np_array_timestamp", &np_array_timestamp);
 
 }
 

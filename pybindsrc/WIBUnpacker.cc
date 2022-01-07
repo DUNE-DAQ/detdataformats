@@ -18,7 +18,7 @@ namespace dunedaq::detdataformats::wib {
  * @brief Decodes a Fragment containing WIBFrames into a numpy array
  * with the ADC values and dimension (number of WIBFrames, 256)
  */
-py::array_t<uint16_t> numpy_decoder(void* data, int nframes){
+py::array_t<uint16_t> np_array_adc(void* data, int nframes){
   py::array_t<uint16_t> ret(256 * nframes);
   auto ptr = static_cast<uint16_t*>(ret.request().ptr);
   for (size_t i=0; i<(size_t)nframes; ++i) {
@@ -35,7 +35,7 @@ py::array_t<uint16_t> numpy_decoder(void* data, int nframes){
  * @brief Decodes the timestamps in a Fragment containing WIBFrames
  * into a numpy array with dimension (number of WIBFrames)
  */
-py::array_t<uint64_t> numpy_timestamps(void* data, int nframes){
+py::array_t<uint64_t> np_array_timestamp(void* data, int nframes){
   py::array_t<uint64_t> ret(nframes);
   auto ptr = static_cast<uint64_t*>(ret.request().ptr);
   for (size_t i=0; i<(size_t)nframes; ++i) {
