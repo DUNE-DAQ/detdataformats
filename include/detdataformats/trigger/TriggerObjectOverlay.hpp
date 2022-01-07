@@ -10,6 +10,7 @@
 #define DETDATAFORMATS_INCLUDE_DETDATAFORMATS_TRIGGER_TRIGGEROBJECTOVERLAY_HPP_
 
 #include "detdataformats/trigger/TriggerActivity.hpp"
+#include "detdataformats/trigger/TriggerActivityData.hpp"
 #include "detdataformats/trigger/TriggerCandidate.hpp"
 #include "detdataformats/trigger/TriggerPrimitive.hpp"
 
@@ -52,23 +53,26 @@ template<>
 struct TypeToOverlayType<TriggerActivity>
 {
   using overlay_t = TriggerActivityOverlay;
+  using data_t = TriggerActivityData;
 };
 
 template<>
 struct TypeToOverlayType<TriggerCandidate>
 {
   using overlay_t = TriggerCandidateOverlay;
+  using data_t = TriggerCandidateData;
 };
 
 // Populate a TriggerObjectOverlay in `buffer`, created from
 // `object`. The necessary size for the buffer can be found with
 // `get_overlay_nbytes()`
-template<class Object, class Overlay = typename TypeToOverlayType<Object>::overlay_t>
+template<class Object, class Overlay = typename TypeToOverlayType<Object>::overlay_t,
+         class Data = typename TypeToOverlayType<Object>::data_t>
 void
 write_overlay(const Object& object, void* buffer)
 {
   Overlay* overlay = reinterpret_cast<Overlay*>(buffer);
-  overlay->data = object.data;
+  overlay->data = static_cast<Data>(object);
   overlay->n_inputs = object.inputs.size();
   for (size_t i = 0; i < object.inputs.size(); ++i) {
     overlay->inputs[i] = object.inputs[i];
@@ -90,12 +94,19 @@ get_overlay_nbytes(const Object& object)
 // Given an overlay object (TriggerActivityOverlay or
 // TriggerCandidateOverlay), create a corresponding non-overlay object
 // (TriggerActivity or TriggerCandidate) with the same contents, and return it
-template<class Object, class Overlay = typename TypeToOverlayType<Object>::overlay_t>
+template<class Object, class Overlay = typename TypeToOverlayType<Object>::overlay_t,
+         class Data = typename TypeToOverlayType<Object>::data_t>
 Object
 read_overlay(const Overlay& overlay)
 {
   Object ret;
-  ret.data = overlay.data;
+  // overlay.data is a Trigger(Activity|Candidate)Data, which is the
+  // base class of Trigger(Activity|Candidate). So we want to set the
+  // base-class part of `ret` to `overlay.data`, which is what the
+  // static_cast is for. We have to do the cast on the pointer to get
+  // reference semantics (without the &, we get a _copy_ of ret, which
+  // is not what we want)
+  *static_cast<Data*>(&ret) = overlay.data;
   for (uint64_t i = 0; i < overlay.n_inputs; ++i) {
     ret.inputs.push_back(overlay.inputs[i]);
   }

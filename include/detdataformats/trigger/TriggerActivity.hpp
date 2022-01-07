@@ -18,9 +18,8 @@ namespace dunedaq {
 namespace detdataformats {
 namespace trigger {
 
-struct TriggerActivity
+struct TriggerActivity : public TriggerActivityData
 {
-  TriggerActivityData data;
   std::vector<TriggerPrimitive> inputs;
 };
 

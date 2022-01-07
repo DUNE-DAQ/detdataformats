@@ -35,13 +35,13 @@ BOOST_AUTO_TEST_SUITE(BOOST_TEST_MODULE)
 
 BOOST_AUTO_TEST_CASE(TriggerCandidateOverlay_in_out) {
   TriggerCandidate candidate;
-  candidate.data.time_start = 5;
-  candidate.data.time_end = 6;
-  candidate.data.time_candidate = 7;
-  candidate.data.detid = 8;
-  candidate.data.type = TriggerCandidateData::Type::kSupernova;
-  candidate.data.algorithm = TriggerCandidateData::Algorithm::kPrescale;
-  candidate.data.version = 1;
+  candidate.time_start = 5;
+  candidate.time_end = 6;
+  candidate.time_candidate = 7;
+  candidate.detid = 8;
+  candidate.type = TriggerCandidateData::Type::kSupernova;
+  candidate.algorithm = TriggerCandidateData::Algorithm::kPrescale;
+  candidate.version = 1;
 
   const size_t n_activity = 5;
   
@@ -70,15 +70,18 @@ BOOST_AUTO_TEST_CASE(TriggerCandidateOverlay_in_out) {
 
   write_overlay(candidate, buffer);
 
+  const TriggerCandidateOverlay& candidate_overlay = *reinterpret_cast<const TriggerCandidateOverlay*>(buffer);
+  BOOST_CHECK_EQUAL(candidate.time_start,     candidate_overlay.data.time_start);
+  
   TriggerCandidate candidate_read = read_overlay_from_buffer<TriggerCandidate>(buffer);
 
-  BOOST_CHECK_EQUAL(candidate.data.time_start,     candidate_read.data.time_start);
-  BOOST_CHECK_EQUAL(candidate.data.time_end,       candidate_read.data.time_end);
-  BOOST_CHECK_EQUAL(candidate.data.time_candidate, candidate_read.data.time_candidate);
-  BOOST_CHECK_EQUAL(candidate.data.detid,          candidate_read.data.detid);
-  BOOST_CHECK_EQUAL(candidate.data.type,           candidate_read.data.type);
-  BOOST_CHECK_EQUAL(candidate.data.algorithm,      candidate_read.data.algorithm);
-  BOOST_CHECK_EQUAL(candidate.data.version,        candidate_read.data.version);
+  BOOST_CHECK_EQUAL(candidate.time_start,     candidate_read.time_start);
+  BOOST_CHECK_EQUAL(candidate.time_end,       candidate_read.time_end);
+  BOOST_CHECK_EQUAL(candidate.time_candidate, candidate_read.time_candidate);
+  BOOST_CHECK_EQUAL(candidate.detid,          candidate_read.detid);
+  BOOST_CHECK_EQUAL(candidate.type,           candidate_read.type);
+  BOOST_CHECK_EQUAL(candidate.algorithm,      candidate_read.algorithm);
+  BOOST_CHECK_EQUAL(candidate.version,        candidate_read.version);
 
   for(size_t i=0; i<n_activity; ++i){
     BOOST_CHECK_EQUAL(candidate.inputs[i].time_start,    candidate_read.inputs[i].time_start);
@@ -100,19 +103,19 @@ BOOST_AUTO_TEST_CASE(TriggerCandidateOverlay_in_out) {
 
 BOOST_AUTO_TEST_CASE(TriggerActivityOverlay_in_out) {
   TriggerActivity activity;
-  activity.data.time_start = 1;
-  activity.data.time_end = 2;
-  activity.data.time_peak = 3;
+  activity.time_start = 1;
+  activity.time_end = 2;
+  activity.time_peak = 3;
   
-  activity.data.channel_start = 4;
-  activity.data.channel_end = 5;
-  activity.data.channel_peak = 6;
-  activity.data.adc_integral = 7;
-  activity.data.adc_peak = 8;
-  activity.data.detid = 9;
-  activity.data.type = TriggerActivityData::Type::kTPC;
-  activity.data.algorithm = TriggerActivityData::Algorithm::kSupernova;
-  activity.data.version = 1;
+  activity.channel_start = 4;
+  activity.channel_end = 5;
+  activity.channel_peak = 6;
+  activity.adc_integral = 7;
+  activity.adc_peak = 8;
+  activity.detid = 9;
+  activity.type = TriggerActivityData::Type::kTPC;
+  activity.algorithm = TriggerActivityData::Algorithm::kSupernova;
+  activity.version = 1;
 
   const size_t n_primitive = 5;
   
@@ -142,19 +145,19 @@ BOOST_AUTO_TEST_CASE(TriggerActivityOverlay_in_out) {
 
   TriggerActivity activity_read = read_overlay_from_buffer<TriggerActivity>(buffer);
 
-  BOOST_CHECK_EQUAL(activity.data.time_start,     activity_read.data.time_start);
-  BOOST_CHECK_EQUAL(activity.data.time_end,       activity_read.data.time_end);
-  BOOST_CHECK_EQUAL(activity.data.time_peak,      activity_read.data.time_peak);
-  BOOST_CHECK_EQUAL(activity.data.time_activity,  activity_read.data.time_activity);
-  BOOST_CHECK_EQUAL(activity.data.channel_start,  activity_read.data.channel_start);
-  BOOST_CHECK_EQUAL(activity.data.channel_end,    activity_read.data.channel_end);
-  BOOST_CHECK_EQUAL(activity.data.channel_peak,   activity_read.data.channel_peak);
-  BOOST_CHECK_EQUAL(activity.data.adc_integral,   activity_read.data.adc_integral);
-  BOOST_CHECK_EQUAL(activity.data.adc_peak,       activity_read.data.adc_peak);
-  BOOST_CHECK_EQUAL(activity.data.detid,          activity_read.data.detid);
-  BOOST_CHECK_EQUAL(activity.data.type,           activity_read.data.type);
-  BOOST_CHECK_EQUAL(activity.data.algorithm,      activity_read.data.algorithm);
-  BOOST_CHECK_EQUAL(activity.data.version,        activity_read.data.version);
+  BOOST_CHECK_EQUAL(activity.time_start,     activity_read.time_start);
+  BOOST_CHECK_EQUAL(activity.time_end,       activity_read.time_end);
+  BOOST_CHECK_EQUAL(activity.time_peak,      activity_read.time_peak);
+  BOOST_CHECK_EQUAL(activity.time_activity,  activity_read.time_activity);
+  BOOST_CHECK_EQUAL(activity.channel_start,  activity_read.channel_start);
+  BOOST_CHECK_EQUAL(activity.channel_end,    activity_read.channel_end);
+  BOOST_CHECK_EQUAL(activity.channel_peak,   activity_read.channel_peak);
+  BOOST_CHECK_EQUAL(activity.adc_integral,   activity_read.adc_integral);
+  BOOST_CHECK_EQUAL(activity.adc_peak,       activity_read.adc_peak);
+  BOOST_CHECK_EQUAL(activity.detid,          activity_read.detid);
+  BOOST_CHECK_EQUAL(activity.type,           activity_read.type);
+  BOOST_CHECK_EQUAL(activity.algorithm,      activity_read.algorithm);
+  BOOST_CHECK_EQUAL(activity.version,        activity_read.version);
 
   for(size_t i=0; i<n_primitive; ++i){
     BOOST_CHECK_EQUAL(activity.inputs[i].time_start,          activity_read.inputs[i].time_start);
