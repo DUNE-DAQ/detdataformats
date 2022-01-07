@@ -3,6 +3,7 @@ project(detdataformats VERSION 3.2.1)
 
 find_package(daq-cmake REQUIRED)
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+find_package(daqdataformats REQUIRED)
 
 daq_setup_environment()
 
@@ -14,7 +15,7 @@ daq_add_library(LINK_LIBRARIES)
 
 
 ##############################################################################
-daq_add_python_bindings(*.cpp LINK_LIBRARIES ${PROJECT_NAME})
+daq_add_python_bindings(*.cpp LINK_LIBRARIES ${PROJECT_NAME} daqdataformats::daqdataformats)
 
 ##############################################################################
 # Plugins
