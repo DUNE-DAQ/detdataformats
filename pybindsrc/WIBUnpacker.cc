@@ -46,4 +46,21 @@ py::array_t<uint64_t> np_array_timestamp(void* data, int nframes){
   return ret;
 }
 
+/**
+ * @brief Unpacks a Fragment containing WIBFrames into a numpy array with the
+ * ADC values and dimension (number of WIBFrames in the Fragment, 256)
+ */
+py::array_t<uint16_t> np_array_adc(daqdataformats::Fragment& frag){
+  return np_array_adc_data(frag.get_data(), (frag.get_size() - sizeof(daqdataformats::FragmentHeader)) / sizeof(WIBFrame));
+}
+
+/**
+ * @brief Unpacks the timestamps in a Fragment containing WIBFrames into a numpy
+ * array with dimension (number of WIBFrames in the Fragment)
+ */
+py::array_t<uint64_t> np_array_timestamp(daqdataformats::Fragment& frag){
+  return np_array_timestamp_data(frag.get_data(), (frag.get_size() - sizeof(daqdataformats::FragmentHeader)) / sizeof(WIBFrame));
+}
+
+
 } // namespace dunedaq::detdataformats::wib // NOLINT

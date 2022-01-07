@@ -46,4 +46,20 @@ py::array_t<uint64_t> np_array_timestamp(void* data, int nframes){
   return ret;
 }
 
+/**
+ * @brief Unpacks a Fragment containing DAPHNEFrames into a numpy array with the
+ * ADC values and dimension (number of DAPHNEFrames in the Fragment, 320)
+ */
+py::array_t<uint16_t> np_array_adc(daqdataformats::Fragment& frag){
+  return np_array_adc_data(frag.get_data(), (frag.get_size() - sizeof(daqdataformats::FragmentHeader)) / sizeof(DAPHNEFrame));
+}
+
+/**
+ * @brief Unpacks the timestamps in a Fragment containing WIBFrames into a numpy
+ * array with dimension (number of DAPHNEFrames in the Fragment)
+ */
+py::array_t<uint64_t> np_array_timestamp(daqdataformats::Fragment& frag){
+  return np_array_timestamp_data(frag.get_data(), (frag.get_size() - sizeof(daqdataformats::FragmentHeader)) / sizeof(DAPHNEFrame));
+}
+
 } // namespace dunedaq::detdataformats::daphne // NOLINT
