@@ -1,5 +1,5 @@
 /**
- * @file DAPHNEUnpacker.cc Fast C++ -> numpy DAPHNE format decoder
+ * @file DAPHNEUnpacker.cc Fast C++ -> numpy DAPHNE format unpacker
  *
  * This is part of the DUNE DAQ , copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have

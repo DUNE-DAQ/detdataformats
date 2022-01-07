@@ -1,5 +1,5 @@
 /**
- * @file WIB2Unpacker.cc Fast C++ -> numpy WIB2 format decoder
+ * @file WIB2Unpacker.cc Fast C++ -> numpy WIB2 format unpacker
  *
  * This is part of the DUNE DAQ , copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
@@ -48,4 +48,4 @@ py::array_t<uint64_t> np_array_timestamp(void* data, int nframes){
   return ret;
 }
 
-} // namespace dunedaq::detdataformats::wib // NOLINT
+} // namespace dunedaq::detdataformats::wib2 // NOLINT
