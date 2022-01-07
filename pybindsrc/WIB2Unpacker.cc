@@ -7,6 +7,7 @@
  */
 
 #include "detdataformats/wib2/WIB2Frame.hpp"
+#include "daqdataformats/Fragment.hpp"
 
 #include <cstdint>
 #include <pybind11/numpy.h>
@@ -15,10 +16,10 @@ namespace py = pybind11;
 namespace dunedaq::detdataformats::wib2 {
 
 /**
- * @brief Decodes a Fragment containing WIB2Frames into a numpy array
- * with the ADC values and dimension (number of WIB2Frames, 256)
+ * @brief Unpacks data containing WIB2Frames into a numpy array with the ADC
+ * values and dimension (number of WIB2Frames, 256)
  */
-py::array_t<uint16_t> np_array_adc(void* data, int nframes){
+py::array_t<uint16_t> np_array_adc_data(void* data, int nframes){
   py::array_t<uint16_t> ret(256 * nframes);
   auto ptr = static_cast<uint16_t*>(ret.request().ptr);
   for (size_t i=0; i<(size_t)nframes; ++i) {
@@ -32,10 +33,10 @@ py::array_t<uint16_t> np_array_adc(void* data, int nframes){
 }
 
 /**
- * @brief Decodes the timestamps in a Fragment containing WIB2Frames
- * into a numpy array with dimension (number of WIB2Frames)
+ * @brief Unpacks data containing WIB2Frames into a numpy array with the
+ * timestamps with dimension (number of WIB2Frames)
  */
-py::array_t<uint64_t> np_array_timestamp(void* data, int nframes){
+py::array_t<uint64_t> np_array_timestamp_data(void* data, int nframes){
   py::array_t<uint64_t> ret(nframes);
   auto ptr = static_cast<uint64_t*>(ret.request().ptr);
   for (size_t i=0; i<(size_t)nframes; ++i) {
