@@ -38,9 +38,14 @@ def main(filename, tr_count):
             print(f'Time to decode with the python for loop       {time.time() - t0:.3f} s')
 
             t0 = time.time()
-            timestamps = detdataformats.wib.np_array_timestamp(frag.get_data(), n_frames)
-            ary = detdataformats.wib.np_array_adc(frag.get_data(), n_frames)
+            timestamps = detdataformats.wib.np_array_timestamp_data(frag.get_data(), n_frames)
+            ary = detdataformats.wib.np_array_adc_data(frag.get_data(), n_frames)
             print(f'Time to decode with the C++ -> numpy function {time.time() - t0:.3f} s')
+
+            t0 = time.time()
+            timestamps = detdataformats.wib.np_array_timestamp(frag)
+            ary = detdataformats.wib.np_array_adc(frag)
+            print(f'Time to decode with the C++ -> numpy function (with a Fragment as input) {time.time() - t0:.3f} s')
 
             if (adcs == ary).all() and (ts == timestamps).all():
                 print(f'The arrays obtained for TR number {i} are the same for the python for loop and the C++ -> numpy functions')
