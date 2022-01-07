@@ -1,5 +1,5 @@
 /**
- * @file WIB2Decoder.hpp Fast C++ -> numpy WIB2 format decoder
+ * @file WIB2Unpacker.cc Fast C++ -> numpy WIB2 format decoder
  *
  * This is part of the DUNE DAQ , copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
