@@ -77,8 +77,6 @@ register_wib(py::module& m)
     .def("get_channel", &ColdataBlock::get_channel)
   ;
 
-  m.def("np_array_adc_data", &np_array_adc_data);
-  m.def("np_array_timestamp_data", &np_array_timestamp_data);
   m.def("np_array_adc", &np_array_adc);
   m.def("np_array_timestamp", &np_array_timestamp);
 
