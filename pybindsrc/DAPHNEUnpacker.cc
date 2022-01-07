@@ -18,6 +18,7 @@ namespace dunedaq::detdataformats::daphne {
 /**
  * @brief Unpacks data containing DAPHNEFrames into a numpy array with the ADC
  * values and dimension (number of DAPHNEFrames, 320)
+ * Warning: It doesn't check that nframes is a sensible value (can read out of bounds)
  */
 py::array_t<uint16_t> np_array_adc_data(void* data, int nframes){
   py::array_t<uint16_t> ret(320 * nframes);
@@ -35,6 +36,7 @@ py::array_t<uint16_t> np_array_adc_data(void* data, int nframes){
 /**
  * @brief Unpacks data containing DAPHNEFrames into a numpy array with the
  * timestamps with dimension (number of DAPHNEFrames)
+ * Warning: It doesn't check that nframes is a sensible value (can read out of bounds)
  */
 py::array_t<uint64_t> np_array_timestamp_data(void* data, int nframes){
   py::array_t<uint64_t> ret(nframes);
