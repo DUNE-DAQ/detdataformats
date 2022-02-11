@@ -11,7 +11,6 @@
 
 #include "detdataformats/trigger/Types.hpp"
 #include <cstdint>
-#include <vector>
 
 namespace dunedaq {
 namespace detdataformats {
