@@ -35,7 +35,7 @@ using TriggerActivityOverlay = TriggerObjectOverlay<TriggerActivityData, Trigger
 
 using TriggerCandidateOverlay = TriggerObjectOverlay<TriggerCandidateData, TriggerActivityData>;
 
-// TODO: Is this sensible? TriggerPrimitive only has simple data
+// TODO P. Rodrigues 2022-02-11: Is this sensible? TriggerPrimitive only has simple data
 // members, so it can function as its own overlay. Is it useful to
 // have this typedef to make TriggerPrimitive "look like" TA and TC?
 using TriggerPrimitiveOverlay = TriggerPrimitive;
