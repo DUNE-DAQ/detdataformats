@@ -29,14 +29,9 @@ struct TriggerObjectOverlay
   #pragma GCC diagnostic pop
 };
 
-using TriggerActivityOverlay = TriggerObjectOverlay<TriggerActivityData, TriggerPrimitive>;
+using TriggerActivity = TriggerObjectOverlay<TriggerActivityData, TriggerPrimitive>;
 
-using TriggerCandidateOverlay = TriggerObjectOverlay<TriggerCandidateData, TriggerActivityData>;
-
-// TODO P. Rodrigues 2022-02-11: Is this sensible? TriggerPrimitive only has simple data
-// members, so it can function as its own overlay. Is it useful to
-// have this typedef to make TriggerPrimitive "look like" TA and TC?
-using TriggerPrimitiveOverlay = TriggerPrimitive;
+using TriggerCandidate = TriggerObjectOverlay<TriggerCandidateData, TriggerActivityData>;
 
 } // namespace trigger
 } // namespace detdataformats
