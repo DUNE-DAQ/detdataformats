@@ -39,6 +39,10 @@ struct TriggerCandidateData
     kADCSimpleWindow = 4
   };
 
+  // Update this version number if there are any changes to the in-memory representation of this class!
+  static constexpr version_t s_trigger_candidate_version = 1; // NOLINT(build/unsigned)
+
+  version_t version = s_trigger_candidate_version;       // NOLINT(build/unsigned)
   timestamp_t time_start = INVALID_TIMESTAMP;
   timestamp_t time_end = INVALID_TIMESTAMP;
   timestamp_t time_candidate = INVALID_TIMESTAMP;
@@ -49,7 +53,6 @@ struct TriggerCandidateData
   detid_t detid; // NOLINT(build/unsigned)
   Type type = Type::kUnknown;
   Algorithm algorithm = Algorithm::kUnknown; // NOLINT(build/unsigned)
-  version_t version = INVALID_VERSION;       // NOLINT(build/unsigned)
 };
 
 } // namespace trigger

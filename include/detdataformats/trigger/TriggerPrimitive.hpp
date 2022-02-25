@@ -52,6 +52,10 @@ struct TriggerPrimitive
    */
   using Flags = uint16_t;
 
+  // Update this version number if there are any changes to the in-memory representation of this class!
+  static constexpr version_t s_trigger_primitive_version = 1; // NOLINT(build/unsigned)
+  
+  version_t version = s_trigger_primitive_version; // NOLINT(build/unsigned)
   timestamp_t time_start = INVALID_TIMESTAMP;
   timestamp_t time_peak = INVALID_TIMESTAMP;
   timestamp_t time_over_threshold = INVALID_TIMESTAMP;
@@ -61,7 +65,7 @@ struct TriggerPrimitive
   detid_t detid = INVALID_DETID;
   Type type = Type::kUnknown;
   Algorithm algorithm = Algorithm::kUnknown;
-  version_t version = INVALID_VERSION; // NOLINT(build/unsigned)
+
   Flags flag = 0;
 };
 
