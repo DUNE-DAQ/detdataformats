@@ -17,9 +17,10 @@ namespace dunedaq {
 namespace detdataformats {
 namespace trigger {
 
+#pragma pack(1)
 struct TriggerCandidateData
 {
-  enum class Type
+  enum class Type : uint32_t // NOLINT(build/unsigned)
   {
     kUnknown = 0,
     kTiming = 1,
@@ -30,7 +31,7 @@ struct TriggerCandidateData
     kADCSimpleWindow = 6,
   };
 
-  enum class Algorithm
+  enum class Algorithm : uint32_t // NOLINT(build/unsigned)
   {
     kUnknown = 0,
     kSupernova = 1,
@@ -42,18 +43,21 @@ struct TriggerCandidateData
   // Update this version number if there are any changes to the in-memory representation of this class!
   static constexpr version_t s_trigger_candidate_version = 1; // NOLINT(build/unsigned)
 
-  version_t version = s_trigger_candidate_version;       // NOLINT(build/unsigned)
-  timestamp_t time_start = INVALID_TIMESTAMP;
-  timestamp_t time_end = INVALID_TIMESTAMP;
-  timestamp_t time_candidate = INVALID_TIMESTAMP;
+  version_t version = s_trigger_candidate_version; // NOLINT(build/unsigned)
   // TODO P. Rodrigues 2021-01-06: This was originally a
   // std::vector<detid_t> but that messes up the overlay scheme, so
   // I've changed it for now to be just a detid_t. Need to work out
   // what to do longer term
   detid_t detid; // NOLINT(build/unsigned)
   Type type = Type::kUnknown;
+  timestamp_t time_start = INVALID_TIMESTAMP;
+  timestamp_t time_end = INVALID_TIMESTAMP;
+  timestamp_t time_candidate = INVALID_TIMESTAMP;
   Algorithm algorithm = Algorithm::kUnknown; // NOLINT(build/unsigned)
+  uint32_t unused = 0x4b4b5a5a;              // NOLINT(build/unsigned)
 };
+#pragma pack(0)
+static_assert(sizeof(TriggerCandidateData) == 40, "TriggerCandidateData size different than expected!");
 
 } // namespace trigger
 } // namespace detdataformats

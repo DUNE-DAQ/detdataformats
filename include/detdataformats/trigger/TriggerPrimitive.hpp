@@ -24,12 +24,13 @@ namespace trigger {
 /**
  * @brief A single energy deposition on a TPC or PDS channel
  */
+#pragma pack(1)
 struct TriggerPrimitive
 {
   /**
    * @brief The type of a TriggerPrimitive
    */
-  enum class Type
+  enum class Type : uint32_t // NOLINT(build/unsigned)
   {
     kUnknown = 0,
     kTPC = 1,
@@ -39,7 +40,7 @@ struct TriggerPrimitive
   /**
    * @brief The algorithm used to form a TriggerPrimitive
    */
-  enum class Algorithm
+  enum class Algorithm : uint32_t // NOLINT(build/unsigned)
   {
     kUnknown = 0,
     kTPCDefault = 1
@@ -54,20 +55,21 @@ struct TriggerPrimitive
 
   // Update this version number if there are any changes to the in-memory representation of this class!
   static constexpr version_t s_trigger_primitive_version = 1; // NOLINT(build/unsigned)
-  
+
   version_t version = s_trigger_primitive_version; // NOLINT(build/unsigned)
+  Flags flag = 0;
+  channel_t channel = INVALID_CHANNEL;
   timestamp_t time_start = INVALID_TIMESTAMP;
   timestamp_t time_peak = INVALID_TIMESTAMP;
   timestamp_t time_over_threshold = INVALID_TIMESTAMP;
-  channel_t channel = INVALID_CHANNEL;
   uint32_t adc_integral = { 0 }; // NOLINT(build/unsigned)
   uint16_t adc_peak = { 0 };     // NOLINT(build/unsigned)
   detid_t detid = INVALID_DETID;
   Type type = Type::kUnknown;
   Algorithm algorithm = Algorithm::kUnknown;
-
-  Flags flag = 0;
 };
+#pragma pack(0)
+static_assert(sizeof(TriggerPrimitive) == 48, "TriggerPrimitive size different than expected!");
 
 /**
  * Names for each of the bits in the TriggerPrimitive Flags
