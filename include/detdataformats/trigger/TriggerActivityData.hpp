@@ -16,7 +16,6 @@ namespace dunedaq {
 namespace detdataformats {
 namespace trigger {
 
-#pragma pack(1)
 struct TriggerActivityData
 {
   enum class Type : uint32_t // NOLINT(build/unsigned)
@@ -53,7 +52,6 @@ struct TriggerActivityData
   uint16_t unused1 = 0x1e1e;                 // NOLINT(build/unsigned)
   uint32_t unused2 = 0x2d2d3c3c;             // NOLINT(build/unsigned)
 };
-#pragma pack(0)
 static_assert(sizeof(TriggerActivityData) == 72, "TriggerActivityData size different than expected!");
 
 } // namespace trigger

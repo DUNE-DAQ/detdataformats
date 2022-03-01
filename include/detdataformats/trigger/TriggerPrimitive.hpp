@@ -24,7 +24,6 @@ namespace trigger {
 /**
  * @brief A single energy deposition on a TPC or PDS channel
  */
-#pragma pack(1)
 struct TriggerPrimitive
 {
   /**
@@ -68,7 +67,6 @@ struct TriggerPrimitive
   Type type = Type::kUnknown;
   Algorithm algorithm = Algorithm::kUnknown;
 };
-#pragma pack(0)
 static_assert(sizeof(TriggerPrimitive) == 48, "TriggerPrimitive size different than expected!");
 
 /**
