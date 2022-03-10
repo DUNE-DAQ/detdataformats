@@ -68,9 +68,7 @@ public:
   // ===============================================================
   Header header;
   word_t adc_words[s_num_adc_words]; // NOLINT
-
-  // THIS DATA IS STRIPPED DURING TRANSMISSION
-  // Trailer trailer;
+  Trailer trailer;
 
   // ===============================================================
   // Accessors
