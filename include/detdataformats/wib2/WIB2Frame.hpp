@@ -51,19 +51,16 @@ public:
 
   struct Header
   {
-    word_t start_frame;
-    word_t crate : 8, frame_version : 4, slot : 3, fiber : 1, femb_valid : 2, wib_code_1 : 14;
-    word_t wib_code_2 : 32;
+    word_t version : 6, detector_id : 6, crate : 10, slot : 4, link : 6;
     word_t timestamp_1 : 32;
     word_t timestamp_2 : 32;
+    word_t tbd_1 : 13, colddata_timestamp_id : 3, femb_valid : 2, link_mask : 8, lock_output_status : 1, tbd_2 : 5;
+    word_t femb_pulser_frame_bits : 8, femb_sync_flags : 8, colddata_timestamp : 15, tbd_3 : 1;
   };
 
   struct Trailer
   {
-    word_t crc20 : 20;
-    word_t flex_word_12 : 12;
-    word_t eof : 8;
-    word_t flex_word_24 : 24;
+    word_t flex_bits : 16, tbd_1 : 1, tbd_2 : 1, ws : 1, psr_cal : 4, ready : 1, context_code : 8;
   };
 
   // ===============================================================
@@ -71,9 +68,7 @@ public:
   // ===============================================================
   Header header;
   word_t adc_words[s_num_adc_words]; // NOLINT
-
-  // THIS DATA IS STRIPPED DURING TRANSMISSION
-  // Trailer trailer;
+  Trailer trailer;
 
   // ===============================================================
   // Accessors
