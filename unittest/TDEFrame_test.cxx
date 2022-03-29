@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_CASE(TDEHeader_TimestampMethods)
   tdeheader.timestamp_1 = 0x11111111;
   tdeheader.timestamp_2 = 0x2222;
 
-  BOOST_REQUIRE_EQUAL(tdeheader.get_timestamp(), 0x7FFF222211111111);
+  BOOST_REQUIRE_EQUAL(tdeheader.get_timestamp(), 0x222211111111);
 }
 
 BOOST_AUTO_TEST_CASE(TDEHeader_StreamMethods)
@@ -66,10 +66,11 @@ BOOST_AUTO_TEST_CASE(TDEFrame_StructMethods)
   BOOST_REQUIRE(frame.get_tde_header() != nullptr);
 }
 
-BOOST_AUTO_TEST_CASE(TDEFrame_HeaderMutators)
+BOOST_AUTO_TEST_CASE(TDEFrame_TDEHeaderMutators)
 {
   TDEFrame frame;
   frame.set_tde_errors(0xFC5F);
+
   BOOST_REQUIRE_EQUAL(frame.get_tde_header()->tde_errors, 0xFC5F);
 }
 
@@ -84,24 +85,12 @@ BOOST_AUTO_TEST_CASE(TDEFrame_StreamOperator)
   BOOST_REQUIRE(!output.empty());
 }
 /*
-BOOST_AUTO_TEST_CASE(TDEFrame_FromRawData)
+BOOST_AUTO_TEST_CASE(TDEFrame_ADCDataMutators)
 {
-  TDEHeader tdeheader;
+  TDEFrame frame;
+  frame.set_adc_samples(0x1ec, 0x63);
 
-  tdeheader.timestamp_1 = 0x12345678;
-  tdeheader.timestamp_2 = 0x9ABC;
-
-  ADCData samples[tot_adc_samples];
-
-  uint8_t* buff = static_cast<uint8_t*>(malloc(sizeof(header) + sizeof(adc_t))); // NOLINT(build/unsigned)
-  memcpy(buff, &header, sizeof(header));
-  memcpy(buff + sizeof(header), samples, sizeof(ADCData) * tot_adc_samples);
-
-  TDEFrame* from_raw_data = reinterpret_cast<TDEFrame*>(buff); // NOLINT
-
-  BOOST_REQUIRE_EQUAL(from_raw_data->get_tde_header()->get_timestamp(), 0x9ABC12345678);
-  from_raw_data = nullptr;
-  free(buff);
+  BOOST_REQUIRE_EQUAL(frame.get_adc_samples(0x63), 0x1ec);
 }
 */
 BOOST_AUTO_TEST_SUITE_END()

@@ -1,5 +1,5 @@
 /**
- * @file TDEFrame.hpp TDE1 bit fields and accessors
+ * @file TDEFrame.hpp TDE bit fields and accessors
  * Originally FelixFrame.hpp from protodune.
  * Original authors M. Vermeulen, R.Sipos 2018
  * Modified by P. Rodrigues on June 2020
@@ -20,28 +20,27 @@ namespace dunedaq {
 namespace detdataformats {
 namespace tde {
 
-using word_t = uint32_t; // NOLINT(build/unsigned)
-using adc_t = uint16_t;  // NOLINT(build/unsigned)
+using word_t = uint32_t; 
+using adc_t  = uint16_t;  
+
 static constexpr int tot_adc_samples = 4474;
-static constexpr int tot_adc_bits = tot_adc_samples * sizeof(adc_t);
 
 struct TDEHeader
 {
-  word_t version : 6, det_id : 6, crate : 10, slot : 4, link : 6;
-  word_t timestamp_1 : 32;
-  word_t timestamp_2 : 32;
-  word_t TAItime_1 : 32;
-  word_t TAItime_2 : 32;
-  word_t tdeheaderer : 10, tde_errors : 22;
+  uint32_t version : 6, det_id : 6, crate : 10, slot : 4, link : 6;
+  uint32_t timestamp_1 : 32;
+  uint32_t timestamp_2 : 32;
+  uint32_t TAItime_1 : 32;
+  uint32_t TAItime_2 : 32;
+  uint32_t tde_header : 10, tde_errors : 22;
 
-  uint64_t get_timestamp() const // NOLINT(build/unsigned)
+  uint64_t get_timestamp() const 
   {
-    //return (uint64_t)h.timestamp_1 | ((uint64_t)h.timestamp_2 << 32);
     uint64_t timestamp = timestamp_1 | ((uint64_t)(timestamp_2) << 32);
     return timestamp;
   }
 
-  uint64_t get_TAItime() const // NOLINT(build/unsigned)
+  uint64_t get_TAItime() const 
   {
     uint64_t TAItime = TAItime_1 | ((uint64_t)TAItime_2 << 32); 
     return TAItime;
@@ -52,7 +51,7 @@ struct TDEHeader
   {
     return o << std::hex << "version:" << version << "det_id:" << det_id << "crate:" << crate << "slot:" << slot 
                          << "link:" << link << "timestamp: " << get_timestamp() << "TAItime: " << get_TAItime() 
-                         << "tdeheaderer:" << tdeheaderer << "tde_errors:" << tde_errors << std::dec << '\n';
+                         << "tde_header:" << tde_header << "tde_errors:" << tde_errors << std::dec << '\n';
   }
 
   std::ostream& print_bits(std::ostream& o) const
@@ -60,7 +59,7 @@ struct TDEHeader
     return o << "version:" << std::bitset<6>(version) << "det_id:" << std::bitset<6>(det_id) 
              << "crate:" << std::bitset<10>(crate) << "slot:" << std::bitset<4>(slot) 
              << "link:" << std::bitset<6>(link) << "timestamp: " << get_timestamp() 
-             << "TAItime: " << get_TAItime() << "tdeheaderer:" << std::bitset<10>(tdeheaderer) 
+             << "TAItime: " << get_TAItime() << "tde_header:" << std::bitset<10>(tde_header) 
              << "tde_errors:" << std::bitset<16>(tde_errors) << '\n';
   }
 };
@@ -70,13 +69,13 @@ operator<<(std::ostream& o, TDEHeader const& h)
 {
   return o << "version:" << unsigned(h.version) << "det_id:" << unsigned(h.det_id) << "crate:" << unsigned(h.crate) 
            << "slot:" << unsigned(h.slot) << "link:" << unsigned(h.link) << "timestamp: " << h.get_timestamp() 
-           << "TAItime: " << h.get_TAItime() << "tdeheaderer:" << unsigned(h.tdeheaderer) 
+           << "TAItime: " << h.get_TAItime() << "tde_header:" << unsigned(h.tde_header) 
            << "tde_errors:" << unsigned(h.tde_errors) << '\n';
 }
 
-struct ADCData
+struct Sample 
 {
-  adc_t sample : 12, reserved : 4;
+  uint16_t sample : 12, reserved : 4;
 
   // Print functions for debugging.
   std::ostream& print_hex(std::ostream& o) const
@@ -91,29 +90,39 @@ struct ADCData
 };
 
 inline std::ostream&
-operator<<(std::ostream& o, ADCData const& d)
+operator<<(std::ostream& o, Sample const& s)
 {
-  return o << "sample:" << unsigned(d.sample) << "reserved:" << unsigned(d.reserved) << '\n';
+  return o << "sample:" << unsigned(s.sample) << "reserved:" << unsigned(s.reserved) << '\n';
 }
+
+struct ADCData
+{
+  Sample samplesinfo[tot_adc_samples];
+
+  uint16_t get_adc_samples(int sample_no) 
+  {
+    if (sample_no < 0 || sample_no >= tot_adc_samples){throw std::out_of_range("ADC sample index out of range");}
+    
+    uint16_t sample_no_info = samplesinfo[tot_adc_samples].sample;
+
+    return sample_no_info;
+  }
+};
 
 class TDEFrame
 {
 public:
-  adc_t adc_samples[tot_adc_samples];
-
-  uint16_t get_adc_samples(int i) // NOLINT(build/unsigned)
-  {
-    if (i < 0 || i >= tot_adc_samples){throw std::out_of_range("ADC sample index out of range");}
-    //return (uint16_t)(adc_samples[i].sample);
-    return (uint16_t)(adc_samples[i]);
-  }
-
   const TDEHeader* get_tde_header() const { return &tdeheader; }
   TDEHeader* get_tde_header() { return &tdeheader; }
 
   // TDEHeader mutators
-  void set_tde_errors(const uint16_t new_tde_errors) { tdeheader.tde_errors = new_tde_errors; } // NOLINT(build/unsigned)
-  uint64_t get_timestamp() const { return tdeheader.get_timestamp(); } // NOLINT(build/unsigned)
+  void set_tde_errors(const uint16_t new_tde_errors) { tdeheader.tde_errors = new_tde_errors; } 
+  uint64_t get_timestamp() const { return tdeheader.get_timestamp(); } 
+
+  // ADCData mutators
+  void set_adc_samples(const uint16_t new_adc_samples, int sample_no) { adcdata.samplesinfo[sample_no].sample = new_adc_samples; } 
+  uint16_t get_adc_samples(int sample_no) { return adcdata.get_adc_samples(sample_no); } 
+
   friend std::ostream& operator<<(std::ostream& o, TDEFrame const& frame);
 
 private:
