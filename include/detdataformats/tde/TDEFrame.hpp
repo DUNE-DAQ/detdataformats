@@ -27,24 +27,16 @@ static constexpr int tot_adc_samples = 4474;
 
 struct TDEHeader
 {
-  uint32_t version : 6, det_id : 6, crate : 10, slot : 4, link : 6;
-  uint32_t timestamp_1 : 32;
-  uint32_t timestamp_2 : 32;
-  uint32_t TAItime_1 : 32;
-  uint32_t TAItime_2 : 32;
-  uint32_t tde_header : 10, tde_errors : 22;
+  word_t version : 6, det_id : 6, crate : 10, slot : 4, link : 6;
+  word_t timestamp_1 : 32;
+  word_t timestamp_2 : 32;
+  word_t TAItime_1 : 32;
+  word_t TAItime_2 : 32;
+  word_t tde_header : 10, tde_errors : 22;
 
-  uint64_t get_timestamp() const 
-  {
-    uint64_t timestamp = timestamp_1 | ((uint64_t)(timestamp_2) << 32);
-    return timestamp;
-  }
+  uint64_t get_timestamp() const { return (uint64_t)timestamp_1 | ((uint64_t)(timestamp_2) << 32); }
 
-  uint64_t get_TAItime() const 
-  {
-    uint64_t TAItime = TAItime_1 | ((uint64_t)TAItime_2 << 32); 
-    return TAItime;
-  }
+  uint64_t get_TAItime() const { return (uint64_t)TAItime_1 | ((uint64_t)TAItime_2 << 32); }
 
   // Print functions for debugging.
   std::ostream& print_hex(std::ostream& o) const
@@ -75,7 +67,7 @@ operator<<(std::ostream& o, TDEHeader const& h)
 
 struct Sample 
 {
-  uint16_t sample : 12, reserved : 4;
+  adc_t sample : 12, reserved : 4;
 
   // Print functions for debugging.
   std::ostream& print_hex(std::ostream& o) const
@@ -99,13 +91,11 @@ struct ADCData
 {
   Sample samplesinfo[tot_adc_samples];
 
-  uint16_t get_adc_samples(int sample_no) 
+  uint16_t get_adc_samples(int i) 
   {
-    if (sample_no < 0 || sample_no >= tot_adc_samples){throw std::out_of_range("ADC sample index out of range");}
+    if (i < 0 || i >= tot_adc_samples) { throw std::out_of_range("ADC sample index out of range"); }
     
-    uint16_t sample_no_info = samplesinfo[tot_adc_samples].sample;
-
-    return sample_no_info;
+    return (uint64_t)samplesinfo[i].sample;
   }
 };
 

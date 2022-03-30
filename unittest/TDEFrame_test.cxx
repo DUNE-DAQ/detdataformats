@@ -84,13 +84,37 @@ BOOST_AUTO_TEST_CASE(TDEFrame_StreamOperator)
   BOOST_TEST_MESSAGE("Stream operator: " << output);
   BOOST_REQUIRE(!output.empty());
 }
-/*
+
 BOOST_AUTO_TEST_CASE(TDEFrame_ADCDataMutators)
 {
   TDEFrame frame;
-  frame.set_adc_samples(0x1ec, 0x63);
+  frame.set_adc_samples(0x9, 0x5);
 
-  BOOST_REQUIRE_EQUAL(frame.get_adc_samples(0x63), 0x1ec);
+  BOOST_REQUIRE_EQUAL(frame.get_adc_samples(0x5), 0x9);
+}
+/*
+BOOST_AUTO_TEST_CASE(TDEFrame_FromRawData)
+{
+  TDEHeader tdeheader;
+  tdeheader.timestamp_1 = 0x11111111;
+  tdeheader.timestamp_2 = 0x2222;
+  TDEFrame frame;
+  frame.set_adc_samples(0x9, 0x5);
+
+  ADCData samplesinfo[tot_adc_samples];
+
+  uint8_t* buff = static_cast<uint8_t*>(malloc(sizeof(tdeheader) + sizeof(samplesinfo))); 
+  memcpy(buff, &tdeheader, sizeof(tdeheader));
+  memcpy(buff + sizeof(tdeheader), samplesinfo, sizeof(ADCData) * tot_adc_samples);
+
+  TDEFrame* from_raw_data = reinterpret_cast<TDEFrame*>(buff); // NOLINT
+
+  BOOST_REQUIRE_EQUAL(from_raw_data->get_tde_header()->get_timestamp(), 0x222211111111);
+  BOOST_REQUIRE_EQUAL(from_raw_data->get_adc_samples(0x5), 0x9);
+
+  from_raw_data = nullptr;
+  free(buff);
 }
 */
+
 BOOST_AUTO_TEST_SUITE_END()
