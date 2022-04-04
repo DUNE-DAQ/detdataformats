@@ -101,11 +101,11 @@ BOOST_AUTO_TEST_CASE(TDEFrame_FromRawData)
   TDEFrame frame;
   frame.set_adc_samples(0x9, 0x5);
 
-  ADCData samplesinfo[tot_adc_samples];
+  ADCData samples_info[tot_adc_samples];
 
-  uint8_t* buff = static_cast<uint8_t*>(malloc(sizeof(tdeheader) + sizeof(samplesinfo))); 
+  uint8_t* buff = static_cast<uint8_t*>(malloc(sizeof(tdeheader) + sizeof(samples_info))); 
   memcpy(buff, &tdeheader, sizeof(tdeheader));
-  memcpy(buff + sizeof(tdeheader), samplesinfo, sizeof(ADCData) * tot_adc_samples);
+  memcpy(buff + sizeof(tdeheader), samples_info, sizeof(ADCData) * tot_adc_samples);
 
   TDEFrame* from_raw_data = reinterpret_cast<TDEFrame*>(buff); // NOLINT
 

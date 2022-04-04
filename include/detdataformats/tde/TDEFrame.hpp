@@ -20,19 +20,19 @@ namespace dunedaq {
 namespace detdataformats {
 namespace tde {
 
-using word_t = uint32_t; 
-using adc_t  = uint16_t;  
+//using word_t = uint32_t; 
+//using adc_t  = uint16_t;  
 
 static constexpr int tot_adc_samples = 4474;
 
 struct TDEHeader
 {
-  word_t version : 6, det_id : 6, crate : 10, slot : 4, link : 6;
-  word_t timestamp_1 : 32;
-  word_t timestamp_2 : 32;
-  word_t TAItime_1 : 32;
-  word_t TAItime_2 : 32;
-  word_t tde_header : 10, tde_errors : 22;
+  uint32_t version : 6, det_id : 6, crate : 10, slot : 4, link : 6;
+  uint32_t timestamp_1 : 32;
+  uint32_t timestamp_2 : 32;
+  uint32_t TAItime_1 : 32;
+  uint32_t TAItime_2 : 32;
+  uint32_t tde_header : 10, tde_errors : 22;
 
   uint64_t get_timestamp() const { return (uint64_t)timestamp_1 | ((uint64_t)(timestamp_2) << 32); }
 
@@ -67,7 +67,7 @@ operator<<(std::ostream& o, TDEHeader const& h)
 
 struct Sample 
 {
-  adc_t sample : 12, reserved : 4;
+  uint16_t sample : 12, reserved : 4;
 
   // Print functions for debugging.
   std::ostream& print_hex(std::ostream& o) const
@@ -89,13 +89,13 @@ operator<<(std::ostream& o, Sample const& s)
 
 struct ADCData
 {
-  Sample samplesinfo[tot_adc_samples];
+  Sample samples_info[tot_adc_samples];
 
-  uint16_t get_adc_samples(int i) 
+  uint16_t get_adc_samples(int i) const
   {
     if (i < 0 || i >= tot_adc_samples) { throw std::out_of_range("ADC sample index out of range"); }
     
-    return (uint64_t)samplesinfo[i].sample;
+    return (uint64_t)samples_info[i].sample;
   }
 };
 
@@ -110,8 +110,8 @@ public:
   uint64_t get_timestamp() const { return tdeheader.get_timestamp(); } 
 
   // ADCData mutators
-  void set_adc_samples(const uint16_t new_adc_samples, int sample_no) { adcdata.samplesinfo[sample_no].sample = new_adc_samples; } 
-  uint16_t get_adc_samples(int sample_no) { return adcdata.get_adc_samples(sample_no); } 
+  void set_adc_samples(const uint16_t new_adc_val, int sample_no) { adcdata.samples_info[sample_no].sample = new_adc_val; } 
+  uint16_t get_adc_samples(int sample_no) const { return adcdata.get_adc_samples(sample_no); } 
 
   friend std::ostream& operator<<(std::ostream& o, TDEFrame const& frame);
 

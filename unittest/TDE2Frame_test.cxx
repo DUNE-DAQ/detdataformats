@@ -88,9 +88,9 @@ BOOST_AUTO_TEST_CASE(TDE2Frame_StreamOperator)
 BOOST_AUTO_TEST_CASE(TDE2Frame_ADCDataMutators)
 {
   TDE2Frame frame;
-  frame.set_adc_samples(0x9, 0x5);
+  frame.set_adc_samples(0x63, 0x6);
 
-  BOOST_REQUIRE_EQUAL(frame.get_adc_samples(0x5), 0x9);
+  BOOST_REQUIRE_EQUAL(frame.get_adc_samples(0x6), 0x63);
 }
 /*
 BOOST_AUTO_TEST_CASE(TDE2Frame_FromRawData)

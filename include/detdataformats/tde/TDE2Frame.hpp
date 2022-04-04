@@ -14,25 +14,36 @@
 #include <bitset>
 #include <iostream>
 #include <vector>
-#include <stdexcept>
+#include <algorithm> // For std::min
+#include <cassert>   // For assert()
+#include <cstdint>   // For uint32_t etc
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+#include <stdexcept> // For std::out_of_range
 
 namespace dunedaq {
 namespace detdataformats {
 namespace tde2 {
 
-using word_t = uint32_t; 
-using adc_t  = uint16_t;  
+//using word_t = uint32_t; 
+//using adc_t  = uint16_t;  
 
-static constexpr int tot_adc_samples = 4474;
+static constexpr int tot_adc_samples = 5965;
+static constexpr int tot_adc_sets = 746;
+static constexpr int adc_set_samples = 8;
+static constexpr int bits_per_adc = 12;
+static constexpr int bits_per_word = 3 * sizeof(uint32_t);
+static constexpr int num_adc_words = tot_adc_samples * bits_per_adc / bits_per_word;
 
 struct TDE2Header
 {
-  word_t version : 6, det_id : 6, crate : 10, slot : 4, link : 6;
-  word_t timestamp_1 : 32;
-  word_t timestamp_2 : 32;
-  word_t TAItime_1 : 32;
-  word_t TAItime_2 : 32;
-  word_t tde2_header : 10, tde2_errors : 22;
+  uint32_t version : 6, det_id : 6, crate : 10, slot : 4, link : 6;
+  uint32_t timestamp_1 : 32;
+  uint32_t timestamp_2 : 32;
+  uint32_t TAItime_1 : 32;
+  uint32_t TAItime_2 : 32;
+  uint32_t tde2_header : 10, tde2_errors : 22;
 
   uint64_t get_timestamp() const { return (uint64_t)timestamp_1 | ((uint64_t)(timestamp_2) << 32); }
 
@@ -65,37 +76,80 @@ operator<<(std::ostream& o, TDE2Header const& h)
            << "tde2_errors:" << unsigned(h.tde2_errors) << '\n';
 }
 
-struct Sample 
+struct Word
 {
-  adc_t sample : 12, reserved : 4;
-
+  uint32_t sample_0 : 12, sample_1 : 12, sample_2_0 : 8;
+  uint32_t sample_2_1 : 4, sample_3 : 12, sample_4 : 12, sample_5_0 : 4;
+  uint32_t sample_5_1 : 8, sample_6 : 12, sample_7 : 12;
+  
   // Print functions for debugging.
   std::ostream& print_hex(std::ostream& o) const
   {
-    return o << std::hex << "sample:" << sample << "reserved:" << reserved << std::dec << '\n';
+    return o << std::hex << "sample_0:" << sample_0    
+                         << "sample_1:" << sample_1 
+                         << "sample_2_0:" << sample_2_0 << "sample_2_1:" << sample_2_1
+                         << "sample_3:" << sample_3 
+                         << "sample_4:" << sample_4    
+                         << "sample_5_0:" << sample_5_0 << "sample_5_1:" << sample_5_1 
+                         << "sample_6:" << sample_6    
+                         << "sample_7:" << sample_7 << std::dec << '\n';
   }
 
   std::ostream& print_bits(std::ostream& o) const
   {
-    return o << "sample:" << std::bitset<12>(sample) << "reserved:" << std::bitset<4>(reserved) << '\n';
+    return o << "sample_0:" << std::bitset<12>(sample_0) 
+             << "sample_1:" << std::bitset<12>(sample_1) 
+             << "sample_2_0:" << std::bitset<8>(sample_2_0) << "sample_2_1:" << std::bitset<4>(sample_2_1)              
+             << "sample_3:" << std::bitset<12>(sample_3) 
+             << "sample_4:" << std::bitset<12>(sample_4) 
+             << "sample_5_0:" << std::bitset<4>(sample_5_0) << "sample_5_1:" << std::bitset<8>(sample_5_1)
+             << "sample_6:" << std::bitset<12>(sample_6) 
+             << "sample_7:" << std::bitset<12>(sample_7) << '\n';
   }
 };
 
 inline std::ostream&
-operator<<(std::ostream& o, Sample const& s)
+operator<<(std::ostream& o, Word const& w)
 {
-  return o << "sample:" << unsigned(s.sample) << "reserved:" << unsigned(s.reserved) << '\n';
+  return o << "sample_0:" << unsigned(w.sample_0) 
+           << "sample_1:" << unsigned(w.sample_1) 
+           << "sample_2_0:" << unsigned(w.sample_2_0) << "sample_2_1:" << unsigned(w.sample_2_1)         
+           << "sample_3:" << unsigned(w.sample_3) 
+           << "sample_4:" << unsigned(w.sample_4) 
+           << "sample_5_0:" << unsigned(w.sample_5_0) << "sample_5_1:" << unsigned(w.sample_5_1) 
+           << "sample_6:" << unsigned(w.sample_6) 
+           << "sample_7:" << unsigned(w.sample_7) << '\n';
 }
 
 struct ADCData
 {
-  Sample samplesinfo[tot_adc_samples];
+  uint32_t samples_info[num_adc_words];
 
-  uint16_t get_adc_samples(int i) 
+  uint16_t get_adc_samples(int i) const 
   {
     if (i < 0 || i >= tot_adc_samples) { throw std::out_of_range("ADC sample index out of range"); }
-    
-    return (uint64_t)samplesinfo[i].sample;
+
+    int adc_set_no = round(i / 8);
+    if (adc_set_no < 0 || adc_set_no >= tot_adc_sets) { throw std::out_of_range("ADC set index out of range"); }
+
+    // The index of the first (and sometimes only) word containing the required ADC value
+    int word_index = bits_per_adc * i / bits_per_word;
+    assert(word_index < num_adc_words);
+
+    // Where in the word the lowest bit of our ADC value is located
+    int first_bit_position = (bits_per_adc * i) % bits_per_word;
+
+    // How many bits of our desired ADC are located in the `word_index`th word
+    int bits_from_first_word = std::min(bits_per_adc, bits_per_word - first_bit_position);
+    uint16_t adc_info = samples_info[word_index] >> first_bit_position; 
+
+    // If we didn't get the full 12 bits from this word, we need the rest from the next word
+    if (bits_from_first_word < bits_per_adc) {
+      assert(word_index + 1 < num_adc_words);
+      adc_info |= samples_info[word_index + 1] << bits_from_first_word;
+    }
+
+    return adc_info;
   }
 };
 
@@ -110,7 +164,31 @@ public:
   uint64_t get_timestamp() const { return tde2header.get_timestamp(); } 
 
   // ADCData mutators
-  void set_adc_samples(const uint16_t new_adc_samples, int sample_no) { adcdata.samplesinfo[sample_no].sample = new_adc_samples; } 
+  void set_adc_samples(const uint16_t new_adc_val, int sample_no) { 
+
+    if (sample_no < 0 || sample_no >= tot_adc_samples)
+      throw std::out_of_range("ADC sample index out of range");
+    if (new_adc_val >= (1 << bits_per_adc))
+      throw std::out_of_range("ADC bits value out of range");
+
+    // The index of the first (and sometimes only) word containing the required ADC value
+    int word_index = bits_per_adc * sample_no / bits_per_word;
+    assert(word_index < num_adc_words);
+
+    // Where in the word the lowest bit of our ADC value is located
+    int first_bit_position = (bits_per_adc * sample_no) % bits_per_word;
+
+    // How many bits of our desired ADC are located in the `word_index`th word
+    int bits_in_first_word = std::min(bits_per_adc, bits_per_word - first_bit_position);
+    adcdata.samples_info[word_index] |= (new_adc_val << first_bit_position);
+
+    // If we didn't put the full 14 bits in this word, we need to put the rest in the next word
+    if (bits_in_first_word < bits_per_adc) {
+      assert(word_index + 1 < num_adc_words);
+      adcdata.samples_info[word_index + 1] |= new_adc_val >> bits_in_first_word;
+    }
+  }
+
   uint16_t get_adc_samples(int sample_no) { return adcdata.get_adc_samples(sample_no); } 
 
   friend std::ostream& operator<<(std::ostream& o, TDE2Frame const& frame);
