@@ -28,6 +28,7 @@ struct TriggerCandidateData
     kRandom = 4,
     kPrescale = 5,
     kADCSimpleWindow = 6,
+    kHorizontalMuon = 7,
   };
 
   enum class Algorithm
@@ -36,7 +37,8 @@ struct TriggerCandidateData
     kSupernova = 1,
     kHSIEventToTriggerCandidate = 2,
     kPrescale = 3,
-    kADCSimpleWindow = 4
+    kADCSimpleWindow = 4,
+    kHorizontalMuon = 5,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
