@@ -30,7 +30,8 @@ struct TriggerActivityData
     kUnknown = 0,
     kSupernova = 1,
     kPrescale = 2,
-    kADCSimpleWindow = 3
+    kADCSimpleWindow = 3,
+    kHorizontalMuon = 4,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
