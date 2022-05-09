@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE(TDE12Frame_HeaderMutators)
 
 BOOST_AUTO_TEST_CASE(TDE12Frame_StreamOperator)
 {
-  TDE12Frame tde12frame;
+  TDE12Frame tde12frame {};
 
   std::ostringstream ostr;
   ostr << tde12frame;
