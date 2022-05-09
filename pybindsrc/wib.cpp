@@ -1,5 +1,5 @@
 /**
- * @file wib.cpp
+ * @file wib.cpp Python bindings for the WIBFrame format
  *
  * This is part of the DUNE DAQ Software Suite, copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
@@ -10,8 +10,6 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-
-#include <iomanip>
 
 namespace py = pybind11;
 
@@ -81,6 +79,6 @@ register_wib(py::module& m)
 }
 
 } // namespace python
-} // namespace ssp
+} // namespace wib
 } // namespace timing
 } // namespace dunedaq

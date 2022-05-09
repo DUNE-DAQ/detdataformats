@@ -31,7 +31,8 @@ struct TriggerActivityData
     kSupernova = 1,
     kPrescale = 2,
     kADCSimpleWindow = 3,
-    kDBSCAN = 4
+    kHorizontalMuon = 4,
+    kDBSCAN = 5,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
