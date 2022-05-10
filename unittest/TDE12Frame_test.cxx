@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_SUITE(TDE12Frame_test)
 
 BOOST_AUTO_TEST_CASE(TDE12Header_TimestampMethods)
 {
-  TDE12Header tde12header;
+  TDE12Header tde12header {};
   tde12header.timestamp_1 = 0x11111111;
   tde12header.timestamp_2 = 0x2222;
 
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(TDE12Header_TimestampMethods)
 
 BOOST_AUTO_TEST_CASE(TDE12Header_StreamMethods)
 {
-  TDE12Header tde12header;
+  TDE12Header tde12header {};
 
   std::ostringstream ostr;
   tde12header.print_hex(ostr);
@@ -63,14 +63,14 @@ BOOST_AUTO_TEST_CASE(TDE12Header_StreamMethods)
 
 BOOST_AUTO_TEST_CASE(TDE12Frame_StructMethods)
 {
-  TDE12Frame tde12frame;
+  TDE12Frame tde12frame {};
 
   BOOST_REQUIRE(tde12frame.get_tde_header() != nullptr);
 }
 
 BOOST_AUTO_TEST_CASE(TDE12Frame_HeaderMutators)
 {
-  TDE12Frame tde12frame;
+  TDE12Frame tde12frame {};
   tde12frame.set_tde_errors(0xFC5F);
   tde12frame.set_timestamp(0x444455555555);
 
@@ -92,24 +92,39 @@ BOOST_AUTO_TEST_CASE(TDE12Frame_StreamOperator)
 
 BOOST_AUTO_TEST_CASE(TDE12Frame_ADCDataMutators)
 {
-  TDE12Frame tde12frame;
-  for(int i=0; i<tot_adc12_samples; i++) { tde12frame.set_adc_samples(0x9, i); }
+  TDE12Frame tde12frame {};
+  Wordset wordset {};
+  wordset.sample_0 = 0x59;
+  wordset.sample_6 = 0x71;
 
-  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(0x1), 0x9);
-  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(0x2), 0x9);
-  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(0x63), 0x9);
+  BOOST_REQUIRE_EQUAL(wordset.sample_0, 0x59);
+  BOOST_REQUIRE_EQUAL(wordset.sample_6, 0x71);
+  
+  tde12frame.set_adc_samples(0x59, 0x0); 
+  tde12frame.set_adc_samples(0x71, 0x6); 
+  
+  BOOST_REQUIRE_EQUAL(wordset.sample_0, 0x59);
+  BOOST_REQUIRE_EQUAL(wordset.sample_6, 0x71);
+
+  tde12frame.set_adc_samples(0x32, 0x2); 
+  tde12frame.set_adc_samples(0x63, 0x59); 
+  tde12frame.set_adc_samples(0x43, 0x12); 
+
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(0x2), 0x32);
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(0x59), 0x63);
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(0x12), 0x43);
 }
 
 BOOST_AUTO_TEST_CASE(TDE12Frame_FromRawData)
 {
-  TDE12Header tde12header;
+  TDE12Header tde12header {};
   tde12header.timestamp_1 = 0x11111111;
   tde12header.timestamp_2 = 0x2222;
-  uint32_t words_info[num_adc_words] {};
+  Word words_info[tot_num_words] {};
 
   uint8_t* buff = static_cast<uint8_t*>(malloc(sizeof(tde12header) + sizeof(words_info))); 
   memcpy(buff, &tde12header, sizeof(tde12header));
-  memcpy(buff + sizeof(tde12header), words_info, sizeof(uint32_t) * num_adc_words);
+  memcpy(buff + sizeof(tde12header), words_info, sizeof(Word) * tot_num_words);
   TDE12Frame* from_raw_data = reinterpret_cast<TDE12Frame*>(buff); 
 
   BOOST_REQUIRE_EQUAL(from_raw_data->get_tde_header()->get_timestamp(), 0x222211111111);

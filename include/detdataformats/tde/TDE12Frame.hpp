@@ -25,9 +25,9 @@ namespace tde {
 
 static constexpr int tot_adc12_samples = 5965;
 static constexpr int bits_per_adc = 12;
-static constexpr int bits_per_word = sizeof(uint32_t);
-static constexpr int bits_per_wordset = 3 * bits_per_word;
-static constexpr int num_adc_words = tot_adc12_samples * bits_per_adc/bits_per_word;
+static constexpr int bits_per_word = 8 * sizeof(uint32_t);
+//static constexpr int tot_num_words = tot_adc12_samples * bits_per_adc/bits_per_word;
+static constexpr int tot_num_words = 2237; 
 
 struct TDE12Header
 {
@@ -76,9 +76,14 @@ struct Wordset
   uint32_t sample_5_1 : 8, sample_6 : 12, sample_7 : 12;
 };
 
+struct Word
+{
+  uint32_t value : 32;
+};
+
 struct ADC12Data
 {
-  uint32_t words_info[num_adc_words];
+  uint32_t words_info[tot_num_words];
 
   uint16_t adc_sample(int sample_no) const 
   {
@@ -86,8 +91,7 @@ struct ADC12Data
 
     // The index of the first (and sometimes only) word containing the required ADC value
     int word_index = bits_per_adc * sample_no / bits_per_word;
-    assert(word_index < num_adc_words);
-
+    assert(word_index < tot_num_words);
     // Where in the word the lowest bit of our ADC value is located
     int first_bit_position = (bits_per_adc * sample_no) % bits_per_word;
     
@@ -96,8 +100,9 @@ struct ADC12Data
     uint16_t adc_info = words_info[word_index] >> first_bit_position; 
     
     // If we didn't get the full 12 bits from this word, we need the rest from the next word
-    if (bits_from_first_word < bits_per_adc) {
-      assert(word_index + 1 < num_adc_words);
+    if (bits_from_first_word < bits_per_adc) 
+    {
+      assert(word_index + 1 < tot_num_words);
       adc_info |= words_info[word_index + 1] << bits_from_first_word;
     }
 
@@ -125,7 +130,7 @@ public:
     
     // The index of the first (and sometimes only) word containing the required ADC value
     int word_index = bits_per_adc * sample_no / bits_per_word;
-    assert(word_index < num_adc_words);
+    assert(word_index < tot_num_words);
 
     // Where in the word the lowest bit of our ADC value is located
     int first_bit_position = (bits_per_adc * sample_no) % bits_per_word;
@@ -135,8 +140,9 @@ public:
     adc12data.words_info[word_index] |= (new_adc_val << first_bit_position);
 
     // If we didn't put the full 12 bits in this word, we need to put the rest in the next word
-    if (bits_in_first_word < bits_per_adc) {
-      assert(word_index + 1 < num_adc_words);
+    if (bits_in_first_word < bits_per_adc) 
+    {
+      assert(word_index + 1 < tot_num_words);
       adc12data.words_info[word_index + 1] |= new_adc_val >> bits_in_first_word;
     }
   }
@@ -148,7 +154,8 @@ public:
 private:
   TDE12Header tde12header;
   ADC12Data adc12data;
-  Wordset wordsetinfo;
+  Wordset wordset;
+  Word value;
 };
 
 inline std::ostream&

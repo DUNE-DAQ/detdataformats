@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_SUITE(TDE16Frame_test)
 
 BOOST_AUTO_TEST_CASE(TDE16Header_TimestampMethods)
 {
-  TDE16Header tde16header;
+  TDE16Header tde16header {};
   tde16header.timestamp_1 = 0x11111111;
   tde16header.timestamp_2 = 0x2222;
 
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(TDE16Header_TimestampMethods)
 
 BOOST_AUTO_TEST_CASE(TDE16Header_StreamMethods)
 {
-  TDE16Header tde16header;
+  TDE16Header tde16header {};
 
   std::ostringstream ostr;
   tde16header.print_hex(ostr);
@@ -63,14 +63,14 @@ BOOST_AUTO_TEST_CASE(TDE16Header_StreamMethods)
 
 BOOST_AUTO_TEST_CASE(TDE16Frame_StructMethods)
 {
-  TDE16Frame tde16frame;
+  TDE16Frame tde16frame {};
 
   BOOST_REQUIRE(tde16frame.get_tde_header() != nullptr);
 }
 
 BOOST_AUTO_TEST_CASE(TDE16Frame_HeaderMutators)
 {
-  TDE16Frame tde16frame;
+  TDE16Frame tde16frame {};
   tde16frame.set_tde_errors(0xFC5F);
   tde16frame.set_timestamp(0x444455555555);
 
@@ -92,17 +92,17 @@ BOOST_AUTO_TEST_CASE(TDE16Frame_StreamOperator)
 
 BOOST_AUTO_TEST_CASE(TDE16Frame_ADCDataMutators)
 {
-  TDE16Frame tde16frame;
-  for(int i=0; i<tot_adc16_samples; i++) { tde16frame.set_adc_samples(0x9, i); }
+  TDE16Frame tde16frame {};
+  for(int i=0; i<tot_adc16_samples; i++) { tde16frame.set_adc_samples(0x63, i); }
 
-  BOOST_REQUIRE_EQUAL(tde16frame.get_adc_samples(0x1), 0x9);
-  BOOST_REQUIRE_EQUAL(tde16frame.get_adc_samples(0x2), 0x9);
-  BOOST_REQUIRE_EQUAL(tde16frame.get_adc_samples(0x63), 0x9);
+  BOOST_REQUIRE_EQUAL(tde16frame.get_adc_samples(1), 0x63);
+  BOOST_REQUIRE_EQUAL(tde16frame.get_adc_samples(2), 0x63);
+  BOOST_REQUIRE_EQUAL(tde16frame.get_adc_samples(159), 0x63);
 }
 
 BOOST_AUTO_TEST_CASE(TDE16Frame_FromRawData)
 {
-  TDE16Header tde16header;
+  TDE16Header tde16header {};
   tde16header.timestamp_1 = 0x11111111;
   tde16header.timestamp_2 = 0x2222;
   Sample samples_info[tot_adc16_samples] {};
