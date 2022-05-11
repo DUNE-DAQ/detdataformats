@@ -1,1 +1,1 @@
-from .._daq_detdataformats_py.daphne import *
+from .._daq_detdataformats_py.wib2 import *
