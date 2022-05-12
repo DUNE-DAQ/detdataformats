@@ -23,11 +23,11 @@ namespace dunedaq {
 namespace detdataformats {
 namespace tde {
 
-static constexpr int tot_adc12_samples = 5965;
+static constexpr int tot_adc12_samples = 5960;
 static constexpr int bits_per_adc = 12;
 static constexpr int bits_per_word = 8 * sizeof(uint32_t);
 //static constexpr int tot_num_words = tot_adc12_samples * bits_per_adc/bits_per_word;
-static constexpr int tot_num_words = 2237;
+static constexpr int tot_num_words = 2235;
 
 struct TDE12Header
 {

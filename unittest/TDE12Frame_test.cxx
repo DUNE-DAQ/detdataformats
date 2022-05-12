@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE(TDE12Frame_PayloadSize)
 {
   TDE12Frame tde12frame {};
   
-  BOOST_REQUIRE_EQUAL(sizeof(tde12frame), 8972);
+  BOOST_REQUIRE_EQUAL(sizeof(tde12frame), 8964);
 }
 
 BOOST_AUTO_TEST_CASE(TDE12Frame_FromRawData)
