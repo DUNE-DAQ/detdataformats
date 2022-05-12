@@ -99,10 +99,10 @@ BOOST_AUTO_TEST_CASE(TDE12Frame_ADCDataMutators)
 
   BOOST_REQUIRE_EQUAL(wordset.sample_0, 0x59);
   BOOST_REQUIRE_EQUAL(wordset.sample_6, 0x71);
-  
+
   tde12frame.set_adc_samples(0x59, 0x0); 
   tde12frame.set_adc_samples(0x71, 0x6); 
-  
+
   BOOST_REQUIRE_EQUAL(wordset.sample_0, 0x59);
   BOOST_REQUIRE_EQUAL(wordset.sample_6, 0x71);
 
@@ -113,6 +113,13 @@ BOOST_AUTO_TEST_CASE(TDE12Frame_ADCDataMutators)
   BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(0x2), 0x32);
   BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(0x59), 0x63);
   BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(0x12), 0x43);
+}
+
+BOOST_AUTO_TEST_CASE(TDE12Frame_PayloadSize)
+{
+  TDE12Frame tde12frame {};
+  
+  BOOST_REQUIRE_EQUAL(sizeof(tde12frame), 8972);
 }
 
 BOOST_AUTO_TEST_CASE(TDE12Frame_FromRawData)

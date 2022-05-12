@@ -114,7 +114,6 @@ public:
 private:
   TDE16Header tde16header;
   ADC16Data adc16data;
-  Sample sampleinfo;
 };
 
 inline std::ostream&

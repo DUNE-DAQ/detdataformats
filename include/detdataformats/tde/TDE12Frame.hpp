@@ -27,7 +27,7 @@ static constexpr int tot_adc12_samples = 5965;
 static constexpr int bits_per_adc = 12;
 static constexpr int bits_per_word = 8 * sizeof(uint32_t);
 //static constexpr int tot_num_words = tot_adc12_samples * bits_per_adc/bits_per_word;
-static constexpr int tot_num_words = 2237; 
+static constexpr int tot_num_words = 2237;
 
 struct TDE12Header
 {
@@ -154,8 +154,6 @@ public:
 private:
   TDE12Header tde12header;
   ADC12Data adc12data;
-  Wordset wordset;
-  Word value;
 };
 
 inline std::ostream&
