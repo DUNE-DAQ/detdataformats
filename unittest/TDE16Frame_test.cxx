@@ -95,16 +95,15 @@ BOOST_AUTO_TEST_CASE(TDE16Frame_ADCDataMutators)
   TDE16Frame tde16frame {};
   for(int i=0; i<tot_adc16_samples; i++) { tde16frame.set_adc_samples(0x63, i); }
 
-  BOOST_REQUIRE_EQUAL(tde16frame.get_adc_samples(0x1), 0x63);
-  BOOST_REQUIRE_EQUAL(tde16frame.get_adc_samples(0x2), 0x63);
-  BOOST_REQUIRE_EQUAL(tde16frame.get_adc_samples(0x159), 0x63);
+  for(int i=0; i<30; i++) { BOOST_REQUIRE_EQUAL(tde16frame.get_adc_samples(i), 0x63); }
+  for(int i=tot_adc16_samples-20; i<tot_adc16_samples; i++) { BOOST_REQUIRE_EQUAL(tde16frame.get_adc_samples(i), 0x63); }
 }
 
 BOOST_AUTO_TEST_CASE(TDE16Frame_PayloadSize)
 {
   TDE16Frame tde16frame {};
   
-  BOOST_REQUIRE_EQUAL(sizeof(tde16frame), 8972);
+  BOOST_REQUIRE_EQUAL(sizeof(tde16frame), payload16);
 }
 
 BOOST_AUTO_TEST_CASE(TDE16Frame_FromRawData)

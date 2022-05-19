@@ -23,6 +23,7 @@ namespace detdataformats {
 namespace tde {
 
 static constexpr int tot_adc16_samples = 4474;
+static constexpr int payload16 = 8972;
 
 struct TDE16Header
 {

@@ -28,6 +28,7 @@ static constexpr int bits_per_adc = 12;
 static constexpr int bits_per_word = 8 * sizeof(uint32_t);
 //static constexpr int tot_num_words = tot_adc12_samples * bits_per_adc/bits_per_word;
 static constexpr int tot_num_words = 2235;
+static constexpr int payload12 = 8964;
 
 struct TDE12Header
 {
@@ -106,7 +107,7 @@ struct ADC12Data
       adc_info |= words_info[word_index + 1] << bits_from_first_word;
     }
 
-    return adc_info;
+    return adc_info& 0x3FFFu;
   }
 };
 
