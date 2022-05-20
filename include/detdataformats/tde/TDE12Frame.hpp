@@ -102,7 +102,7 @@ struct ADC12Data
       adc |= adc_words[word_index + 1] << bits_from_first_word;
     }
 
-    return adc& 0x3FFFu;
+    return adc& 0x0FFFu;
   }
 
   void set_adc(int i, const uint16_t val)
@@ -148,7 +148,7 @@ public:
   uint64_t get_timestamp() const { return tde12header.get_timestamp(); } 
 
   // ADC12Data mutators
-  void set_adc(int i, const uint16_t  val) {return adc12data.set_adc(i, val); }
+  void set_adc(int i, const uint16_t val) {return adc12data.set_adc(i, val); }
   uint16_t get_adc(int i) { return adc12data.get_adc(i); }
 
   friend std::ostream& operator<<(std::ostream& o, TDE12Frame const& tde12frame);
