@@ -109,6 +109,31 @@ struct ADC12Data
 
     return adc_info& 0x3FFFu;
   }
+
+  void set_new_adc_samples(const uint16_t new_adc_val, int sample_no) 
+  { 
+    if (sample_no < 0 || sample_no >= tot_adc12_samples) { throw std::out_of_range("ADC sample index out of range"); }
+    if (new_adc_val >= (1 << bits_per_adc)) { throw std::out_of_range("ADC bits value out of range"); }
+    
+    // The index of the first (and sometimes only) word containing the required ADC value
+    int word_index = bits_per_adc * sample_no / bits_per_word;
+    assert(word_index < tot_num_words);
+
+    // Where in the word the lowest bit of our ADC value is located
+    int first_bit_position = (bits_per_adc * sample_no) % bits_per_word;
+
+    // How many bits of our desired ADC are located in the `word_index`th word
+    int bits_in_first_word = std::min(bits_per_adc, bits_per_word - first_bit_position);
+    words_info[word_index] |= (new_adc_val << first_bit_position);
+
+    // If we didn't put the full 12 bits in this word, we need to put the rest in the next word
+    if (bits_in_first_word < bits_per_adc) 
+    {
+      assert(word_index + 1 < tot_num_words);
+      words_info[word_index + 1] |= new_adc_val >> bits_in_first_word;
+    }
+  }
+
 };
 
 class TDE12Frame
@@ -124,30 +149,7 @@ public:
   uint64_t get_timestamp() const { return tde12header.get_timestamp(); } 
 
   // ADC12Data mutators
-  void set_adc_samples(const uint16_t new_adc_val, int sample_no) 
-  { 
-    if (sample_no < 0 || sample_no >= tot_adc12_samples) { throw std::out_of_range("ADC sample index out of range"); }
-    if (new_adc_val >= (1 << bits_per_adc)) { throw std::out_of_range("ADC bits value out of range"); }
-    
-    // The index of the first (and sometimes only) word containing the required ADC value
-    int word_index = bits_per_adc * sample_no / bits_per_word;
-    assert(word_index < tot_num_words);
-
-    // Where in the word the lowest bit of our ADC value is located
-    int first_bit_position = (bits_per_adc * sample_no) % bits_per_word;
-
-    // How many bits of our desired ADC are located in the `word_index`th word
-    int bits_in_first_word = std::min(bits_per_adc, bits_per_word - first_bit_position);
-    adc12data.words_info[word_index] |= (new_adc_val << first_bit_position);
-
-    // If we didn't put the full 12 bits in this word, we need to put the rest in the next word
-    if (bits_in_first_word < bits_per_adc) 
-    {
-      assert(word_index + 1 < tot_num_words);
-      adc12data.words_info[word_index + 1] |= new_adc_val >> bits_in_first_word;
-    }
-  }
-
+  void set_adc_samples(const uint16_t new_adc_val, int sample_no) {return adc12data.set_new_adc_samples(new_adc_val, sample_no); }
   uint16_t get_adc_samples(int sample_no) { return adc12data.adc_sample(sample_no); } 
 
   friend std::ostream& operator<<(std::ostream& o, TDE12Frame const& tde12frame);

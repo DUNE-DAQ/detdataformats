@@ -91,29 +91,56 @@ BOOST_AUTO_TEST_CASE(TDE12Frame_StreamOperator)
   BOOST_REQUIRE(!output.empty());
 }
 
+BOOST_AUTO_TEST_CASE(TDE12Wordset_InfoRead)
+{
+  Wordset wordset {};
+
+  wordset.sample_0 = 0x59;
+  BOOST_REQUIRE_EQUAL(wordset.sample_0, 0x59);
+
+  wordset.sample_6 = 0x71;
+  BOOST_REQUIRE_EQUAL(wordset.sample_6, 0x71);
+
+}
+
 BOOST_AUTO_TEST_CASE(TDE12Frame_ADCDataMutators)
 {
   TDE12Frame tde12frame {};
-  Wordset wordset {};
-  
-  {
-    for(int i=0; i<tot_adc12_samples; i++) 
-    { 
-      tde12frame.set_adc_samples(0x63, i); 
-      BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(i), 0x63); 
-    }
+ 
+  for(int i=180; i<200; i++) 
+  { 
+    tde12frame.set_adc_samples(0x411, i); 
+    BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(i), 0x411); 
   }
-  {
-    wordset.sample_0 = 0x59;
-    BOOST_REQUIRE_EQUAL(wordset.sample_0, 0x59);
 
-    wordset.sample_6 = 0x71;
-    BOOST_REQUIRE_EQUAL(wordset.sample_6, 0x71);
+  for(int i=tot_adc12_samples-30; i<tot_adc12_samples; i++)
+  { 
+    tde12frame.set_adc_samples(0x396, i); 
+    BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(i), 0x396); 
   }
-  {
-    BOOST_REQUIRE_EXCEPTION(tde12frame.set_adc_samples(0x31, 6000), std::out_of_range, [&](std::out_of_range) { return true; });
-    BOOST_REQUIRE_EXCEPTION(tde12frame.set_adc_samples(0x2347, 2347), std::out_of_range, [&](std::out_of_range) { return true; });
-  }
+
+  tde12frame.set_adc_samples(0x32, 2); 
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(2), 0x32);      //8+4
+
+  tde12frame.set_adc_samples(0x41, 5); 
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(5), 0x41);       //4+8
+
+  tde12frame.set_adc_samples(0x43, 12); 
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(12), 0x43);
+
+  tde12frame.set_adc_samples(0x63, 59); 
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(59), 0x63);
+
+  tde12frame.set_adc_samples(0x584, 2346);
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(2346), 0x584);     //8+4
+  std::cout << tde12frame.get_adc_samples(2346) << "  sould be = 1412 " << std::endl;
+
+  tde12frame.set_adc_samples(0x73, 2349);
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(2349), 0x73);      //4+8
+
+  BOOST_REQUIRE_EXCEPTION(tde12frame.set_adc_samples(0x31, 6000), std::out_of_range, [&](std::out_of_range) { return true; });
+  BOOST_REQUIRE_EXCEPTION(tde12frame.set_adc_samples(0x2347, 2347), std::out_of_range, [&](std::out_of_range) { return true; });
+
 }
 
 BOOST_AUTO_TEST_CASE(TDE12Frame_PayloadSize)
