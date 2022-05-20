@@ -109,37 +109,37 @@ BOOST_AUTO_TEST_CASE(TDE12Frame_ADCDataMutators)
  
   for(int i=180; i<200; i++) 
   { 
-    tde12frame.set_adc_samples(0x411, i); 
-    BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(i), 0x411); 
+    tde12frame.set_adc(i, 0x411);
+    BOOST_REQUIRE_EQUAL(tde12frame.get_adc(i), 0x411);
   }
 
   for(int i=tot_adc12_samples-30; i<tot_adc12_samples; i++)
   { 
-    tde12frame.set_adc_samples(0x396, i); 
-    BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(i), 0x396); 
+    tde12frame.set_adc(i, 0x396);
+    BOOST_REQUIRE_EQUAL(tde12frame.get_adc(i), 0x396);
   }
 
-  tde12frame.set_adc_samples(0x32, 2); 
-  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(2), 0x32);      //8+4
+  tde12frame.set_adc(2, 0x32);
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc(2), 0x32);
 
-  tde12frame.set_adc_samples(0x41, 5); 
-  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(5), 0x41);       //4+8
+  tde12frame.set_adc(5, 0x41);
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc(5), 0x41);
 
-  tde12frame.set_adc_samples(0x43, 12); 
-  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(12), 0x43);
+  tde12frame.set_adc(12, 0x43);
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc(12), 0x43);
 
-  tde12frame.set_adc_samples(0x63, 59); 
-  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(59), 0x63);
+  tde12frame.set_adc(59, 0x63);
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc(59), 0x63);
 
-  tde12frame.set_adc_samples(0x584, 2346);
-  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(2346), 0x584);     //8+4
-  std::cout << tde12frame.get_adc_samples(2346) << "  sould be = 1412 " << std::endl;
+  tde12frame.set_adc(2346, 0x584);
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc(2346), 0x584);
+  std::cout << tde12frame.get_adc(2346) << "  sould be = 1412 " << std::endl;
 
-  tde12frame.set_adc_samples(0x73, 2349);
-  BOOST_REQUIRE_EQUAL(tde12frame.get_adc_samples(2349), 0x73);      //4+8
+  tde12frame.set_adc(2349, 0x73);
+  BOOST_REQUIRE_EQUAL(tde12frame.get_adc(2349), 0x73);
 
-  BOOST_REQUIRE_EXCEPTION(tde12frame.set_adc_samples(0x31, 6000), std::out_of_range, [&](std::out_of_range) { return true; });
-  BOOST_REQUIRE_EXCEPTION(tde12frame.set_adc_samples(0x2347, 2347), std::out_of_range, [&](std::out_of_range) { return true; });
+  BOOST_REQUIRE_EXCEPTION(tde12frame.set_adc(6000, 0x31), std::out_of_range, [&](std::out_of_range) { return true; });
+  BOOST_REQUIRE_EXCEPTION(tde12frame.set_adc(2347, 0x2347), std::out_of_range, [&](std::out_of_range) { return true; });
 
 }
 
@@ -153,14 +153,14 @@ BOOST_AUTO_TEST_CASE(TDE12Frame_PayloadSize)
 BOOST_AUTO_TEST_CASE(TDE12Frame_FromRawData)
 {
   TDE12Header tde12header {};
-  Word words_info[tot_num_words] {};
+  uint32_t words_info[tot_num_words] {};
 
   tde12header.timestamp_1 = 0x11111111;
   tde12header.timestamp_2 = 0x2222;
 
   uint8_t* buff = static_cast<uint8_t*>(malloc(sizeof(tde12header) + sizeof(words_info))); 
   memcpy(buff, &tde12header, sizeof(tde12header));
-  memcpy(buff + sizeof(tde12header), words_info, sizeof(Word) * tot_num_words);
+  memcpy(buff + sizeof(tde12header), words_info, sizeof(uint32_t) * tot_num_words);
   TDE12Frame* from_raw_data = reinterpret_cast<TDE12Frame*>(buff); 
 
   BOOST_REQUIRE_EQUAL(from_raw_data->get_tde_header()->get_timestamp(), 0x222211111111);
