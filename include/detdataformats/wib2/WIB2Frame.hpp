@@ -135,39 +135,6 @@ public:
     }
   }
 
-  /** @brief Get the ith U-channel ADC in the given femb
-   */
-  uint16_t get_u(int femb, int i) const { return get_adc(get_adc_index(kU, femb, i)); } // NOLINT(build/unsigned)
-
-  /** @brief Get the ith V-channel ADC in the given femb
-   */
-  uint16_t get_v(int femb, int i) const { return get_adc(get_adc_index(kV, femb, i)); } // NOLINT(build/unsigned)
-
-  /** @brief Get the ith X-channel (ie, collection) ADC in the given femb
-   */
-  uint16_t get_x(int femb, int i) const { return get_adc(get_adc_index(kX, femb, i)); } // NOLINT(build/unsigned)
-
-  /** @brief Set the ith U-channel ADC in the given femb to val
-   */
-  void set_u(int femb, int i, uint16_t val) // NOLINT(build/unsigned)
-  {
-    return set_adc(get_adc_index(kU, femb, i), val);
-  }
-
-  /** @brief Set the ith V-channel ADC in the given femb to val
-   */
-  void set_v(int femb, int i, uint16_t val) // NOLINT(build/unsigned)
-  {
-    return set_adc(get_adc_index(kV, femb, i), val);
-  }
-
-  /** @brief Set the ith X-channel (ie, collection) ADC in the given femb to val
-   */
-  void set_x(int femb, int i, uint16_t val) // NOLINT(build/unsigned)
-  {
-    return set_adc(get_adc_index(kX, femb, i), val);
-  }
-
   /** @brief Get the 64-bit timestamp of the frame
    */
   uint64_t get_timestamp() const // NOLINT(build/unsigned)
@@ -175,44 +142,6 @@ public:
     return (uint64_t)header.timestamp_1 | ((uint64_t)header.timestamp_2 << 32); // NOLINT(build/unsigned)
   }
 
-private:
-  enum View
-  {
-    kU,
-    kV,
-    kX
-  };
-
-  int get_adc_index(View view, int femb, int i) const
-  {
-    if (femb < 0 || femb >= s_fembs_per_frame) {
-      throw std::out_of_range("FEMB index out of range");
-    }
-
-    int offset = 0;
-    int n_channels = 0;
-
-    switch (view) {
-      case kU:
-        offset = 0;
-        n_channels = s_u_channels_per_femb;
-        break;
-      case kV:
-        offset = s_u_channels_per_femb;
-        n_channels = s_v_channels_per_femb;
-        break;
-      case kX:
-        offset = s_u_channels_per_femb + s_v_channels_per_femb;
-        n_channels = s_x_channels_per_femb;
-        break;
-    }
-
-    if (i < 0 || i >= n_channels) {
-      throw std::out_of_range("Channel index out of range");
-    }
-
-    return s_channels_per_femb * femb + offset + i;
-  }
 };
 
 } // namespace wib2
