@@ -29,9 +29,6 @@ register_wib2(py::module& m)
         return wfp;
     } ))
     .def("get_adc", static_cast<uint16_t (WIB2Frame::*)(const int) const>(&WIB2Frame::get_adc))
-    .def("get_u", static_cast<uint16_t (WIB2Frame::*)(const int, const int) const>(&WIB2Frame::get_u))
-    .def("get_v", static_cast<uint16_t (WIB2Frame::*)(const int, const int) const>(&WIB2Frame::get_v))
-    .def("get_x", static_cast<uint16_t (WIB2Frame::*)(const int, const int) const>(&WIB2Frame::get_x))
     .def("get_timestamp", &WIB2Frame::get_timestamp)
     .def_static("sizeof", [](){ return sizeof(WIB2Frame); })
   ;
