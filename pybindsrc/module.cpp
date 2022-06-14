@@ -40,6 +40,12 @@ extern void register_ssp(py::module &);
 }
 }
 
+namespace trigger {
+namespace python {
+extern void register_trigger_primitive(py::module &);    
+}
+}
+
 namespace python {
 
 PYBIND11_MODULE(_daq_detdataformats_py, m) {
@@ -57,6 +63,9 @@ PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     py::module_ ssp_module = m.def_submodule("ssp");
     ssp::python::register_ssp(ssp_module);
+
+    py::module_ trigger_primitive_module = m.def_submodule("trigger_primitive");
+    trigger::python::register_trigger_primitive(trigger_primitive_module);
 }
 
 } // namespace python
