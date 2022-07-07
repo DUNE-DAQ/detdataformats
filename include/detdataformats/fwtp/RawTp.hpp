@@ -1,12 +1,12 @@
 /**
- * @file RawWIBTp.hpp Raw Trigger Primitive bit fields and accessors
+ * @file RawTp.hpp Raw Trigger Primitive bit fields and accessors
  *
  * This is part of the DUNE DAQ , copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
  * received with this code.
  */
-#ifndef DETDATAFORMATS_INCLUDE_DETDATAFORMATS_WIB_RAWWIBTP_HPP_
-#define DETDATAFORMATS_INCLUDE_DETDATAFORMATS_WIB_RAWWIBTP_HPP_
+#ifndef DETDATAFORMATS_INCLUDE_DETDATAFORMATS_FWTP_RAWTP_HPP_
+#define DETDATAFORMATS_INCLUDE_DETDATAFORMATS_FWTP_RAWTP_HPP_
 
 #include <bitset>
 #include <iostream>
@@ -14,7 +14,7 @@
 
 namespace dunedaq {
 namespace detdataformats {
-namespace wib {
+namespace fwtp {
 
 using tp_word_t = uint32_t; // NOLINT(build/unsigned)
 
@@ -69,10 +69,10 @@ struct TpHeader
   // Print functions for debugging.
   std::ostream& print(std::ostream& o) const
   {
-    o << "Printing raw WIB TP header:\n";
+    o << "Printing raw TP header:\n";
     o << "flags:" << unsigned(m_flags) << " slot:" << unsigned(m_slot_no) << " wire:" << unsigned(m_wire_no)
       << " fiber:" << unsigned(m_fiber_no) << " crate:" << unsigned(m_crate_no) << " timestamp:" << get_timestamp();
-    o << "\nPrinting raw WIB TP pedinfo:\n";
+    o << "\nPrinting raw TP pedinfo:\n";
     o << "median:" << unsigned(m_median) << " accumulator:" << unsigned(m_accumulator)
       << " nhits:" << unsigned(m_nhits) << " padding_1:" << unsigned(m_padding_1)
       << " padding_2:" << unsigned(m_padding_2) << " padding_3:" << unsigned(m_padding_3);
@@ -82,10 +82,10 @@ struct TpHeader
 
   std::ostream& print_hex(std::ostream& o) const
   {
-    o << "Printing raw WIB TP header:\n";
+    o << "Printing raw TP header:\n";
     o << std::hex << "flags:" << m_flags << " slot:" << m_slot_no << " wire:" << m_wire_no << " fiber:" << m_fiber_no
       << " crate:" << m_crate_no << " timestamp:" << get_timestamp();
-    o << "\nPrinting raw WIB TP pedinfo:\n";
+    o << "\nPrinting raw TP pedinfo:\n";
     o << std::hex << "median:" << m_median << " accumulator:" << m_accumulator << " nhits:" << m_nhits
       << " padding_1:" << m_padding_1 << " padding_2:" << m_padding_2 << " padding_3:" << m_padding_3;
     return o << std::dec << '\n';
@@ -93,11 +93,11 @@ struct TpHeader
 
   std::ostream& print_bits(std::ostream& o) const
   {
-    o << "Printing raw WIB TP header:\n";
+    o << "Printing raw TP header:\n";
     o << "flags:" << std::bitset<13>(m_flags) << " slot:" << std::bitset<3>(m_slot_no)
       << " wire:" << std::bitset<8>(m_wire_no) << " fiber:" << std::bitset<3>(m_fiber_no)
       << " crate:" << std::bitset<5>(m_crate_no) << " timestamp:" << get_timestamp();
-    o << "\nPrinting raw WIB TP pedinfo:\n";
+    o << "\nPrinting raw TP pedinfo:\n";
     o << "median:" << std::bitset<16>(m_accumulator) << " accumulator:" << std::bitset<16>(m_median)
       << " nhits:" << std::bitset<16>(m_nhits) << " padding_1:" << std::bitset<16>(m_padding_1)
       << " padding_2:" << std::bitset<16>(m_padding_2) << " padding_3:" << std::bitset<16>(m_padding_3);
@@ -108,10 +108,10 @@ struct TpHeader
 inline std::ostream&
 operator<<(std::ostream& o, TpHeader const& h)
 {
-  o << "Printing raw WIB TP header:\n";
+  o << "Printing raw TP header:\n";
   o << "flags:" << unsigned(h.m_flags) << " slot:" << unsigned(h.m_slot_no) << " wire:" << unsigned(h.m_wire_no)
     << " fiber:" << unsigned(h.m_fiber_no) << " crate:" << unsigned(h.m_crate_no) << " timestamp:" << h.get_timestamp();
-  o << "\nPrinting raw WIB TP pedinfo:\n";
+  o << "\nPrinting raw TP pedinfo:\n";
   o << "median:" << unsigned(h.m_median) << " accumulator:" << unsigned(h.m_accumulator)
     << " nhits:" << unsigned(h.m_nhits) << " padding_1:" << unsigned(h.m_padding_1)
     << " padding_2:" << unsigned(h.m_padding_2) << " padding_3:" << unsigned(h.m_padding_3);
@@ -131,7 +131,7 @@ struct TpData
 
   std::ostream& print(std::ostream& o) const
   {
-    o << "Printing raw WIB TP:\n";
+    o << "Printing raw TP:\n";
     o << "start_time:" << unsigned(m_start_time) << " end_time:" << unsigned(m_end_time)
       << " peak_adc:" << unsigned(m_peak_adc) << " peak_time:" << unsigned(m_peak_time)
       << " sum_adc:" << unsigned(m_sum_adc) << " flags:" << unsigned(m_tp_flags)
@@ -141,7 +141,7 @@ struct TpData
 
   std::ostream& print_hex(std::ostream& o) const
   {
-    o << "Printing raw WIB TP:\n";
+    o << "Printing raw TP:\n";
     o << std::hex << "start_time:" << m_start_time << " end_time:" << m_end_time << " peak_adc:" << m_peak_adc
       << " peak_time:" << m_peak_time << " sum_adc:" << m_sum_adc << " flags:" << m_tp_flags
       << " hit_continue:" << m_hit_continue;
@@ -150,7 +150,7 @@ struct TpData
 
   std::ostream& print_bits(std::ostream& o) const
   {
-    o << "Printing raw WIB TP:\n";
+    o << "Printing raw TP:\n";
     o << "start_time:" << std::bitset<16>(m_start_time) << " end_time:" << std::bitset<16>(m_end_time)
       << " peak_adc:" << std::bitset<16>(m_peak_adc) << " peak_time:" << std::bitset<16>(m_peak_time)
       << " sum_adc:" << std::bitset<16>(m_sum_adc) << " flags:" << std::bitset<15>(m_tp_flags)
@@ -162,7 +162,7 @@ struct TpData
 inline std::ostream&
 operator<<(std::ostream& o, TpData const& tp)
 {
-  o << "Printing raw WIB TP:\n";
+  o << "Printing raw TP:\n";
   o << "start_time:" << unsigned(tp.m_start_time) << " end_time:" << unsigned(tp.m_end_time)
     << " peak_adc:" << unsigned(tp.m_peak_adc) << " peak_time:" << unsigned(tp.m_peak_time)
     << " sum_adc:" << unsigned(tp.m_sum_adc) << " flags:" << unsigned(tp.m_tp_flags)
@@ -172,11 +172,11 @@ operator<<(std::ostream& o, TpData const& tp)
 
 
 //========================
-// RawWIBTp data struct
+// RawTp data struct
 //========================
-struct RawWIBTp
+struct RawTp
 {
-  RawWIBTp()
+  RawTp()
   {
     m_nhits = 1;
   }
@@ -234,9 +234,9 @@ public:
 };
 
 inline std::ostream&
-operator<<(std::ostream& o, RawWIBTp const& rwtp)
+operator<<(std::ostream& o, RawTp const& rwtp)
 {
-  o << "Printing raw WIB TP frame:" << '\n';
+  o << "Printing raw TP frame:" << '\n';
   o << rwtp.m_head << '\n';
   return o;
 }
@@ -245,4 +245,4 @@ operator<<(std::ostream& o, RawWIBTp const& rwtp)
 } // namespace detdataformats
 } // namespace dunedaq
 
-#endif // DETDATAFORMATS_INCLUDE_DETDATAFORMATS_WIB_RAWWIBTP_HPP_
+#endif // DETDATAFORMATS_INCLUDE_DETDATAFORMATS_FWTP_RAWTP_HPP_
