@@ -49,8 +49,7 @@ namespace dunedaq::detdataformats::python {
             .export_values();
 
         py_detid.def_readwrite("version", &DetID::version)
-            .def_readwrite("subdetector", &DetID::subdetector)
-            .def_readwrite("id", &DetID::id);
+            .def_readwrite("subdetector", &DetID::subdetector);
     }
 
 } // namespace dunedaq::detdataformats::python

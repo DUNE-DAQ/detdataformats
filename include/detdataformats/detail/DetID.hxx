@@ -4,7 +4,7 @@ namespace dunedaq::detdataformats {
 static_assert(DetID::s_det_id_version == 1,
               "This is intentionally designed to tell the developer to update the static_assert checks (including this "
               "one) when the version is bumped");
-static_assert(sizeof(DetID) == 8, "DetID struct size different than expected!");
+static_assert(sizeof(DetID) == 4, "DetID struct size different than expected!");
 static_assert(offsetof(DetID, version) == 0, "DetID version field not at expected offset");
 static_assert(offsetof(DetID, subdetector) == 2, "DetID subdetector field not at expected offset");
 

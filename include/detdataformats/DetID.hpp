@@ -31,7 +31,6 @@ struct DetID
 
   using Version_t = uint16_t;   // NOLINT(build/unsigned)
   using Subdetector_t = uint16_t; // NOLINT(build/unsigned)
-  using ID_t = uint32_t;
 
   /**
    * @brief The Subdetector enum describes the kind of source we're dealing with
@@ -56,8 +55,6 @@ struct DetID
    */
   static constexpr Version_t s_det_id_version = 1;
 
-  static constexpr ID_t s_invalid_id = -1;
-
   /**
    * @brief Version number of the DetID
    */
@@ -66,11 +63,6 @@ struct DetID
    * @brief The general subdetector of the source of the data
    */
   Subdetector subdetector{ Subdetector::kUNDEFINED };
-
-  /**
-   * @brief Unique identifier of the source of the data
-   */
-  ID_t id{ s_invalid_id };
 
   DetID() = default;
 
