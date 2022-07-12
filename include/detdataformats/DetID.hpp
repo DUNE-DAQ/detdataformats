@@ -30,7 +30,8 @@ struct DetID
 {
 
   using Version_t = uint16_t;   // NOLINT(build/unsigned)
-  using Subdetector_t = uinti16_t; // NOLINT(build/unsigned)
+  using Subdetector_t = uint16_t; // NOLINT(build/unsigned)
+  using ID_t = uint32_t;
 
   /**
    * @brief The Subdetector enum describes the kind of source we're dealing with
@@ -48,13 +49,14 @@ struct DetID
     kVDTTPC = 11,
     kNDLAR = 32,
     kNDGAR = 33,
-    kCountOfEnums // Add any new Subdetector enums above this line. This is the count of enums besides itself.
   };
 
   /**
    * @brief The version of this DetID struct.
    */
   static constexpr Version_t s_det_id_version = 1;
+
+  static constexpr ID_t s_invalid_id = -1;
 
   /**
    * @brief Version number of the DetID
