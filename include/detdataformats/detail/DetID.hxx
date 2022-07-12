@@ -71,6 +71,8 @@ DetID::subdetector_to_string(const Subdetector& type)
       return "HDPDS";
     case Subdetector::kHDTPC:
       return "HDTPC";
+    case Subdetector::kHDCRT:
+      return "HDCRT";
     case Subdetector::kVDCPDS:
       return "VDCPDS";
     case Subdetector::kVDMPDS:
@@ -94,6 +96,8 @@ DetID::string_to_subdetector(const std::string& typestring)
   if (typestring == "HDPDS")
     return Subdetector::kHDPDS;
   if (typestring == "HDTPC")
+    return Subdetector::kHDTPC;
+  if (typestring == "HDCRT")
     return Subdetector::kHDTPC;
   if (typestring == "VDCPDS")
     return Subdetector::kVDCPDS;
