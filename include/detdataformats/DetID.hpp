@@ -47,7 +47,7 @@ struct DetID
     kVDBTPC = 10,
     kVDTTPC = 11,
     kNDLAR = 32,
-    kNDGAR = 33,
+    kNDGAR = 33
   };
 
   /**
