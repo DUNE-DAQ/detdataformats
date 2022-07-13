@@ -30,7 +30,7 @@ struct DetID
 {
 
   using Version_t = uint16_t;   // NOLINT(build/unsigned)
-  using Subdetector_t = uinti16_t; // NOLINT(build/unsigned)
+  using Subdetector_t = uint16_t; // NOLINT(build/unsigned)
 
   /**
    * @brief The Subdetector enum describes the kind of source we're dealing with

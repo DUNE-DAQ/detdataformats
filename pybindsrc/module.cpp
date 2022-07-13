@@ -42,9 +42,14 @@ extern void register_ssp(py::module &);
 
 namespace python {
 
+    extern void
+        register_detid(py::module&);
+
 PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     m.doc() = "c++ implementation of the dunedaq detdataformats modules"; // optional module docstring
+
+    register_detid(m);
 
     py::module_ wib_module = m.def_submodule("wib");
     wib::python::register_wib(wib_module);
