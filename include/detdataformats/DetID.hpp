@@ -47,8 +47,7 @@ struct DetID
     kVDBTPC = 10,
     kVDTTPC = 11,
     kNDLAR = 32,
-    kNDGAR = 33,
-    kCountOfEnums // Add any new Subdetector enums above this line. This is the count of enums besides itself.
+    kNDGAR = 33
   };
 
   /**
@@ -64,11 +63,6 @@ struct DetID
    * @brief The general subdetector of the source of the data
    */
   Subdetector subdetector{ Subdetector::kUNDEFINED };
-
-  /**
-   * @brief Unique identifier of the source of the data
-   */
-  ID_t id{ s_invalid_id };
 
   DetID() = default;
 
