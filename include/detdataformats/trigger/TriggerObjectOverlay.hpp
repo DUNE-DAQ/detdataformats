@@ -10,6 +10,7 @@
 #define DETDATAFORMATS_INCLUDE_DETDATAFORMATS_TRIGGER_TRIGGEROBJECTOVERLAY_HPP_
 
 #include "detdataformats/trigger/TriggerActivityData.hpp"
+#include "detdataformats/trigger/TriggerCandidateData.hpp"
 #include "detdataformats/trigger/TriggerPrimitive.hpp"
 
 namespace dunedaq {

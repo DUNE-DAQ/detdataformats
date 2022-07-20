@@ -125,45 +125,14 @@ public:
     int first_bit_position = (s_bits_per_adc * i) % s_bits_per_word;
     // How many bits of our desired ADC are located in the `word_index`th word
     int bits_in_first_word = std::min(s_bits_per_adc, s_bits_per_word - first_bit_position);
-    adc_words[word_index] |= (val << first_bit_position);
+    uint32_t mask = (1 << (first_bit_position)) - 1;
+    adc_words[word_index] = ((val << first_bit_position) & ~mask) | (adc_words[word_index] & mask);
     // If we didn't put the full 14 bits in this word, we need to put the rest in the next word
     if (bits_in_first_word < s_bits_per_adc) {
       assert(word_index + 1 < s_num_adc_words);
-      adc_words[word_index + 1] |= val >> bits_in_first_word;
+      mask = (1 << (s_bits_per_adc - bits_in_first_word)) - 1;
+      adc_words[word_index + 1] = ((val >> bits_in_first_word) & mask) | (adc_words[word_index + 1] & ~mask);
     }
-  }
-
-  /** @brief Get the ith U-channel ADC in the given femb
-   */
-  uint16_t get_u(int femb, int i) const { return get_adc(get_adc_index(kU, femb, i)); } // NOLINT(build/unsigned)
-
-  /** @brief Get the ith V-channel ADC in the given femb
-   */
-  uint16_t get_v(int femb, int i) const { return get_adc(get_adc_index(kV, femb, i)); } // NOLINT(build/unsigned)
-
-  /** @brief Get the ith X-channel (ie, collection) ADC in the given femb
-   */
-  uint16_t get_x(int femb, int i) const { return get_adc(get_adc_index(kX, femb, i)); } // NOLINT(build/unsigned)
-
-  /** @brief Set the ith U-channel ADC in the given femb to val
-   */
-  void set_u(int femb, int i, uint16_t val) // NOLINT(build/unsigned)
-  {
-    return set_adc(get_adc_index(kU, femb, i), val);
-  }
-
-  /** @brief Set the ith V-channel ADC in the given femb to val
-   */
-  void set_v(int femb, int i, uint16_t val) // NOLINT(build/unsigned)
-  {
-    return set_adc(get_adc_index(kV, femb, i), val);
-  }
-
-  /** @brief Set the ith X-channel (ie, collection) ADC in the given femb to val
-   */
-  void set_x(int femb, int i, uint16_t val) // NOLINT(build/unsigned)
-  {
-    return set_adc(get_adc_index(kX, femb, i), val);
   }
 
   /** @brief Get the 64-bit timestamp of the frame
@@ -173,44 +142,6 @@ public:
     return (uint64_t)header.timestamp_1 | ((uint64_t)header.timestamp_2 << 32); // NOLINT(build/unsigned)
   }
 
-private:
-  enum View
-  {
-    kU,
-    kV,
-    kX
-  };
-
-  int get_adc_index(View view, int femb, int i) const
-  {
-    if (femb < 0 || femb >= s_fembs_per_frame) {
-      throw std::out_of_range("FEMB index out of range");
-    }
-
-    int offset = 0;
-    int n_channels = 0;
-
-    switch (view) {
-      case kU:
-        offset = 0;
-        n_channels = s_u_channels_per_femb;
-        break;
-      case kV:
-        offset = s_u_channels_per_femb;
-        n_channels = s_v_channels_per_femb;
-        break;
-      case kX:
-        offset = s_u_channels_per_femb + s_v_channels_per_femb;
-        n_channels = s_x_channels_per_femb;
-        break;
-    }
-
-    if (i < 0 || i >= n_channels) {
-      throw std::out_of_range("Channel index out of range");
-    }
-
-    return s_channels_per_femb * femb + offset + i;
-  }
 };
 
 } // namespace wib2
