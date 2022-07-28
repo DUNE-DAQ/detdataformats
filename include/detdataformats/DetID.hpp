@@ -38,16 +38,16 @@ struct DetID
 
   enum class Subdetector : Subdetector_t
   {
-    kUNDEFINED = 0,
-    kHDPDS = 1,
-    kHDTPC = 2,
-    kHDCRT = 3,
-    kVDCPDS = 8,
-    kVDMPDS = 9,
-    kVDBTPC = 10,
-    kVDTTPC = 11,
-    kNDLAR = 32,
-    kNDGAR = 33
+    kUnknown = 0,
+    kHD_PDS = 1,
+    kHD_TPC = 2,
+    kHD_CRT = 3,
+    kVD_CathodePDS = 8,
+    kVD_MembranePDS = 9,
+    kVD_BottomTPC = 10,
+    kVD_TopTPC = 11,
+    kND_LAr = 32,
+    kND_GAr = 33
   };
 
   /**
@@ -62,7 +62,7 @@ struct DetID
   /**
    * @brief The general subdetector of the source of the data
    */
-  Subdetector subdetector{ Subdetector::kUNDEFINED };
+  Subdetector subdetector{ Subdetector::kUnknown };
 
   DetID() = default;
 
@@ -77,7 +77,7 @@ struct DetID
     return ostr.str();
   }
 
-  bool is_in_valid_state() const noexcept { return subdetector != Subdetector::kUNDEFINED; }
+  bool is_in_valid_state() const noexcept { return subdetector != Subdetector::kUnknown; }
 
   inline static std::string subdetector_to_string(const Subdetector& type);
   inline static Subdetector string_to_subdetector(const std::string& typestring);

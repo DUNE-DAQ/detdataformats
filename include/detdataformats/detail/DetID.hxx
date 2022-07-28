@@ -67,52 +67,52 @@ std::string
 DetID::subdetector_to_string(const Subdetector& type)
 {
   switch (type) {
-    case Subdetector::kHDPDS:
-      return "HDPDS";
-    case Subdetector::kHDTPC:
-      return "HDTPC";
-    case Subdetector::kHDCRT:
-      return "HDCRT";
-    case Subdetector::kVDCPDS:
-      return "VDCPDS";
-    case Subdetector::kVDMPDS:
-      return "VDMPDS";
-    case Subdetector::kVDBTPC:
-      return "VDBTPC";
-    case Subdetector::kVDTTPC:
-      return "VDTTPC";
-    case Subdetector::kNDLAR:
-      return "NDLAR";
-    case Subdetector::kNDGAR:
-      return "NDGAR";
+    case Subdetector::kHD_PDS:
+      return "HD_PDS";
+    case Subdetector::kHD_TPC:
+      return "HD_TPC";
+    case Subdetector::kHD_CRT:
+      return "HD_CRT";
+    case Subdetector::kVD_CathodePDS:
+      return "VD_Cathode_PDS";
+    case Subdetector::kVD_MembranePDS:
+      return "VD_Membrane_PDS";
+    case Subdetector::kVD_BottomTPC:
+      return "VD_Bottom_TPC";
+    case Subdetector::kVD_TopTPC:
+      return "VD_Top_TPC";
+    case Subdetector::kND_LAr:
+      return "ND_LAr";
+    case Subdetector::kND_GAr:
+      return "ND_GAr";
     default:
-      return "UNDEFINED";
+      return "Unknown";
   }
 }
 
 DetID::Subdetector
 DetID::string_to_subdetector(const std::string& typestring)
 {
-  if (typestring == "HDPDS")
-    return Subdetector::kHDPDS;
-  if (typestring == "HDTPC")
-    return Subdetector::kHDTPC;
-  if (typestring == "HDCRT")
-    return Subdetector::kHDTPC;
-  if (typestring == "VDCPDS")
-    return Subdetector::kVDCPDS;
-  if (typestring == "VDMPDS")
-    return Subdetector::kVDMPDS;
-  if (typestring == "VDBTPC")
-    return Subdetector::kVDBTPC;
-  if (typestring == "VDTTPC")
-    return Subdetector::kVDTTPC;
-  if (typestring == "NDLAR")
-    return Subdetector::kNDLAR;
-  if (typestring == "NDGAR")
-    return Subdetector::kNDGAR;
+  if (typestring == "HD PDS")
+    return Subdetector::kHD_PDS;
+  if (typestring == "HD TPC")
+    return Subdetector::kHD_TPC;
+  if (typestring == "HD CRT")
+    return Subdetector::kHD_CRT;
+  if (typestring == "VD Cathode PDS")
+    return Subdetector::kVD_CathodePDS;
+  if (typestring == "VD Membrane PDS")
+    return Subdetector::kVD_MembranePDS;
+  if (typestring == "VD Bottom TPC")
+    return Subdetector::kVD_BottomTPC;
+  if (typestring == "VD Top TPC")
+    return Subdetector::kVD_TopTPC;
+  if (typestring == "ND LAr")
+    return Subdetector::kND_LAr;
+  if (typestring == "ND GAR")
+    return Subdetector::kND_GAr;
 
-  return Subdetector::kUNDEFINED;
+  return Subdetector::kUnknown;
 }
 
 } // namespace dunedaq::detdataformats

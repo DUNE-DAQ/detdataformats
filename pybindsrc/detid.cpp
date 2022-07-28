@@ -36,16 +36,16 @@ namespace dunedaq::detdataformats::python {
                 .def("string_to_subdetector", &DetID::string_to_subdetector);
 
         py::enum_<DetID::Subdetector>(py_detid, "Subdetector")
-            .value("kUNDEFINED", DetID::Subdetector::kUNDEFINED)
-            .value("kHDPDS", DetID::Subdetector::kHDPDS)
-            .value("kHDTPC", DetID::Subdetector::kHDTPC)
-            .value("kHDCRT", DetID::Subdetector::kHDCRT)
-            .value("kVDCPDS", DetID::Subdetector::kVDCPDS)
-            .value("kVDMPDS", DetID::Subdetector::kVDMPDS)
-            .value("kVDBTPC", DetID::Subdetector::kVDBTPC)
-            .value("kVDTTPC", DetID::Subdetector::kVDTTPC)
-            .value("kNDLAR", DetID::Subdetector::kNDLAR)
-            .value("kNDGAR", DetID::Subdetector::kNDGAR)
+            .value("kUnknown", DetID::Subdetector::kUnknown)
+            .value("kHD_PDS", DetID::Subdetector::kHD_PDS)
+            .value("kHD_TPC", DetID::Subdetector::kHD_TPC)
+            .value("kHD_CRT", DetID::Subdetector::kHD_CRT)
+            .value("kVD_CathodePDS", DetID::Subdetector::kVD_CathodePDS)
+            .value("kVD_MembranePDS", DetID::Subdetector::kVD_MembranePDS)
+            .value("kVD_BottomTPC", DetID::Subdetector::kVD_BottomTPC)
+            .value("kVD_TopTPC", DetID::Subdetector::kVD_TopTPC)
+            .value("kND_LAr", DetID::Subdetector::kND_LAr)
+            .value("kND_GAr", DetID::Subdetector::kND_GAr)
             .export_values();
 
         py_detid.def_readwrite("version", &DetID::version)
