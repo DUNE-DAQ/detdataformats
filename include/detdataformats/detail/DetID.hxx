@@ -93,23 +93,23 @@ DetID::subdetector_to_string(const Subdetector& type)
 DetID::Subdetector
 DetID::string_to_subdetector(const std::string& typestring)
 {
-  if (typestring == "HD PDS")
+  if (typestring == "HD_PDS")
     return Subdetector::kHD_PDS;
-  if (typestring == "HD TPC")
+  if (typestring == "HD_TPC")
     return Subdetector::kHD_TPC;
-  if (typestring == "HD CRT")
+  if (typestring == "HD_CRT")
     return Subdetector::kHD_CRT;
-  if (typestring == "VD Cathode PDS")
+  if (typestring == "VD_Cathode_PDS")
     return Subdetector::kVD_CathodePDS;
-  if (typestring == "VD Membrane PDS")
+  if (typestring == "VD_Membrane_PDS")
     return Subdetector::kVD_MembranePDS;
-  if (typestring == "VD Bottom TPC")
+  if (typestring == "VD_Bottom_TPC")
     return Subdetector::kVD_BottomTPC;
-  if (typestring == "VD Top TPC")
+  if (typestring == "VD_Top_TPC")
     return Subdetector::kVD_TopTPC;
-  if (typestring == "ND LAr")
+  if (typestring == "ND_LAr")
     return Subdetector::kND_LAr;
-  if (typestring == "ND GAR")
+  if (typestring == "ND_GAr")
     return Subdetector::kND_GAr;
 
   return Subdetector::kUnknown;
