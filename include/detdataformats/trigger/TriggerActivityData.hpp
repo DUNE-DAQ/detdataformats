@@ -32,6 +32,7 @@ struct TriggerActivityData
     kPrescale = 2,
     kADCSimpleWindow = 3,
     kHorizontalMuon = 4,
+    kLowEnergyEvent = 5,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!

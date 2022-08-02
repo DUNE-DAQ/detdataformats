@@ -29,6 +29,7 @@ struct TriggerCandidateData
     kPrescale = 5,
     kADCSimpleWindow = 6,
     kHorizontalMuon = 7,
+    kLowEnergyEvent = 8,
   };
 
   enum class Algorithm
@@ -39,6 +40,7 @@ struct TriggerCandidateData
     kPrescale = 3,
     kADCSimpleWindow = 4,
     kHorizontalMuon = 5,
+    kLowEnergyEvent = 6,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
