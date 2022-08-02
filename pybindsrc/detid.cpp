@@ -37,6 +37,7 @@ namespace dunedaq::detdataformats::python {
 
         py::enum_<DetID::Subdetector>(py_detid, "Subdetector")
             .value("kUnknown", DetID::Subdetector::kUnknown)
+            .value("kDAQ", DetID::Subdetector::kDAQ)
             .value("kHD_PDS", DetID::Subdetector::kHD_PDS)
             .value("kHD_TPC", DetID::Subdetector::kHD_TPC)
             .value("kHD_CRT", DetID::Subdetector::kHD_CRT)

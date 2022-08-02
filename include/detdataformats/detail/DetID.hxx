@@ -67,6 +67,8 @@ std::string
 DetID::subdetector_to_string(const Subdetector& type)
 {
   switch (type) {
+    case Subdetector::kDAQ:
+      return "DAQ";
     case Subdetector::kHD_PDS:
       return "HD_PDS";
     case Subdetector::kHD_TPC:
@@ -93,6 +95,8 @@ DetID::subdetector_to_string(const Subdetector& type)
 DetID::Subdetector
 DetID::string_to_subdetector(const std::string& typestring)
 {
+  if (typestring == "DAQ")
+    return Subdetector::kDAQ;
   if (typestring == "HD_PDS")
     return Subdetector::kHD_PDS;
   if (typestring == "HD_TPC")

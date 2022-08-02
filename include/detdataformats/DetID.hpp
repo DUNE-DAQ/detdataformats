@@ -39,9 +39,10 @@ struct DetID
   enum class Subdetector : Subdetector_t
   {
     kUnknown = 0,
-    kHD_PDS = 1,
-    kHD_TPC = 2,
-    kHD_CRT = 3,
+    kDAQ = 1,
+    kHD_PDS = 2,
+    kHD_TPC = 3,
+    kHD_CRT = 4,
     kVD_CathodePDS = 8,
     kVD_MembranePDS = 9,
     kVD_BottomTPC = 10,
