@@ -76,7 +76,7 @@ class MPDFrame
 
     if ( block_id >= num_blocks ) throw std::out_of_range("Block index out of range");
     if ( i >= num_adc_samples   ) throw std::out_of_range("ADC index out of range");
-    else if ( i >= 2*block[block_id].data_length*sizeof(word_t) ) return 0;
+    else if ( i >= 2*block[block_id].data_length ) return 0;
 
     return block[block_id].data[i];
   }
