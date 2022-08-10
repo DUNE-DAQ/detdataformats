@@ -44,17 +44,17 @@ class MPDFrame
     
   struct MPDDeviceEventBlock {
     //MpdDeviceHeader
-    uint32_t device_serial_num ;
+    uint32_t device_serial_num : 32 ;
     uint32_t device_model_id : 8 , length: 24 ; 
     //MStreamTriggerHeader
     uint32_t trigger_type: 2, trigger_length: 22, trigger_channel_number: 8 ; 
     //Trigger Data
-    word_t event_timestamp ; 
-    word_t flags: 2, event_timestamp_ns: 30 ; 
+    word_t event_timestamp_1: 32 ; 
+    word_t event_timestamp_2: 30, flags: 2 ; 
     uint64_t channel_bit_mask ; 
     //Data header
     word_t type: 2;
-    word_t data_length; 
+    word_t data_length: 32 ; 
     word_t channel_number: 8 ;
     //MStream Data
     uint16_t _null[4]; // unused words
@@ -66,11 +66,6 @@ class MPDFrame
   // =======================================================
   MPDHeader header ; 
   MPDDeviceEventBlock block[num_blocks] ;
-
-  uint16_t get_block( const unsigned int block_id ) const {
-    if ( block_id >= num_blocks ) throw std::out_of_range("Block index out of range");
-    return block[block_id] ; 
-  }
 
   uint16_t get_sample( const unsigned int block_id, const unsigned i ) const {
 
@@ -94,7 +89,7 @@ class MPDFrame
   /** @brief Get the 64-bit timestamp of the frame
    */
   uint64_t get_timestamp() const {
-    return header.timestamp ;
+    return (uint64_t)block[0].event_timestamp_1 | ((uint64_t)block[0].event_timestamp_2 << 32 ) ; 
   }
 
 };
