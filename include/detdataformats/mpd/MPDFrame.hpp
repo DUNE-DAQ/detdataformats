@@ -89,6 +89,7 @@ class MPDFrame
   /** @brief Get the 64-bit timestamp of the frame
    */
   uint64_t get_timestamp() const {
+    // in nanoseconds
     return (uint64_t)block[0].event_timestamp_1 | ((uint64_t)block[0].event_timestamp_2 << 32 ) ; 
   }
 
