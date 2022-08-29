@@ -48,6 +48,8 @@ public:
   static constexpr int s_fembs_per_frame = 2;
   static constexpr int s_num_channels = s_fembs_per_frame * s_channels_per_femb;
   static constexpr int s_num_adc_words = s_num_channels * s_bits_per_adc / s_bits_per_word;
+  static constexpr int s_num_ch_per_frame = s_channels_per_femb * s_fembs_per_frame;
+  
 
   struct Header
   {
@@ -141,6 +143,16 @@ public:
   {
     return (uint64_t)header.timestamp_1 | ((uint64_t)header.timestamp_2 << 32); // NOLINT(build/unsigned)
   }
+
+  /** @brief Set the 64-bit timestamp of the frame
+   */
+  void set_timestamp(const uint64_t new_timestamp) // NOLINT(build/unsigned)
+  {
+    header.timestamp_1 = new_timestamp;
+    header.timestamp_2 = new_timestamp >> 32;
+  }
+
+  
 
 };
 
