@@ -30,6 +30,8 @@ register_wib2(py::module& m)
     } ))
     .def("get_adc", static_cast<uint16_t (WIB2Frame::*)(const int) const>(&WIB2Frame::get_adc))
     .def("get_timestamp", &WIB2Frame::get_timestamp)
+    .def("get_header", [](WIB2Frame& self) -> const WIB2Frame::Header& {return self.header;})
+    .def("get_trailer", [](WIB2Frame& self) -> const WIB2Frame::Trailer& {return self.trailer;})
     .def_static("sizeof", [](){ return sizeof(WIB2Frame); })
   ;
 

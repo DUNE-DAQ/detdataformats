@@ -128,6 +128,6 @@ register_ssp(py::module& m)
   ;
 }
 } // namespace python
-} // namespace wib
+} // namespace ssp
 } // namespace detdataformats
 } // namespace dunedaq
