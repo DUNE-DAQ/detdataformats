@@ -30,6 +30,7 @@ struct TriggerCandidateData
     kADCSimpleWindow = 6,
     kHorizontalMuon = 7,
     kMichelElectron = 8,
+    kLowEnergyEvent = 9,
   };
 
   enum class Algorithm
@@ -41,6 +42,7 @@ struct TriggerCandidateData
     kADCSimpleWindow = 4,
     kHorizontalMuon = 5,
     kMichelElectron = 6, 
+    kLowEnergyEvent = 7,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
