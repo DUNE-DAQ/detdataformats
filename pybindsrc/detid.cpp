@@ -45,7 +45,8 @@ namespace dunedaq::detdataformats::python {
             .value("kVD_MembranePDS", DetID::Subdetector::kVD_MembranePDS)
             .value("kVD_BottomTPC", DetID::Subdetector::kVD_BottomTPC)
             .value("kVD_TopTPC", DetID::Subdetector::kVD_TopTPC)
-            .value("kND_LAr", DetID::Subdetector::kND_LAr)
+            .value("kNDLAr_TPC", DetID::Subdetector::kNDLAr_TPC)
+            .value("kNDLAr_PDS", DetID::Subdetector::kNDLAr_PDS)
             .value("kND_GAr", DetID::Subdetector::kND_GAr)
             .export_values();
 
