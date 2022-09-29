@@ -47,8 +47,9 @@ struct DetID
     kVD_MembranePDS = 9,
     kVD_BottomTPC = 10,
     kVD_TopTPC = 11,
-    kND_LAr = 32,
-    kND_GAr = 33
+    kNDLAr_TPC = 32,
+    kNDLAr_PDS = 33,
+    kND_GAr = 34
   };
 
   /**
