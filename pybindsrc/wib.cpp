@@ -34,8 +34,17 @@ register_wib(py::module& m)
     .def("get_channel", static_cast<uint16_t (WIBFrame::*)(const uint8_t, const uint8_t, const uint8_t) const>(&WIBFrame::get_channel))
     .def("get_channel", static_cast<uint16_t (WIBFrame::*)(const uint8_t, const uint8_t) const>(&WIBFrame::get_channel))
     .def("get_channel", static_cast<uint16_t (WIBFrame::*)(const uint8_t) const>(&WIBFrame::get_channel))
+    .def("set_channel", static_cast<void (WIBFrame::*)(const uint8_t, const uint16_t)>(&WIBFrame::set_channel))
     .def("get_timestamp", &WIBFrame::get_timestamp)
     .def_static("sizeof", [](){ return sizeof(WIBFrame); })
+    .def("get_bytes",
+         [](WIBFrame* fr) -> py::bytes {
+          std::vector<char> v;
+          auto p = reinterpret_cast<char*>(fr);
+          for (size_t i = 0; i < sizeof(WIBFrame); i++, p++) v.push_back(*p);
+          return py::bytes(v.data(), sizeof(WIBFrame));
+        }
+    )
   ;
 
   py::class_<WIBHeader>(m, "WIBHeader")

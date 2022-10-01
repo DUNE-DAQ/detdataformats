@@ -29,10 +29,19 @@ register_wib2(py::module& m)
         return wfp;
     } ))
     .def("get_adc", static_cast<uint16_t (WIB2Frame::*)(const int) const>(&WIB2Frame::get_adc))
+    .def("set_adc", static_cast<void (WIB2Frame::*)(int, uint16_t)>(&WIB2Frame::set_adc))
     .def("get_timestamp", &WIB2Frame::get_timestamp)
     .def("get_header", [](WIB2Frame& self) -> const WIB2Frame::Header& {return self.header;})
     .def("get_trailer", [](WIB2Frame& self) -> const WIB2Frame::Trailer& {return self.trailer;})
     .def_static("sizeof", [](){ return sizeof(WIB2Frame); })
+    .def("get_bytes",
+         [](WIB2Frame* fr) -> py::bytes {
+          std::vector<char> v;
+          auto p = reinterpret_cast<char*>(fr);
+          for (size_t i = 0; i < sizeof(WIB2Frame); i++, p++) v.push_back(*p);
+          return py::bytes(v.data(), sizeof(WIB2Frame));
+        }
+    )
   ;
 
   py::class_<WIB2Frame::Header>(m, "WIB2Header")
