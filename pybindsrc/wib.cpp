@@ -39,10 +39,7 @@ register_wib(py::module& m)
     .def_static("sizeof", [](){ return sizeof(WIBFrame); })
     .def("get_bytes",
          [](WIBFrame* fr) -> py::bytes {
-          std::vector<char> v;
-          auto p = reinterpret_cast<char*>(fr);
-          for (size_t i = 0; i < sizeof(WIBFrame); i++, p++) v.push_back(*p);
-          return py::bytes(v.data(), sizeof(WIBFrame));
+           return py::bytes(reinterpret_cast<char*>(fr), sizeof(WIBFrame));
         }
     )
   ;
