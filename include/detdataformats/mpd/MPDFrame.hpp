@@ -40,7 +40,6 @@ class MPDFrame
     word_t SyncMagic = 0x2A502A50 ;
     word_t length ;
     word_t event_num ; 
-    // THIS SHOULD NOT BE HERE
     //MpdDeviceHeader
     word_t device_serial_num ;
     word_t device_length : 24, device_model_id : 8;  
