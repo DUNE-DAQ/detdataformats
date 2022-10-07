@@ -16,7 +16,8 @@
 #include <bitset>
 #include <iostream>
 #include <stdint.h>
-#include <vector>
+#include <vector> 
+#include <fmt/format.h>
 
 namespace dunedaq {
 namespace detdataformats {
@@ -30,69 +31,88 @@ class MPDFrame
   public:
 
   typedef uint32_t word_t ; // NOLINT(build/unsigned)
-  static constexpr int num_blocks = 1 ; // only one for now
-  static constexpr int num_adc_samples = 2048 ;
+  static constexpr unsigned int num_adc_samples = 2048 ;
   
   struct MPDHeader {
-    uint32_t timestamp_sync = 0x3f60b8a8 ;
-    uint32_t lenght = 0x00000008 ;
-    uint64_t timestamp ; // timestamp taken from the operating system
-    uint32_t SyncMagic = 0x2A502A50 ;
-    uint32_t length ;
-    uint32_t event_num ; 
-  };
-    
-  struct MPDDeviceEventBlock {
+    word_t timestamp_sync = 0x3f60b8a8 ;
+    word_t lenght = 0x00000008 ;
+    uint64_t timestamp_OS ; // timestamp taken from the operating system
+    word_t SyncMagic = 0x2A502A50 ;
+    word_t length ;
+    word_t event_num ; 
+    // THIS SHOULD NOT BE HERE
     //MpdDeviceHeader
-    uint32_t device_serial_num : 32 ;
-    uint32_t device_model_id : 8 , length: 24 ; 
+    word_t device_serial_num ;
+    word_t device_length : 24, device_model_id : 8;  
     //MStreamTriggerHeader
-    uint32_t trigger_type: 2, trigger_length: 22, trigger_channel_number: 8 ; 
+    word_t trigger_type: 2, trigger_length: 22, trigger_channel_number: 8 ; 
     //Trigger Data
     word_t event_timestamp_1: 32 ; 
-    word_t event_timestamp_2: 30, flags: 2 ; 
+    word_t flags: 2, event_timestamp_2: 30 ; 
     uint64_t channel_bit_mask ; 
     //Data header
-    word_t type: 2;
-    word_t data_length: 32 ; 
-    word_t channel_number: 8 ;
-    //MStream Data
-    uint16_t _null[4]; // unused words
-    uint16_t data[num_adc_samples];
-  };  
+    word_t data_type: 2, data_length: 22, channel_number: 8 ;
+
+  };
+    
 
   // =======================================================
   // Data members 
   // =======================================================
   MPDHeader header ; 
-  MPDDeviceEventBlock block[num_blocks] ;
+  //MStream Data
+  uint64_t _null; // unused words
+  uint16_t data[num_adc_samples];
 
-  uint16_t get_sample( const unsigned int block_id, const unsigned i ) const {
-
-    if ( block_id >= num_blocks ) throw std::out_of_range("Block index out of range");
-    if ( i >= num_adc_samples   ) throw std::out_of_range("ADC index out of range");
-    else if ( i >= 2*block[block_id].data_length ) return 0;
-
-    return block[block_id].data[i];
+  uint16_t get_sample( const unsigned i ) const {
+    if ( i >= num_adc_samples   ) throw std::out_of_range("Index out of range");
+    return data[i];
   }
 
-  void set_adc(const unsigned int block_id, const unsigned int i, uint16_t val) {
-
-    if ( block_id >= num_blocks ) throw std::out_of_range("Block index out of range");
-    if ( i >= num_adc_samples   ) throw std::out_of_range("ADC index out of range");
-
-    block[block_id].data[i] = val ; 
+  void set_value( const unsigned int i, uint16_t val ) {
+    if ( i >= num_adc_samples   ) throw std::out_of_range("Index out of range");
+    data[i] = val ; 
     return; 
   }
-
 
   /** @brief Get the 64-bit timestamp of the frame
    */
   uint64_t get_timestamp() const {
     // in nanoseconds
-    return (uint64_t)block[0].event_timestamp_1 | ((uint64_t)block[0].event_timestamp_2 << 32 ) ; 
+    return (uint64_t)header.event_timestamp_1 | ((uint64_t)header.event_timestamp_2 << 32 ) ; 
   }
 
+  /** Adding some helper functions **/
+  void print_content_header() const {
+    TLOG_DEBUG(1) << " Time stamp syncronization number "<< fmt::format("{:#x}", header.timestamp_sync );// 0x3f60b8a8	 
+    TLOG_DEBUG(1) << " Time stamp Operation System "<< header.timestamp_OS ;
+    TLOG_DEBUG(1) << " Sync Magic = " << fmt::format("{:#x}", header.SyncMagic) ; //0x2A502A50
+    TLOG_DEBUG(1) << " Length = " << header.length ; 
+    TLOG_DEBUG(1) << " Event Number = "<< header.event_num ; 
+    TLOG_DEBUG(1) << " Device serial number = " << header.device_serial_num ; 
+    TLOG_DEBUG(1) << " Block length = " << header.device_length ;
+    TLOG_DEBUG(1) << " Device model ID = " << header.device_model_id ;
+    TLOG_DEBUG(1) << " Trigger Type = " << header.trigger_type ;
+    TLOG_DEBUG(1) << " Trigger Length = " << header.trigger_length ; 
+    TLOG_DEBUG(1) << " Trigger channel number = " << header.trigger_channel_number ; 
+    TLOG_DEBUG(1) << " Event Timestamp 1 = "<< header.event_timestamp_1 ; 
+    TLOG_DEBUG(1) << " Event Timestamp 2 = " << header.event_timestamp_2 ; 
+    TLOG_DEBUG(1) << " Flags = " << header.flags ; 
+    TLOG_DEBUG(1) << " Channel bit mask = " << header.channel_bit_mask ; 
+    TLOG_DEBUG(1) << " Type of data = " << header.data_type ; 
+    TLOG_DEBUG(1) << " Data length = " << header.data_length ; 
+    TLOG_DEBUG(1) << " Channel number = " << header.channel_number ;  
+  }
+
+  void print_content_data(const unsigned int id) const {
+    TLOG_DEBUG(1) << " Data " << id << ": " << data[id] ; 
+  }
+ 
+  void print_content_data() const {
+    for ( unsigned int i = 0 ; i < num_adc_samples ; ++i ) {
+      print_content_data(i);
+    }
+  }  
 };
 
 } // namespace mpd
