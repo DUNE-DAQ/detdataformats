@@ -17,7 +17,7 @@
 #include <iostream>
 #include <stdint.h>
 #include <vector> 
-#include <fmt/format.h>
+//#include <fmt/format.h>
 
 namespace dunedaq {
 namespace detdataformats {
@@ -31,13 +31,13 @@ class MPDFrame
   public:
 
   typedef uint32_t word_t ; // NOLINT(build/unsigned)
-  static constexpr unsigned int num_adc_samples = 2048 ;
+  static constexpr unsigned int num_samples = 2048 ;
   
   struct MPDHeader {
-    word_t timestamp_sync = 0x3f60b8a8 ;
-    word_t lenght = 0x00000008 ;
+    word_t timestamp_sync ; // 0x3f60b8a8 ;
+    word_t timestamp_length ; // 0x00000008 ;
     uint64_t timestamp_OS ; // timestamp taken from the operating system
-    word_t SyncMagic = 0x2A502A50 ;
+    word_t SyncMagic ; // 0x2A502A50 ;
     word_t length ;
     word_t event_num ; 
     //MpdDeviceHeader
@@ -51,7 +51,6 @@ class MPDFrame
     uint64_t channel_bit_mask ; 
     //Data header
     word_t data_type: 2, data_length: 22, channel_number: 8 ;
-
   };
     
 
@@ -61,15 +60,15 @@ class MPDFrame
   MPDHeader header ; 
   //MStream Data
   uint64_t _null; // unused words
-  uint16_t data[num_adc_samples];
+  uint16_t data[num_samples];
 
   uint16_t get_sample( const unsigned i ) const {
-    if ( i >= num_adc_samples   ) throw std::out_of_range("Index out of range");
+    if ( i >= num_samples   ) throw std::out_of_range("Index out of range");
     return data[i];
   }
 
   void set_value( const unsigned int i, uint16_t val ) {
-    if ( i >= num_adc_samples   ) throw std::out_of_range("Index out of range");
+    if ( i >= num_samples   ) throw std::out_of_range("Index out of range");
     data[i] = val ; 
     return; 
   }
