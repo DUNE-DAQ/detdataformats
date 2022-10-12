@@ -17,7 +17,6 @@
 #include <iostream>
 #include <stdint.h>
 #include <vector> 
-//#include <fmt/format.h>
 
 namespace dunedaq {
 namespace detdataformats {
@@ -80,37 +79,6 @@ class MPDFrame
     return (uint64_t)header.event_timestamp_1 | ((uint64_t)header.event_timestamp_2 << 32 ) ; 
   }
 
-  /** Adding some helper functions **/
-  void print_content_header() const {
-    TLOG_DEBUG(1) << " Time stamp syncronization number "<< fmt::format("{:#x}", header.timestamp_sync );// 0x3f60b8a8	 
-    TLOG_DEBUG(1) << " Time stamp Operation System "<< header.timestamp_OS ;
-    TLOG_DEBUG(1) << " Sync Magic = " << fmt::format("{:#x}", header.SyncMagic) ; //0x2A502A50
-    TLOG_DEBUG(1) << " Length = " << header.length ; 
-    TLOG_DEBUG(1) << " Event Number = "<< header.event_num ; 
-    TLOG_DEBUG(1) << " Device serial number = " << header.device_serial_num ; 
-    TLOG_DEBUG(1) << " Block length = " << header.device_length ;
-    TLOG_DEBUG(1) << " Device model ID = " << header.device_model_id ;
-    TLOG_DEBUG(1) << " Trigger Type = " << header.trigger_type ;
-    TLOG_DEBUG(1) << " Trigger Length = " << header.trigger_length ; 
-    TLOG_DEBUG(1) << " Trigger channel number = " << header.trigger_channel_number ; 
-    TLOG_DEBUG(1) << " Event Timestamp 1 = "<< header.event_timestamp_1 ; 
-    TLOG_DEBUG(1) << " Event Timestamp 2 = " << header.event_timestamp_2 ; 
-    TLOG_DEBUG(1) << " Flags = " << header.flags ; 
-    TLOG_DEBUG(1) << " Channel bit mask = " << header.channel_bit_mask ; 
-    TLOG_DEBUG(1) << " Type of data = " << header.data_type ; 
-    TLOG_DEBUG(1) << " Data length = " << header.data_length ; 
-    TLOG_DEBUG(1) << " Channel number = " << header.channel_number ;  
-  }
-
-  void print_content_data(const unsigned int id) const {
-    TLOG_DEBUG(1) << " Data " << id << ": " << data[id] ; 
-  }
- 
-  void print_content_data() const {
-    for ( unsigned int i = 0 ; i < num_adc_samples ; ++i ) {
-      print_content_data(i);
-    }
-  }  
 };
 
 } // namespace mpd
