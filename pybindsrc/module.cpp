@@ -52,6 +52,12 @@ extern void register_hsi(py::module &);
 }
 }
 
+namespace mpd {
+namespace python {
+extern void register_mpd(py::module &);    
+}
+}
+
 namespace python {
 
     extern void
@@ -80,6 +86,9 @@ PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     py::module_ hsi_module = m.def_submodule("hsi");
     hsi::python::register_hsi(hsi_module);
+
+    py::module_ mpd_module = m.def_submodule("mpd");
+    mpd::python::register_mpd(mpd_module);
 }
 
 } // namespace python
