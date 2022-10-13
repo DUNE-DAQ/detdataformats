@@ -29,31 +29,45 @@ register_mpd(py::module& m)
         return wfp;
     } ))
     .def("get_timestamp", &MPDFrame::get_timestamp)
-    .def("get_header", [](MPDFrame& self) -> const MPDFrame::MPDHeader& {return self.header;})
+    .def("get_OSheader", [](MPDFrame& self) -> const MPDFrame::MPDOSHeader& {return self.OSheader;})
+    .def("get_event_header", [](MPDFrame& self) -> const MPDFrame::MPDEventHeader& {return self.event_header;})
+    .def("get_device_header", [](MPDFrame& self) -> const MPDFrame::MPDDeviceHeader& {return self.device_header;})
+    .def("get_trigger_header", [](MPDFrame& self) -> const MPDFrame::MPDTriggerHeader& {return self.trigger_header;})
+    .def("get_trigger_data_header", [](MPDFrame& self) -> const MPDFrame::MPDTriggerDataHeader& {return self.trigger_data_header;})
+    .def("get_data_header", [](MPDFrame& self) -> const MPDFrame::MPDDataHeader& {return self.data_header;})
     .def_static("sizeof", [](){ return sizeof(MPDFrame); })
   ;
 
-  py::class_<MPDFrame::MPDHeader>(m, "MPDHeader")
-    .def_property_readonly("timestamp_sync", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.timestamp_sync;})
-    .def_property_readonly("timestamp_length", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.timestamp_length;})
-    .def_property_readonly("timestamp_OS", [](MPDFrame::MPDHeader& self) -> uint64_t {return self.timestamp_OS;})
-    .def_property_readonly("SyncMagic", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.SyncMagic;})
-    .def_property_readonly("timestamp_sync", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.timestamp_sync;})
-    .def_property_readonly("length", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.length;})
-    .def_property_readonly("event_num", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.event_num;})
-    .def_property_readonly("device_serial_num", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.device_serial_num;})
-    .def_property_readonly("device_length", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.device_length;})
-    .def_property_readonly("device_model_id", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.device_model_id;})
-    .def_property_readonly("trigger_type", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.trigger_type;})
-    .def_property_readonly("trigger_length", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.trigger_length;})
-    .def_property_readonly("trigger_channel_number", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.trigger_channel_number;})
-    .def_property_readonly("event_timestamp_1", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.event_timestamp_1;})
-    .def_property_readonly("flags", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.flags;})
-    .def_property_readonly("event_timestamp_2", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.event_timestamp_2;})
-    .def_property_readonly("channel_bit_mask", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.channel_bit_mask;})
-    .def_property_readonly("data_type", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.data_type;})
-    .def_property_readonly("data_length", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.data_length;})
-    .def_property_readonly("channel_number", [](MPDFrame::MPDHeader& self) -> uint32_t {return self.channel_number;});
+  py::class_<MPDFrame::MPDOSHeader>(m, "MPDOSHeader")
+    .def_property_readonly("timestamp_sync", [](MPDFrame::MPDOSHeader& self) -> uint32_t {return self.timestamp_sync;})
+    .def_property_readonly("timestamp_length", [](MPDFrame::MPDOSHeader& self) -> uint32_t {return self.timestamp_length;})
+    .def_property_readonly("timestamp_OS", [](MPDFrame::MPDOSHeader& self) -> uint64_t {return self.timestamp_OS;});
+
+  py::class_<MPDFrame::MPDEventHeader>(m, "MPDEventHeader")
+    .def_property_readonly("SyncMagic", [](MPDFrame::MPDEventHeader& self) -> uint32_t {return self.SyncMagic;})
+    .def_property_readonly("length", [](MPDFrame::MPDEventHeader& self) -> uint32_t {return self.length;})
+    .def_property_readonly("event_num", [](MPDFrame::MPDEventHeader& self) -> uint32_t {return self.event_num;});
+
+  py::class_<MPDFrame::MPDDeviceHeader>(m, "MPDDeviceHeader")
+    .def_property_readonly("device_serial_num", [](MPDFrame::MPDDeviceHeader& self) -> uint32_t {return self.device_serial_num;})
+    .def_property_readonly("device_length", [](MPDFrame::MPDDeviceHeader& self) -> uint32_t {return self.device_length;})
+    .def_property_readonly("device_model_id", [](MPDFrame::MPDDeviceHeader& self) -> uint32_t {return self.device_model_id;});
+
+  py::class_<MPDFrame::MPDTriggerHeader>(m, "MPDTriggerHeader")
+    .def_property_readonly("trigger_type", [](MPDFrame::MPDTriggerHeader& self) -> uint32_t {return self.trigger_type;})
+    .def_property_readonly("trigger_length", [](MPDFrame::MPDTriggerHeader& self) -> uint32_t {return self.trigger_length;})
+    .def_property_readonly("trigger_channel_number", [](MPDFrame::MPDTriggerHeader& self) -> uint32_t {return self.trigger_channel_number;});
+
+  py::class_<MPDFrame::MPDTriggerDataHeader>(m, "MPDTriggerDataHeader")
+    .def_property_readonly("event_timestamp_1", [](MPDFrame::MPDTriggerDataHeader& self) -> uint32_t {return self.event_timestamp_1;})
+    .def_property_readonly("flags", [](MPDFrame::MPDTriggerDataHeader& self) -> uint32_t {return self.flags;})
+    .def_property_readonly("event_timestamp_2", [](MPDFrame::MPDTriggerDataHeader& self) -> uint32_t {return self.event_timestamp_2;})
+    .def_property_readonly("channel_bit_mask", [](MPDFrame::MPDTriggerDataHeader& self) -> uint32_t {return self.channel_bit_mask;});
+
+  py::class_<MPDFrame::MPDDataHeader>(m, "MPDDataHeader")
+    .def_property_readonly("data_type", [](MPDFrame::MPDDataHeader& self) -> uint32_t {return self.data_type;})
+    .def_property_readonly("data_length", [](MPDFrame::MPDDataHeader& self) -> uint32_t {return self.data_length;})
+    .def_property_readonly("channel_number", [](MPDFrame::MPDDataHeader& self) -> uint32_t {return self.channel_number;});
 }
 
 } // namespace python
