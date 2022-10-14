@@ -11,6 +11,7 @@
 #define DETDATAFORMATS_INCLUDE_DETDATAFORMATS_DAQHEADER_HPP_
 
 #include <cstdint>
+#include <ostream>
 
 namespace dunedaq::detdataformats {
 

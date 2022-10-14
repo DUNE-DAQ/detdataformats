@@ -68,18 +68,24 @@ public:
   // Accessors
   // ===============================================================
 
+  uint64_t get_timestamp() const 
+  {
+    return daq_header.get_timestamp();
+  }
+
   /**
    * @brief Get the @p i ADC value of @p chn in the frame
    */
-  uint16_t get_adc(int i, int chn) const // NOLINT
+  uint16_t get_adc(int /*i*/, int /*chn*/) const // NOLINT
   {
     // RS FIXME: TBA
+    return 0;
   }
 
   /**
    * @brief Set the @p i ADC value of @p chn in the frame to @p val
    */
-  void set_adc(int i, int chn, uint16_t val) // NOLINT
+  void set_adc(int /*i*/, int /*chn*/, uint16_t /*val*/) // NOLINT
   {
     // RS FIXME: TBA
   }
