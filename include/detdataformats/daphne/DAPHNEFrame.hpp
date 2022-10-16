@@ -125,7 +125,7 @@ public:
     // If we didn't put the full 14 bits in this word, we need to put the rest in the next word
     if (bits_in_first_word < s_bits_per_adc) {
       assert(word_index + 1 < s_num_adc_words);
-            mask = (1 << (s_bits_per_adc - bits_in_first_word)) - 1;
+      mask = (1 << (s_bits_per_adc - bits_in_first_word)) - 1;
       adc_words[word_index + 1] = ((val >> bits_in_first_word) & mask) | (adc_words[word_index + 1] & ~mask);
     }
   }
