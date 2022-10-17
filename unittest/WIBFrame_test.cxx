@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(WIBHeader_TimestampMethods)
 }
 BOOST_AUTO_TEST_CASE(WIBHeader_StreamMethods)
 {
-  WIBHeader header;
+  WIBHeader header {};
 
   std::ostringstream ostr;
   header.print_hex(ostr);
@@ -189,7 +189,7 @@ BOOST_AUTO_TEST_CASE(ColdataHeader_HdrMethods)
 }
 BOOST_AUTO_TEST_CASE(ColdataHeader_StreamMethods)
 {
-  ColdataHeader header;
+  ColdataHeader header {};
 
   std::ostringstream ostr;
   header.print_hex(ostr);
@@ -216,7 +216,7 @@ BOOST_AUTO_TEST_CASE(ColdataHeader_StreamMethods)
 
 BOOST_AUTO_TEST_CASE(ColdataSegment_ChannelMethods)
 {
-  ColdataSegment segment;
+  ColdataSegment segment {};
   segment.adc0ch0_1 = 0x11;
   segment.adc1ch0_1 = 0x22;
   segment.adc0ch0_2 = 0x3;
@@ -369,7 +369,7 @@ BOOST_AUTO_TEST_CASE(ColdataBlock_ChannelMethods)
 }
 BOOST_AUTO_TEST_CASE(ColdataBlock_StreamOperator)
 {
-  ColdataBlock block;
+  ColdataBlock block {};
 
   std::ostringstream ostr;
   ostr << block;
@@ -380,7 +380,7 @@ BOOST_AUTO_TEST_CASE(ColdataBlock_StreamOperator)
 
 BOOST_AUTO_TEST_CASE(WIBFrame_StructMethods)
 {
-  WIBFrame frame;
+  WIBFrame frame {};
 
   BOOST_REQUIRE(frame.get_wib_header() != nullptr);
   BOOST_REQUIRE(frame.get_coldata_header(0) != nullptr);
@@ -461,7 +461,7 @@ BOOST_AUTO_TEST_CASE(WIBFrame_BlockChannelMethods)
 }
 BOOST_AUTO_TEST_CASE(WIBFrame_StreamOperator)
 {
-  WIBFrame frame;
+  WIBFrame frame {};
 
   std::ostringstream ostr;
   ostr << frame;
