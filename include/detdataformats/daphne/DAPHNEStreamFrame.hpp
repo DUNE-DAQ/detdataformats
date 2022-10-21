@@ -73,6 +73,15 @@ public:
     return daq_header.get_timestamp();
   }
 
+  /** @brief Set the 64-bit timestamp of the frame
+  */
+  void set_timestamp(const uint64_t new_timestamp) // NOLINT(build/unsigned)
+  {
+    daq_header.timestamp_1 = new_timestamp;
+    daq_header.timestamp_2 = new_timestamp >> 32;
+  }
+
+
   /**
    * @brief Get the @p i ADC value of @p chn in the frame
    */
