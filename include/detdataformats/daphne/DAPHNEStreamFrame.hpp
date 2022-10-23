@@ -85,18 +85,68 @@ public:
   /**
    * @brief Get the @p i ADC value of @p chn in the frame
    */
-  uint16_t get_adc(int /*i*/, int /*chn*/) const // NOLINT
+  uint16_t get_adc(uint i, uint chn) const // NOLINT
   {
-    // RS FIXME: TBA
-    return 0;
+
+    if (i >= s_adcs_per_channel)
+      throw std::out_of_range("ADC index out of range");
+
+    if (chn >= s_channels_per_frame)
+      throw std::out_of_range("ADC index out of range");
+
+    // find absolute index in frame
+    uint j = i*s_channels_per_frame+chn;
+    // The index of the first (and sometimes only) word containing the required ADC value
+    uint word_index = s_bits_per_adc * j / s_bits_per_word;
+    assert(word_index < s_num_adc_words);
+    // Where in the word the lowest bit of our ADC value is located
+    int first_bit_position = (s_bits_per_adc * j) % s_bits_per_word;
+    // How many bits of our desired ADC are located in the `word_index`th word
+    int bits_from_first_word = std::min(s_bits_per_adc, s_bits_per_word - first_bit_position);
+    uint16_t adc = adc_words[word_index] >> first_bit_position; // NOLINT(build/unsigned)
+
+    if (bits_from_first_word < s_bits_per_adc) {
+      assert(word_index + 1 < s_num_adc_words);
+      adc |= adc_words[word_index + 1] << bits_from_first_word;
+    }
+    // Mask out all but the lowest 14 bits;
+    return adc & 0x3FFFu;
   }
 
   /**
    * @brief Set the @p i ADC value of @p chn in the frame to @p val
    */
-  void set_adc(int /*i*/, int /*chn*/, uint16_t /*val*/) // NOLINT
+  void set_adc(uint i, uint chn, uint16_t val) // NOLINT
   {
-    // RS FIXME: TBA
+
+    if (i >= s_adcs_per_channel)
+      throw std::out_of_range("ADC index out of range");
+
+    if (chn >= s_channels_per_frame)
+      throw std::out_of_range("ADC index out of range");
+
+    if (val >= (1 << s_bits_per_adc))
+      throw std::out_of_range("ADC value out of range");
+
+
+    // find absolute index in frame
+    uint j = i*s_channels_per_frame+chn;
+    // The index of the first (and sometimes only) word containing the required ADC value
+    int word_index = s_bits_per_adc * j / s_bits_per_word;
+    assert(word_index < s_num_adc_words);
+    // Where in the word the lowest bit of our ADC value is located
+    int first_bit_position = (s_bits_per_adc * j) % s_bits_per_word;
+    // How many bits of our desired ADC are located in the `word_index`th word
+    int bits_in_first_word = std::min(s_bits_per_adc, s_bits_per_word - first_bit_position);
+    uint32_t mask = (1 << (first_bit_position)) - 1;
+    adc_words[word_index] = ((val << first_bit_position) & ~mask) | (adc_words[word_index] & mask);
+    // If we didn't put the full 14 bits in this word, we need to put the rest in the next word
+    if (bits_in_first_word < s_bits_per_adc) {
+      assert(word_index + 1 < s_num_adc_words);
+      mask = (1 << (s_bits_per_adc - bits_in_first_word)) - 1;
+      adc_words[word_index + 1] = ((val >> bits_in_first_word) & mask) | (adc_words[word_index + 1] & ~mask);
+    }
+
   }
 };
 
