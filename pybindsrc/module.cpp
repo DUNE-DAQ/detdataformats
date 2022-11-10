@@ -8,60 +8,20 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include "submodules.hpp"
 
 namespace py = pybind11;
 
-
-
 namespace dunedaq {
 namespace detdataformats {
-
-namespace wib {
 namespace python {
-extern void register_wib(py::module &);
-}
-}
-
-namespace wib2 {
-namespace python {
-  extern void register_wib2(py::module &);
-}
-}
-
-namespace daphne {
-namespace python {
-  extern void register_daphne(py::module &);
-}
-}
-
-namespace ssp {
-namespace python {
-extern void register_ssp(py::module &);    
-}
-}
-
-namespace trigger {
-namespace python {
-extern void register_trigger_primitive(py::module &);    
-}
-}
-
-namespace hsi {
-namespace python {
-extern void register_hsi(py::module &);    
-}
-}
-
-namespace python {
-
-    extern void
-        register_detid(py::module&);
 
 PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     m.doc() = "c++ implementation of the dunedaq detdataformats modules"; // optional module docstring
 
-    register_detid(m);
+    python::register_detid(m);
+    python::register_daqheader(m);
 
     py::module_ wib_module = m.def_submodule("wib");
     wib::python::register_wib(wib_module);
