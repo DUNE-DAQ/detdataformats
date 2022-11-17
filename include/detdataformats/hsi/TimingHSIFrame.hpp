@@ -11,7 +11,7 @@
 #ifndef DETDATAFORMATS_INCLUDE_HSI_TIMINGHSIFRAME_HPP_
 #define DETDATAFORMATS_INCLUDE_HSI_TIMINGHSIFRAME_HPP_
 
-#include <stdint.h>  // For uint32_t etc
+#include <cstdint>  // For uint32_t etc
 
 namespace dunedaq {
 namespace detdataformats {
