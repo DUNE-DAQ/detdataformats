@@ -52,7 +52,7 @@ public:
   static constexpr int s_num_adc_words = s_time_samples_per_frame * s_num_channels * s_bits_per_adc / s_bits_per_word;
   
 
-  struct Header
+  struct WIBHeader
   {	  
     word_t colddata_timestamp_0 : 15, colddata_timestamp_1 : 15, crc_err : 2, link_valid : 2, lol : 1, wib_sync : 1, femb_sync : 2, pulser : 1, calibration : 1, ready : 1, context : 8, reserved : 3, version : 4, channel : 8;
   };
