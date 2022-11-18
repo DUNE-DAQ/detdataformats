@@ -16,7 +16,7 @@
 namespace dunedaq::detdataformats {
 
 /**
- * @brief DAQHeader is a versioned and unified structure for every FE electronics.
+ * @brief DAQEthHeader is a versioned and unified structure for every FE electronics.
  */
 struct DAQEthHeader 
 {
@@ -32,7 +32,7 @@ struct DAQEthHeader
 };
 
 inline std::ostream&
-operator<<(std::ostream& o, DAQHeader const& h)
+operator<<(std::ostream& o, DAQEthHeader const& h)
 {
   return o << "Version:" << unsigned(h.version) << " DetID:" << unsigned(h.det_id) << " CrateID:" << unsigned(h.crate_id)
            << " SlotID:" << unsigned(h.slot_id) << " StreamID:" << unsigned(h.stream_id)

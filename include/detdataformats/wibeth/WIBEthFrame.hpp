@@ -61,7 +61,7 @@ public:
   // Data members
   // ===============================================================
   detdataformats::DAQEthHeader daq_header;
-  Header header;
+  WIBHeader header;
   word_t adc_words[s_num_adc_words_per_ts][s_time_samples_per_frame]; // NOLINT
 
   // ===============================================================
@@ -115,7 +115,7 @@ public:
     // How many bits of our desired ADC are located in the `word_index`th word
     int bits_in_first_word = std::min(s_bits_per_adc, s_bits_per_word - first_bit_position);
     uint64_t mask = (1 << (first_bit_position)) - 1;
-    adc_words[word_index][sample] = ((val << first_bit_position) & ~mask) | (adc_words[word_index] & mask);
+    adc_words[word_index][sample] = ((val << first_bit_position) & ~mask) | (adc_words[word_index][sample] & mask);
     // If we didn't put the full 14 bits in this word, we need to put the rest in the next word
     if (bits_in_first_word < s_bits_per_adc) {
       assert(word_index + 1 < s_num_adc_words);
@@ -137,9 +137,6 @@ public:
   {
     daq_header.timestamp = new_timestamp;
   }
-
-  
-
 };
 
 } // namespace wibeth
