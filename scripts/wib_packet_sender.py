@@ -16,24 +16,25 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 
 def cli(address, port, time_seconds):
-    console.log(f"Preparing to send WIB packets to {address}:{port} for {time} seconds")
+    console.log(f"Preparing to send WIB packets to {address}:{port} for {time_seconds} seconds")
     sock = socket.socket(socket.AF_INET, # Internet
                      socket.SOCK_DGRAM) # UDP
 
     wf = detdataformats.wibeth.WIBEthFrame()
-    wf.get_daq_header().det_id       = 3
-    wf.get_daq_header().stream_id    = 0
-    wf.get_daq_header().seq_id       = 0
-    wf.get_daq_header().block_length = 0x382
-    wf.get_daq_header().timestamp    = 0
+    wf.get_daqheader().det_id       = 3
+    wf.get_daqheader().stream_id    = 0
+    wf.get_daqheader().seq_id       = 0
+    wf.get_daqheader().block_length = 0x382
+    wf.get_daqheader().timestamp    = 0
 
     sent_pkts = 0
     timeout = time.time() + time_seconds
     while time.time() < timeout:        
         sock.sendto(wf.get_bytes(), (address, port))
         sent_pkts +=1
-        wf.get_daq_header().timestamp += (32*64)
-        wf.get_daq_header().seq_id +=1
+        wf.get_daqheader().timestamp += (32*64)
+        wf.get_daqheader().seq_id +=1
+        time.sleep(1)
     console.log(f"Sent {sent_pkts} WIB packets")
 
 if __name__ == '__main__':

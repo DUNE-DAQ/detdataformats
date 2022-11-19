@@ -59,6 +59,10 @@ void register_daqethheader(py::module& m) {
       [](DAQEthHeader& self) -> uint32_t { return self.block_length; },
       [](DAQEthHeader& self, uint32_t block_length) { self.block_length = block_length; }
       )
+     .def_property("timestamp",
+      [](DAQEthHeader& self) -> uint64_t { return self.timestamp; },
+      [](DAQEthHeader& self, uint64_t timestamp) { self.timestamp = timestamp; }
+      )
      .def("get_timestamp", &DAQEthHeader::get_timestamp)
     ;
 }
