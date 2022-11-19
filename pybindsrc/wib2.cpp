@@ -56,8 +56,8 @@ register_wib2(py::module& m)
     .def_property_readonly("femb_pulser_frame_bits", [](WIB2Frame::Header& self) -> uint32_t {return self.femb_pulser_frame_bits;})
     .def_property_readonly("femb_sync_flags", [](WIB2Frame::Header& self) -> uint32_t {return self.femb_sync_flags;})
     .def_property_readonly("colddata_timestamp", [](WIB2Frame::Header& self) -> uint32_t {return self.colddata_timestamp;})
-
   ;
+  
   py::class_<WIB2Frame::Trailer>(m, "WIB2Trailer")
     .def_property_readonly("flex_bits", [](WIB2Frame::Trailer& self) -> uint32_t {return self.flex_bits;})
     .def_property_readonly("ws", [](WIB2Frame::Trailer& self) -> uint32_t {return self.ws;})

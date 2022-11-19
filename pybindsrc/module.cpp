@@ -40,6 +40,9 @@ PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     py::module_ hsi_module = m.def_submodule("hsi");
     hsi::python::register_hsi(hsi_module);
+
+    py::module_ tde_module = m.def_submodule("tde");
+    tde::python::register_tde(tde_module);
 }
 
 } // namespace python
