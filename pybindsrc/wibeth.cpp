@@ -22,26 +22,8 @@ void
 register_wibeth(py::module& m)
 {
 
-  py::class_<WIBEthFrame>(m, "WIBEthFrame", py::buffer_protocol())
-    .def(py::init())
-    .def(py::init([](py::capsule capsule) {
-        auto wfp = *static_cast<WIBEthFrame*>(capsule.get_pointer());
-        return wfp;
-    } ))
-    .def("get_daqheader", [](WIBEthFrame& self) -> const DAQEthHeader& {return self.daq_header;}, py::return_value_policy::reference_internal)
-    .def("get_wibheader", [](WIBEthFrame& self) -> const WIBEthFrame::WIBHeader& {return self.header;}, py::return_value_policy::reference_internal)
-    .def("get_adc", static_cast<uint16_t (WIBEthFrame::*)(const int, const int) const>(&WIBEthFrame::get_adc))
-    .def("set_adc", static_cast<void (WIBEthFrame::*)(int, int, uint16_t)>(&WIBEthFrame::set_adc))
-    .def("get_timestamp", &WIBEthFrame::get_timestamp)
-    .def_static("sizeof", [](){ return sizeof(WIBEthFrame); })
-    .def("get_bytes",
-         [](WIBEthFrame* fr) -> py::bytes {
-           return py::bytes(reinterpret_cast<char*>(fr), sizeof(WIBEthFrame));
-        }
-    )
-  ;
 
-  py::class_<WIBEthFrame::WIBHeader>(m, "WIBEthHeader")
+  py::class_<WIBEthFrame::WIBHeader>(m, "WIBHeader")
     .def_property("channel",
       [](WIBEthFrame::WIBHeader& self) -> uint32_t {return self.channel;},
       [](WIBEthFrame::WIBHeader& self, uint32_t channel) {self.channel = channel;}
@@ -100,6 +82,24 @@ register_wibeth(py::module& m)
       )
   ;
 
+  py::class_<WIBEthFrame>(m, "WIBEthFrame", py::buffer_protocol())
+    .def(py::init())
+    .def(py::init([](py::capsule capsule) {
+        auto wfp = *static_cast<WIBEthFrame*>(capsule.get_pointer());
+        return wfp;
+    } ))
+    .def("get_daqheader", [](WIBEthFrame& self) -> const DAQEthHeader& {return self.daq_header;}, py::return_value_policy::reference_internal)
+    .def("get_wibheader", [](WIBEthFrame& self) -> const WIBEthFrame::WIBHeader& {return self.header;}, py::return_value_policy::reference_internal)
+    .def("get_adc", &WIBEthFrame::get_adc)
+    .def("set_adc", &WIBEthFrame::set_adc)
+    .def("get_timestamp", &WIBEthFrame::get_timestamp)
+    .def("set_timestamp", &WIBEthFrame::set_timestamp)
+    .def_static("sizeof", [](){ return sizeof(WIBEthFrame); })
+    .def("get_bytes",
+         [](WIBEthFrame* fr) -> py::bytes {
+           return py::bytes(reinterpret_cast<char*>(fr), sizeof(WIBEthFrame));
+        })
+  ;
 }
 
 } // namespace python
