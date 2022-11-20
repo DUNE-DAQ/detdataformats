@@ -28,6 +28,11 @@ register_wib2(py::module& m)
         auto wfp = *static_cast<WIB2Frame*>(capsule.get_pointer());
         return wfp;
     } ))
+    .def(py::init([](py::bytes bytes){
+      py::buffer_info info(py::buffer(bytes).request());
+      auto wfp = *static_cast<WIB2Frame*>(info.ptr);
+      return wfp;
+    }))
     .def("get_adc", static_cast<uint16_t (WIB2Frame::*)(const int) const>(&WIB2Frame::get_adc))
     .def("set_adc", static_cast<void (WIB2Frame::*)(int, uint16_t)>(&WIB2Frame::set_adc))
     .def("get_timestamp", &WIB2Frame::get_timestamp)

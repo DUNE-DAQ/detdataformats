@@ -28,6 +28,11 @@ register_tde(py::module& m)
         auto wfp = *static_cast<TDE16Frame*>(capsule.get_pointer());
         return wfp;
     } ))
+    .def(py::init([](py::bytes bytes){
+      py::buffer_info info(py::buffer(bytes).request());
+      auto wfp = *static_cast<TDE16Frame*>(info.ptr);
+      return wfp;
+    }))
     .def("get_timestamp", &TDE16Frame::get_timestamp)
     .def("set_timestamp", &TDE16Frame::set_timestamp)
     .def("get_tde_header", [](TDE16Frame& self) -> TDE16Header* {return self.get_tde_header();}, py::return_value_policy::reference_internal)

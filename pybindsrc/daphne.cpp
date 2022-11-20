@@ -29,6 +29,11 @@ register_daphne(py::module& m)
         auto wfp = *static_cast<DAPHNEFrame*>(capsule.get_pointer());
         return wfp;
     } ))
+    .def(py::init([](py::bytes bytes){
+      py::buffer_info info(py::buffer(bytes).request());
+      auto wfp = *static_cast<DAPHNEFrame*>(info.ptr);
+      return wfp;
+    }))
     .def("get_adc", static_cast<uint16_t (DAPHNEFrame::*)(const int) const>(&DAPHNEFrame::get_adc))
     .def("get_t", static_cast<uint16_t (DAPHNEFrame::*)(const int) const>(&DAPHNEFrame::get_t))
     .def("get_timestamp", &DAPHNEFrame::get_timestamp)
