@@ -20,14 +20,17 @@ def cli(port):
 
     rcv_pkts = 0
     rcv_size = 0
-    while True:      
-        wf = detdataformats.wibeth.WIBEthFrame()
-        data, addr = sock.recvfrom(8192)
-        wf = detdataformats.wibeth.WIBEthFrame(data)
-        console.log(f"Received packet from {addr} with sequence ID  {wf.get_daqheader().seq_id}")
-        rcv_pkts +=1
-
-
+    while True:
+        try:
+            data, addr = sock.recvfrom(8192)
+            wf = detdataformats.wibeth.WIBEthFrame(data)
+            #console.log(f"Received packet from {addr} with stream ID {wf.get_daqheader().stream_id},  sequence ID  {wf.get_daqheader().seq_id}, time {wf.get_daqheader().timestamp}")
+            rcv_pkts +=1
+        except KeyboardInterrupt:
+            break
+        except:
+            continue
+    console.log(f"Received {rcv_pkts} messages; ending now.")
 
 if __name__ == '__main__':
     try:

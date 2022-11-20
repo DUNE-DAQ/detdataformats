@@ -88,6 +88,11 @@ register_wibeth(py::module& m)
         auto wfp = *static_cast<WIBEthFrame*>(capsule.get_pointer());
         return wfp;
     } ))
+    .def(py::init([](py::bytes bytes){
+        py::buffer_info info(py::buffer(bytes).request());
+        auto wfp = *static_cast<WIBEthFrame*>(info.ptr);
+        return wfp;
+    }))
     .def("get_daqheader", [](WIBEthFrame& self) -> const DAQEthHeader& {return self.daq_header;}, py::return_value_policy::reference_internal)
     .def("get_wibheader", [](WIBEthFrame& self) -> const WIBEthFrame::WIBHeader& {return self.header;}, py::return_value_policy::reference_internal)
     .def("get_adc", &WIBEthFrame::get_adc)
