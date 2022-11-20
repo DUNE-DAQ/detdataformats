@@ -47,6 +47,14 @@ extern void register_hsi(pybind11::module &);
 }
 }  // namespace hsi
 
+
+namespace tde {
+namespace python {
+extern void register_tde(pybind11::module &);
+}
+}  // namespace tde
+
+
 }  // namespace detdataformats
 }  // namespace dunedaq
 #endif /* __DUNEDAQ_DETDATAFORMATS_PYBINDSRC_SUBMODULES_HPP__ */
