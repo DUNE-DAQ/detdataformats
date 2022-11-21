@@ -28,11 +28,22 @@ register_wib2(py::module& m)
         auto wfp = *static_cast<WIB2Frame*>(capsule.get_pointer());
         return wfp;
     } ))
+    .def(py::init([](py::bytes bytes){
+      py::buffer_info info(py::buffer(bytes).request());
+      auto wfp = *static_cast<WIB2Frame*>(info.ptr);
+      return wfp;
+    }))
     .def("get_adc", static_cast<uint16_t (WIB2Frame::*)(const int) const>(&WIB2Frame::get_adc))
+    .def("set_adc", static_cast<void (WIB2Frame::*)(int, uint16_t)>(&WIB2Frame::set_adc))
     .def("get_timestamp", &WIB2Frame::get_timestamp)
     .def("get_header", [](WIB2Frame& self) -> const WIB2Frame::Header& {return self.header;})
     .def("get_trailer", [](WIB2Frame& self) -> const WIB2Frame::Trailer& {return self.trailer;})
     .def_static("sizeof", [](){ return sizeof(WIB2Frame); })
+    .def("get_bytes",
+         [](WIB2Frame* fr) -> py::bytes {
+           return py::bytes(reinterpret_cast<char*>(fr), sizeof(WIB2Frame));
+        }
+    )
   ;
 
   py::class_<WIB2Frame::Header>(m, "WIB2Header")
@@ -50,8 +61,8 @@ register_wib2(py::module& m)
     .def_property_readonly("femb_pulser_frame_bits", [](WIB2Frame::Header& self) -> uint32_t {return self.femb_pulser_frame_bits;})
     .def_property_readonly("femb_sync_flags", [](WIB2Frame::Header& self) -> uint32_t {return self.femb_sync_flags;})
     .def_property_readonly("colddata_timestamp", [](WIB2Frame::Header& self) -> uint32_t {return self.colddata_timestamp;})
-
   ;
+  
   py::class_<WIB2Frame::Trailer>(m, "WIB2Trailer")
     .def_property_readonly("flex_bits", [](WIB2Frame::Trailer& self) -> uint32_t {return self.flex_bits;})
     .def_property_readonly("ws", [](WIB2Frame::Trailer& self) -> uint32_t {return self.ws;})

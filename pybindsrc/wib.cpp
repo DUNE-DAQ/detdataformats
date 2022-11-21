@@ -28,14 +28,25 @@ register_wib(py::module& m)
         auto wfp = *static_cast<WIBFrame*>(capsule.get_pointer());
         return wfp;
     } ))
+    .def(py::init([](py::bytes bytes){
+      py::buffer_info info(py::buffer(bytes).request());
+      auto wfp = *static_cast<WIBFrame*>(info.ptr);
+      return wfp;
+    }))
     .def("get_wib_header", static_cast<const WIBHeader* (WIBFrame::*)() const >(&WIBFrame::get_wib_header), py::return_value_policy::reference_internal)
     .def("get_coldata_header", &WIBFrame::get_coldata_header, py::return_value_policy::reference_internal)
     .def("get_block", &WIBFrame::get_block, py::return_value_policy::reference_internal)
     .def("get_channel", static_cast<uint16_t (WIBFrame::*)(const uint8_t, const uint8_t, const uint8_t) const>(&WIBFrame::get_channel))
     .def("get_channel", static_cast<uint16_t (WIBFrame::*)(const uint8_t, const uint8_t) const>(&WIBFrame::get_channel))
     .def("get_channel", static_cast<uint16_t (WIBFrame::*)(const uint8_t) const>(&WIBFrame::get_channel))
+    .def("set_channel", static_cast<void (WIBFrame::*)(const uint8_t, const uint16_t)>(&WIBFrame::set_channel))
     .def("get_timestamp", &WIBFrame::get_timestamp)
     .def_static("sizeof", [](){ return sizeof(WIBFrame); })
+    .def("get_bytes",
+         [](WIBFrame* fr) -> py::bytes {
+           return py::bytes(reinterpret_cast<char*>(fr), sizeof(WIBFrame));
+        }
+    )
   ;
 
   py::class_<WIBHeader>(m, "WIBHeader")

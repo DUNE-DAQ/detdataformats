@@ -1,5 +1,5 @@
 /**
- * @file WIBFrame_test.cxx WIBFrame class Unit Tests
+ * @file WIB2Frame_test.cxx WIB2Frame class Unit Tests
  *
  * This is part of the DUNE DAQ Application Framework, copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
@@ -40,7 +40,7 @@ typedef struct
   uint32_t femb_b_seg[56]; // NOLINT(build/unsigned)
   uint32_t wib_post[2];    // NOLINT(build/unsigned)
   uint32_t idle_frame;     // NOLINT(build/unsigned)
-} __attribute__((packed)) frame14;
+} frame14;
 
 // Samples from the U, V, X channels in a femb_*_seg of a frame as 16bit arrays
 typedef struct

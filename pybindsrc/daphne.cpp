@@ -7,6 +7,7 @@
  */
 
 #include "detdataformats/daphne/DAPHNEFrame.hpp"
+#include "detdataformats/daphne/DAPHNEStreamFrame.hpp"
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -28,6 +29,11 @@ register_daphne(py::module& m)
         auto wfp = *static_cast<DAPHNEFrame*>(capsule.get_pointer());
         return wfp;
     } ))
+    .def(py::init([](py::bytes bytes){
+      py::buffer_info info(py::buffer(bytes).request());
+      auto wfp = *static_cast<DAPHNEFrame*>(info.ptr);
+      return wfp;
+    }))
     .def("get_adc", static_cast<uint16_t (DAPHNEFrame::*)(const int) const>(&DAPHNEFrame::get_adc))
     .def("get_t", static_cast<uint16_t (DAPHNEFrame::*)(const int) const>(&DAPHNEFrame::get_t))
     .def("get_timestamp", &DAPHNEFrame::get_timestamp)
@@ -53,6 +59,47 @@ register_daphne(py::module& m)
     .def_property_readonly("flex_word_24", [](DAPHNEFrame::Trailer& self) -> uint32_t {return self.flex_word_24;})
   ;
 
+
+  py::class_<DAPHNEStreamFrame::Header>(m, "DAPHNEStreamHeader")
+    .def_property("channel_0", 
+      [](DAPHNEStreamFrame::Header& self) -> uint32_t { return self.channel_0; }, 
+      [](DAPHNEStreamFrame::Header& self, uint32_t channel_0) { self.channel_0 = channel_0; } 
+      )
+    .def_property("channel_1", 
+      [](DAPHNEStreamFrame::Header& self) -> uint32_t { return self.channel_1; }, 
+      [](DAPHNEStreamFrame::Header& self, uint32_t channel_1) { self.channel_1 = channel_1; } 
+      )
+    .def_property("channel_2", 
+      [](DAPHNEStreamFrame::Header& self) -> uint32_t { return self.channel_2; }, 
+      [](DAPHNEStreamFrame::Header& self, uint32_t channel_2) { self.channel_2 = channel_2; } 
+      )
+    .def_property("channel_3", 
+      [](DAPHNEStreamFrame::Header& self) -> uint32_t { return self.channel_3; }, 
+      [](DAPHNEStreamFrame::Header& self, uint32_t channel_3) { self.channel_3 = channel_3; } 
+      )
+  ;
+
+
+  py::class_<DAPHNEStreamFrame>(m, "DAPHNEStreamFrame", py::buffer_protocol())
+    .def(py::init())
+    .def(py::init([](py::capsule capsule) {
+        auto wfp = *static_cast<DAPHNEStreamFrame*>(capsule.get_pointer());
+        return wfp;
+    } ))
+    .def("get_daqheader", [](DAPHNEStreamFrame& self) -> const DAQHeader& {return self.daq_header;}, py::return_value_policy::reference_internal)
+    .def("get_header", [](DAPHNEStreamFrame& self) -> const DAPHNEStreamFrame::Header& {return self.header;}, py::return_value_policy::reference_internal)
+    .def("get_trailer", [](DAPHNEStreamFrame& self) -> const DAPHNEStreamFrame::Trailer& {return self.trailer;}, py::return_value_policy::reference_internal)
+    .def("get_timestamp", &DAPHNEStreamFrame::get_timestamp)
+    .def("set_timestamp", &DAPHNEStreamFrame::set_timestamp)
+    .def("get_adc", &DAPHNEStreamFrame::get_adc)
+    .def("set_adc", &DAPHNEStreamFrame::set_adc)
+    .def_static("sizeof", [](){ return sizeof(DAPHNEStreamFrame); })
+    .def("get_bytes",
+         [](DAPHNEStreamFrame* fr) -> py::bytes {
+           return py::bytes(reinterpret_cast<char*>(fr), sizeof(DAPHNEStreamFrame));
+        }
+    )
+  ;
 }
 
 } // namespace python
