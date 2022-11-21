@@ -96,7 +96,10 @@ class MPDFrame
    */
   uint64_t get_timestamp() const {
     // in nanoseconds
-    return (uint64_t)trigger_data_header.event_timestamp_1 | ((uint64_t)trigger_data_header.event_timestamp_2 << 32 ) ; 
+    uint64_t s_to_ns = 1E9 ; 
+    uint64_t timestamp = trigger_data_header.event_timestamp_1 * s_to_ns + trigger_data_header.event_timestamp_2 ; 
+    timestamp *= 6.25E-2 ; 
+    return timestamp ; 
   }
 
 };
