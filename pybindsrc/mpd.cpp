@@ -35,6 +35,8 @@ register_mpd(py::module& m)
     .def("get_trigger_header", [](MPDFrame& self) -> const MPDFrame::MPDTriggerHeader& {return self.trigger_header;})
     .def("get_trigger_data_header", [](MPDFrame& self) -> const MPDFrame::MPDTriggerDataHeader& {return self.trigger_data_header;})
     .def("get_data_header", [](MPDFrame& self) -> const MPDFrame::MPDDataHeader& {return self.data_header;})
+    .def("get_sample", &MPDFrame::get_sample)
+    .def("get_nsample", &MPDFrame::get_nsample)
     .def_static("sizeof", [](){ return sizeof(MPDFrame); })
   ;
 

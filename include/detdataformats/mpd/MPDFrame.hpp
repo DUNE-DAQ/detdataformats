@@ -86,6 +86,10 @@ class MPDFrame
     return data[i];
   }
 
+  uint16_t get_nsample( void ) const {
+    return 2 * ( data_header.data_length -2 ) ;
+  }
+
   void set_value( const unsigned int i, uint16_t val ) {
     if ( i >= num_samples   ) throw std::out_of_range("Index out of range");
     data[i] = val ; 
