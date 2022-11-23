@@ -18,19 +18,35 @@ def cli(port):
                      socket.SOCK_DGRAM) # UDP
     sock.bind(("0.0.0.0", port))
 
-    rcv_pkts = 0
-    rcv_size = 0
+    rcv_bytes = 0
+    rcv_pkts_tot  = 0
+    rcv_pkts  = 0
+    rcv_bytes = 0
+    start_time = time.time();
+    seq_checker = [0,0,0,0]
     while True:
         try:
             data, addr = sock.recvfrom(8192)
+            rcv_bytes += len(data)
             wf = detdataformats.wibeth.WIBEthFrame(data)
-            #console.log(f"Received packet from {addr} with stream ID {wf.get_daqheader().stream_id},  sequence ID  {wf.get_daqheader().seq_id}, time {wf.get_daqheader().timestamp}")
+            if seq_checker[wf.get_daqheader().stream_id%4]+1 != wf.get_daqheader().seq_id :
+                wrong_seq +=1
+                #console.log(f"Not sequential seq ID  {wf.get_daqheader().seq_id} for stream ID {wf.get_daqheader().stream_id}! Previous sequence ID was {seq_checker[wf.get_daqheader().stream_id%4]}.")
+            seq_checker[wf.get_daqheader().stream_id%4] = wf.get_daqheader().seq_id
+            rcv_pkts_tot +=1
             rcv_pkts +=1
+            if rcv_pkts_tot % 100000 == 0:
+                stop_time = time.time()
+                interval = stop_time - start_time
+                console.log(f"Received {rcv_pkts} packets: throughput is {rcv_bytes*8/(interval*1000000000.):.2f} Gb/s")
+                rcv_pkts = 0
+                rcv_bytes = 0
+                start_time = stop_time
         except KeyboardInterrupt:
             break
         except:
             continue
-    console.log(f"Received {rcv_pkts} messages; ending now.")
+    console.log(f"Received {rcv_pkts_tot} messages; ending now.")
 
 if __name__ == '__main__':
     try:
