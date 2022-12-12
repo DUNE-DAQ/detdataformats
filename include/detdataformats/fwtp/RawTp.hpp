@@ -23,17 +23,14 @@ using tp_word_t = uint32_t; // NOLINT(build/unsigned)
 //===================
 struct TpHeader
 {
-  TpHeader()
-  {
-    m_nhits = 1;
-  }
+  TpHeader() { m_nhits = 1; }
 
   tp_word_t m_wire_no : 8, m_slot_no : 4, m_flags : 4, m_crate_no : 10, m_fiber_no : 6;
   tp_word_t m_timestamp_1;
   tp_word_t m_timestamp_2;
   tp_word_t m_accumulator : 16, m_median : 16;
   tp_word_t m_padding_1 : 16, m_nhits : 16;
-  tp_word_t m_padding_3 : 16, m_padding_2 : 16; 
+  tp_word_t m_padding_3 : 16, m_padding_2 : 16;
 
   uint64_t get_timestamp() const // NOLINT(build/unsigned)
   {
@@ -46,26 +43,20 @@ struct TpHeader
 
   void set_timestamp(const uint64_t new_timestamp) // NOLINT(build/unsigned)
   {
-    m_timestamp_1  = (new_timestamp & 0xFFFF) << 16;
+    m_timestamp_1 = (new_timestamp & 0xFFFF) << 16;
     m_timestamp_1 += (new_timestamp & 0xFFFF0000) >> 16;
-    m_timestamp_2  = (new_timestamp & 0xFFFF00000000) >> 16;
+    m_timestamp_2 = (new_timestamp & 0xFFFF00000000) >> 16;
     m_timestamp_2 += (new_timestamp >> 48) & 0xFFFF;
   }
 
-  int get_nhits()
-  {
-    return static_cast<int>(m_nhits);
-  }
-  void set_nhits(int nhits) 
-  {
-    m_nhits = nhits;
-  }
- 
+  int get_nhits() { return static_cast<int>(m_nhits); }
+  void set_nhits(int nhits) { m_nhits = nhits; }
+
   uint16_t get_padding_3() // NOLINT(build/unsigned)
   {
     return m_padding_3;
-  } 
- 
+  }
+
   // Print functions for debugging.
   std::ostream& print(std::ostream& o) const
   {
@@ -73,10 +64,10 @@ struct TpHeader
     o << "flags:" << unsigned(m_flags) << " slot:" << unsigned(m_slot_no) << " wire:" << unsigned(m_wire_no)
       << " fiber:" << unsigned(m_fiber_no) << " crate:" << unsigned(m_crate_no) << " timestamp:" << get_timestamp();
     o << "\nPrinting raw TP pedinfo:\n";
-    o << "median:" << unsigned(m_median) << " accumulator:" << unsigned(m_accumulator)
-      << " nhits:" << unsigned(m_nhits) << " padding_1:" << unsigned(m_padding_1)
-      << " padding_2:" << unsigned(m_padding_2) << " padding_3:" << unsigned(m_padding_3);
- 
+    o << "median:" << unsigned(m_median) << " accumulator:" << unsigned(m_accumulator) << " nhits:" << unsigned(m_nhits)
+      << " padding_1:" << unsigned(m_padding_1) << " padding_2:" << unsigned(m_padding_2)
+      << " padding_3:" << unsigned(m_padding_3);
+
     return o << '\n';
   }
 
@@ -170,19 +161,16 @@ operator<<(std::ostream& o, TpData const& tp)
   return o << '\n';
 }
 
-
 //========================
 // RawTp data struct
 //========================
 struct RawTp
 {
-  RawTp()
-  {
-    m_nhits = 1;
-  }
+  RawTp() { m_nhits = 1; }
 
   // mutators
-  void set_nhits(int nhits) { 
+  void set_nhits(int nhits)
+  {
     m_nhits = nhits;
     m_head.set_nhits(nhits);
   }
@@ -191,36 +179,15 @@ struct RawTp
   const TpHeader* get_tp_header() const { return &m_head; }
   TpHeader* get_tp_header() { return &m_head; }
 
-  size_t get_header_size()
-  {
-    return sizeof(TpHeader);
-  }
-  size_t get_frame_size()
-  {
-    return sizeof(TpHeader) + get_nhits() * sizeof(TpData);
-  }
+  size_t get_header_size() { return sizeof(TpHeader); }
+  size_t get_frame_size() { return sizeof(TpHeader) + get_nhits() * sizeof(TpData); }
 
-  uint64_t get_timestamp() const 
-  {
-    return m_head.get_timestamp();
-  }
-  uint64_t get_timestamp() 
-  {
-    return m_head.get_timestamp();
-  }
-  void set_timestamp(const uint64_t ts) 
-  {
-    m_head.set_timestamp(ts);
-  }
- 
-  int get_nhits()
-  {
-    return m_head.get_nhits();
-  }
-  uint16_t get_padding_3()
-  {
-    return m_head.get_padding_3(); 
-  }
+  uint64_t get_timestamp() const { return m_head.get_timestamp(); }
+  uint64_t get_timestamp() { return m_head.get_timestamp(); }
+  void set_timestamp(const uint64_t ts) { m_head.set_timestamp(ts); }
+
+  int get_nhits() { return m_head.get_nhits(); }
+  uint16_t get_padding_3() { return m_head.get_padding_3(); }
 
 private:
   int m_nhits;

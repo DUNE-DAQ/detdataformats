@@ -41,14 +41,14 @@ struct TriggerCandidateData
     kPrescale = 3,
     kADCSimpleWindow = 4,
     kHorizontalMuon = 5,
-    kMichelElectron = 6, 
-    kLowEnergyEvent = 7, 
+    kMichelElectron = 6,
+    kLowEnergyEvent = 7,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
   static constexpr version_t s_trigger_candidate_version = 1; // NOLINT(build/unsigned)
 
-  version_t version = s_trigger_candidate_version;       // NOLINT(build/unsigned)
+  version_t version = s_trigger_candidate_version; // NOLINT(build/unsigned)
   timestamp_t time_start = INVALID_TIMESTAMP;
   timestamp_t time_end = INVALID_TIMESTAMP;
   timestamp_t time_candidate = INVALID_TIMESTAMP;

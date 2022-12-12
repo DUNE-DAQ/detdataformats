@@ -11,7 +11,7 @@
 #ifndef DETDATAFORMATS_INCLUDE_HSI_TIMINGHSIFRAME_HPP_
 #define DETDATAFORMATS_INCLUDE_HSI_TIMINGHSIFRAME_HPP_
 
-#include <cstdint>  // For uint32_t etc
+#include <cstdint> // For uint32_t etc
 
 namespace dunedaq {
 namespace detdataformats {
@@ -22,7 +22,7 @@ class TimingHSIFrame
 public:
   // The definition of the format is in terms of 32-bit words
   typedef uint32_t word_t; // NOLINT
-  
+
   word_t version : 6, detector_id : 6, crate : 10, slot : 4, link : 6;
   word_t timestamp_low : 32;
   word_t timestamp_high : 32;

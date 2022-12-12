@@ -9,7 +9,7 @@
 
 #include "detdataformats/DetID.hpp"
 
-#define BOOST_TEST_MODULE DetID_test 
+#define BOOST_TEST_MODULE DetID_test
 
 #include "boost/test/unit_test.hpp"
 
@@ -44,7 +44,6 @@ BOOST_AUTO_TEST_CASE(Comprehensive)
 
   DetID detid_default;
   BOOST_REQUIRE(!detid_default.is_in_valid_state());
-
 }
 
 BOOST_AUTO_TEST_SUITE_END()

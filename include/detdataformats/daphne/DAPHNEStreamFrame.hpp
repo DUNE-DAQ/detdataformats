@@ -1,7 +1,7 @@
 /**
  * @file DAPHNEStreamFrame.hpp
  *
- *  Contains declaration of DAPHNEStreamFrame, a class for accessing 
+ *  Contains declaration of DAPHNEStreamFrame, a class for accessing
  *  raw DAPHNE streaming version frames, as produced by the DAPHNE boards
  *
  *  The canonical definition of the PDS DAPHNE format is given in EDMS document 2088726:
@@ -19,10 +19,10 @@
 
 #include <algorithm> // For std::min
 #include <cassert>   // For assert()
+#include <cstdint>   // For uint32_t etc
 #include <cstdio>
 #include <cstdlib>
 #include <stdexcept> // For std::out_of_range
-#include <cstdint>  // For uint32_t etc
 
 namespace dunedaq {
 namespace detdataformats {
@@ -62,25 +62,21 @@ public:
   detdataformats::DAQHeader daq_header;
   Header header;
   word_t adc_words[s_num_adc_words]; // NOLINT
-  Trailer trailer; 
+  Trailer trailer;
 
   // ===============================================================
   // Accessors
   // ===============================================================
 
-  uint64_t get_timestamp() const 
-  {
-    return daq_header.get_timestamp();
-  }
+  uint64_t get_timestamp() const { return daq_header.get_timestamp(); }
 
   /** @brief Set the 64-bit timestamp of the frame
-  */
+   */
   void set_timestamp(const uint64_t new_timestamp) // NOLINT(build/unsigned)
   {
     daq_header.timestamp_1 = new_timestamp;
     daq_header.timestamp_2 = new_timestamp >> 32;
   }
-
 
   /**
    * @brief Get the @p i ADC value of @p chn in the frame
@@ -95,7 +91,7 @@ public:
       throw std::out_of_range("ADC index out of range");
 
     // find absolute index in frame
-    uint j = i*s_channels_per_frame+chn;
+    uint j = i * s_channels_per_frame + chn;
     // The index of the first (and sometimes only) word containing the required ADC value
     uint word_index = s_bits_per_adc * j / s_bits_per_word;
     assert(word_index < s_num_adc_words);
@@ -128,9 +124,8 @@ public:
     if (val >= (1 << s_bits_per_adc))
       throw std::out_of_range("ADC value out of range");
 
-
     // find absolute index in frame
-    uint j = i*s_channels_per_frame+chn;
+    uint j = i * s_channels_per_frame + chn;
     // The index of the first (and sometimes only) word containing the required ADC value
     int word_index = s_bits_per_adc * j / s_bits_per_word;
     assert(word_index < s_num_adc_words);
@@ -146,7 +141,6 @@ public:
       mask = (1 << (s_bits_per_adc - bits_in_first_word)) - 1;
       adc_words[word_index + 1] = ((val >> bits_in_first_word) & mask) | (adc_words[word_index + 1] & ~mask);
     }
-
   }
 };
 

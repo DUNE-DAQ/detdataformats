@@ -24,10 +24,10 @@ struct TriggerObjectOverlay
   using input_t = InputType;
   data_t data;
   uint64_t n_inputs;
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wpedantic"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
   input_t inputs[]; // Non-standard flexible array member, but alternatives are worse
-  #pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
 };
 
 using TriggerActivity = TriggerObjectOverlay<TriggerActivityData, TriggerPrimitive>;

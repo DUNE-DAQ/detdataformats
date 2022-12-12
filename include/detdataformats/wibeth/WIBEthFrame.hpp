@@ -2,8 +2,9 @@
  * @file WIBEthFrame.hpp
  *
  * Contains declaration of WIBEthFrame, a class for accessing raw WIB v2 frames, as used in ProtoDUNE-SP-II
- * 
- * The canonical definition of the WIB format is given in EDMS document 2088713: *  https://edms.cern.ch/document/2088713/XXX
+ *
+ * The canonical definition of the WIB format is given in EDMS document 2088713: *
+ * https://edms.cern.ch/document/2088713/XXX
  *
  * This is part of the DUNE DAQ Application Framework, copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
@@ -50,11 +51,11 @@ public:
   static constexpr int s_num_channels = s_channels_per_half_femb * s_half_fembs_per_frame;
   static constexpr int s_num_adc_words_per_ts = s_num_channels * s_bits_per_adc / s_bits_per_word;
   static constexpr int s_num_adc_words = s_time_samples_per_frame * s_num_channels * s_bits_per_adc / s_bits_per_word;
-  
 
   struct WIBHeader
-  {	  
-    word_t colddata_timestamp_0 : 15, colddata_timestamp_1 : 15, crc_err : 2, link_valid : 2, lol : 1, wib_sync : 1, femb_sync : 2, pulser : 1, calibration : 1, ready : 1, context : 8, reserved : 3, version : 4, channel : 8;
+  {
+    word_t colddata_timestamp_0 : 15, colddata_timestamp_1 : 15, crc_err : 2, link_valid : 2, lol : 1, wib_sync : 1,
+      femb_sync : 2, pulser : 1, calibration : 1, ready : 1, context : 8, reserved : 3, version : 4, channel : 8;
   };
 
   // ===============================================================
@@ -71,11 +72,11 @@ public:
   /**
    * @brief Get the ith ADC value in the frame
    *
-   * The ADC words are 14 bits long, stored packed in the data structure. 
+   * The ADC words are 14 bits long, stored packed in the data structure.
    * The order is: 64 channels repeated for 64 time samples
    *
    */
-  uint16_t get_adc(int i, int sample=0) const // NOLINT(build/unsigned)
+  uint16_t get_adc(int i, int sample = 0) const // NOLINT(build/unsigned)
   {
     if (i < 0 || i >= s_num_channels)
       throw std::out_of_range("ADC index out of range");
@@ -120,7 +121,8 @@ public:
     if (bits_in_first_word < s_bits_per_adc) {
       assert(word_index + 1 < s_num_adc_words);
       mask = (1 << (s_bits_per_adc - bits_in_first_word)) - 1;
-      adc_words[word_index + 1][sample] = ((val >> bits_in_first_word) & mask) | (adc_words[word_index + 1][sample] & ~mask);
+      adc_words[word_index + 1][sample] =
+        ((val >> bits_in_first_word) & mask) | (adc_words[word_index + 1][sample] & ~mask);
     }
   }
 
@@ -128,7 +130,7 @@ public:
    */
   uint64_t get_timestamp() const // NOLINT(build/unsigned)
   {
-    return daq_header.get_timestamp() ; // NOLINT(build/unsigned)
+    return daq_header.get_timestamp(); // NOLINT(build/unsigned)
   }
 
   /** @brief Set the starting 64-bit timestamp of the frame

@@ -362,7 +362,7 @@ BOOST_DATA_TEST_CASE(CompareToUnpack, boost::unit_test::data::make(make_vals()),
   // Create the packed array from the unpacked array
   wib2unpack::repack_frame(&unpacked, &packed);
 
-  //WIB2Frame* wib2frame = reinterpret_cast<WIB2Frame*>(&packed); // NOLINT
+  // WIB2Frame* wib2frame = reinterpret_cast<WIB2Frame*>(&packed); // NOLINT
   size_t num_errors = 0;
 
   // TODO: replace with some meaningul test in the future

@@ -29,7 +29,7 @@ operator<<(std::ostream& o, DetID::Subdetector const& type)
 inline std::ostream&
 operator<<(std::ostream& o, DetID const& det_id)
 {
-  return o << "subdetector: " << det_id.subdetector ;
+  return o << "subdetector: " << det_id.subdetector;
 }
 
 /**
@@ -58,7 +58,7 @@ inline std::istream&
 operator>>(std::istream& is, DetID& det_id)
 {
   std::string tmp;
-  is >> tmp >> det_id.subdetector; 
+  is >> tmp >> det_id.subdetector;
 
   return is;
 }

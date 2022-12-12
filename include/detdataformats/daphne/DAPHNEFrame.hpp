@@ -16,10 +16,10 @@
 
 #include <algorithm> // For std::min
 #include <cassert>   // For assert()
+#include <cstdint>   // For uint32_t etc
 #include <cstdio>
 #include <cstdlib>
 #include <stdexcept> // For std::out_of_range
-#include <cstdint>  // For uint32_t etc
 
 namespace dunedaq {
 namespace detdataformats {
@@ -66,7 +66,7 @@ public:
   // ===============================================================
   Header header;
   word_t adc_words[s_num_adc_words]; // NOLINT
-  
+
   // THIS DATA IS STRIPPED DURING TRANSMISSION
   // Trailer trailer;
 

@@ -23,13 +23,13 @@
 namespace dunedaq::detdataformats {
 
 /**
- * @brief DetID is a versioned structure containing the 6 bits field of the unique identifier for a subdetector in the raw data.
- * For convenience this field is expanded to 16 bits.
+ * @brief DetID is a versioned structure containing the 6 bits field of the unique identifier for a subdetector in the
+ * raw data. For convenience this field is expanded to 16 bits.
  */
 struct DetID
 {
 
-  using Version_t = uint16_t;   // NOLINT(build/unsigned)
+  using Version_t = uint16_t;     // NOLINT(build/unsigned)
   using Subdetector_t = uint16_t; // NOLINT(build/unsigned)
 
   /**
@@ -69,7 +69,8 @@ struct DetID
 
   DetID(const Subdetector& subdetector_arg)
     : subdetector(subdetector_arg)
-  {}
+  {
+  }
 
   std::string to_string() const
   {

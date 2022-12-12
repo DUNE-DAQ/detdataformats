@@ -49,7 +49,6 @@ public:
   static constexpr int s_num_channels = s_fembs_per_frame * s_channels_per_femb;
   static constexpr int s_num_adc_words = s_num_channels * s_bits_per_adc / s_bits_per_word;
   static constexpr int s_num_ch_per_frame = s_channels_per_femb * s_fembs_per_frame;
-  
 
   struct Header
   {
@@ -151,9 +150,6 @@ public:
     header.timestamp_1 = new_timestamp;
     header.timestamp_2 = new_timestamp >> 32;
   }
-
-  
-
 };
 
 } // namespace wib2
