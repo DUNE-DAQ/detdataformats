@@ -22,12 +22,16 @@ PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     python::register_detid(m);
     python::register_daqheader(m);
+    python::register_daqethheader(m);
 
     py::module_ wib_module = m.def_submodule("wib");
     wib::python::register_wib(wib_module);
 
     py::module_ wib2_module = m.def_submodule("wib2");
     wib2::python::register_wib2(wib2_module);
+
+    py::module_ wibeth_module = m.def_submodule("wibeth");
+    wibeth::python::register_wibeth(wibeth_module);
 
     py::module_ daphne_module = m.def_submodule("daphne");
     daphne::python::register_daphne(daphne_module);
