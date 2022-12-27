@@ -34,10 +34,8 @@ register_mpd(py::module& m)
     .def("get_device_header", [](MPDFrame& self) -> const MPDFrame::MPDDeviceHeader& {return self.device_header;})
     .def("get_trigger_header", [](MPDFrame& self) -> const MPDFrame::MPDTriggerHeader& {return self.trigger_header;})
     .def("get_trigger_data_header", [](MPDFrame& self) -> const MPDFrame::MPDTriggerDataHeader& {return self.trigger_data_header;})
-    .def("get_data_header", [](MPDFrame& self) -> const MPDFrame::MPDDataHeader& {return self.data_header;})
-    .def("get_sample", &MPDFrame::get_sample)
-    .def("get_nsample", &MPDFrame::get_nsample)
-    .def_static("sizeof", [](){ return sizeof(MPDFrame); })
+    .def("get_data", &MPDFrame::get_data)
+
   ;
 
   py::class_<MPDFrame::MPDOSHeader>(m, "MPDOSHeader")
@@ -65,11 +63,6 @@ register_mpd(py::module& m)
     .def_property_readonly("flags", [](MPDFrame::MPDTriggerDataHeader& self) -> uint32_t {return self.flags;})
     .def_property_readonly("event_timestamp_2", [](MPDFrame::MPDTriggerDataHeader& self) -> uint32_t {return self.event_timestamp_2;})
     .def_property_readonly("channel_bit_mask", [](MPDFrame::MPDTriggerDataHeader& self) -> uint32_t {return self.channel_bit_mask;});
-
-  py::class_<MPDFrame::MPDDataHeader>(m, "MPDDataHeader")
-    .def_property_readonly("data_type", [](MPDFrame::MPDDataHeader& self) -> uint32_t {return self.data_type;})
-    .def_property_readonly("data_length", [](MPDFrame::MPDDataHeader& self) -> uint32_t {return self.data_length;})
-    .def_property_readonly("channel_number", [](MPDFrame::MPDDataHeader& self) -> uint32_t {return self.channel_number;});
 }
 
 } // namespace python
