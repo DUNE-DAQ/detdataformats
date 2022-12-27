@@ -88,6 +88,8 @@ class MPDFrame
     return timestamp ; 
   }
 
+  word_t * get_data() { return MStreamBlock ; }
+
 };
 
 } // namespace mpd
