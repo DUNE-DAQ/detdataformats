@@ -30,7 +30,7 @@ class MPDFrame
   public:
 
   typedef uint32_t word_t ; // NOLINT(build/unsigned)
-  static constexpr unsigned int num_samples = 2048 ;
+  //  static constexpr unsigned int num_samples = 2048 ;
   
   struct MPDOSHeader {
     word_t timestamp_sync ; // 0x3f60b8a8 ;
@@ -61,12 +61,6 @@ class MPDFrame
     uint64_t channel_bit_mask ; 
   };
 
-  struct MPDDataHeader {
-    //Data header
-    word_t data_type: 2, data_length: 22, channel_number: 8 ;
-  };
-    
-
   // =======================================================
   // Data members 
   // =======================================================
@@ -75,26 +69,14 @@ class MPDFrame
   MPDDeviceHeader device_header ; 
   MPDTriggerHeader trigger_header ; 
   MPDTriggerDataHeader trigger_data_header ; 
-  MPDDataHeader data_header ; 
+  //  MPDDataHeader data_header ; 
 
-  //MStream Data
-  uint64_t _null; // unused words
-  uint16_t data[num_samples];
-
-  uint16_t get_sample( const unsigned i ) const {
-    if ( i >= num_samples   ) throw std::out_of_range("Index out of range");
-    return data[i];
-  }
-
-  uint16_t get_nsample( void ) const {
-    return 2 * ( data_header.data_length -2 ) ;
-  }
-
-  void set_value( const unsigned int i, uint16_t val ) {
-    if ( i >= num_samples   ) throw std::out_of_range("Index out of range");
-    data[i] = val ; 
-    return; 
-  }
+  //MStreamBlock
+  // It contains a Header with the data_type, data_lenth, channel number
+  // followed by two emtpy words and an array of data
+  // This is repeated for every enabled channel
+  // All this information is stored alltogether in an array of MStreamBlocks
+  word_t MStreamBlock[] ; 
 
   /** @brief Get the 64-bit timestamp of the frame
    */
