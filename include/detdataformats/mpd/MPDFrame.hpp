@@ -69,7 +69,6 @@ class MPDFrame
   MPDDeviceHeader device_header ; 
   MPDTriggerHeader trigger_header ; 
   MPDTriggerDataHeader trigger_data_header ; 
-  //  MPDDataHeader data_header ; 
 
   //MStreamBlock
   // It contains a Header with the data_type, data_lenth, channel number
@@ -88,7 +87,7 @@ class MPDFrame
     return timestamp ; 
   }
 
-  word_t * get_data() { return MStreamBlock ; }
+  word_t get_data(unsigned int i) { return MStreamBlock[i] ; }
 
 };
 
