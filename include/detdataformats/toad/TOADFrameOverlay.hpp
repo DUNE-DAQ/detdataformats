@@ -12,6 +12,7 @@ struct TOADFrameOverlay {
   bool hdr_par_check: 1;
   bool data_par_check: 1;
   size_t n_samples;
+  size_t n_bytes;
   unsigned short toadsamples[];
 
   uint64_t get_timestamp() const {
@@ -23,7 +24,8 @@ struct TOADFrameOverlay {
   }
  
   std::size_t get_size() {
-    return (3*sizeof(unsigned) + 2*sizeof(bool) + sizeof(size_t)+n_samples*sizeof(unsigned short));
+    return n_bytes;
+    //return (3*sizeof(unsigned) + 2*sizeof(bool) + sizeof(size_t)+n_samples*sizeof(unsigned short));
   }
 };
  
