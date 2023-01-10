@@ -1,23 +1,23 @@
 /**
- * @file TimingHSIFrame.hpp
+ * @file HSIFrame.hpp
  *
- *  Contains declaration of TimingHSIFrame.
+ *  Contains declaration of HSIFrame.
  *
  * This is part of the DUNE DAQ Application Framework, copyright 2020.
  * Licensing/copyright details are in the COPYING file that you should have
  * received with this code.
  */
 
-#ifndef DETDATAFORMATS_INCLUDE_HSI_TIMINGHSIFRAME_HPP_
-#define DETDATAFORMATS_INCLUDE_HSI_TIMINGHSIFRAME_HPP_
+#ifndef DETDATAFORMATS_INCLUDE_HSI_HSIFRAME_HPP_
+#define DETDATAFORMATS_INCLUDE_HSI_HSIFRAME_HPP_
 
-#include <stdint.h>  // For uint32_t etc
+#include <cstdint>  // For uint32_t etc
 
 namespace dunedaq {
 namespace detdataformats {
 namespace hsi {
 
-class TimingHSIFrame
+class HSIFrame
 {
 public:
   // The definition of the format is in terms of 32-bit words
@@ -26,7 +26,8 @@ public:
   word_t version : 6, detector_id : 6, crate : 10, slot : 4, link : 6;
   word_t timestamp_low : 32;
   word_t timestamp_high : 32;
-  word_t data : 32;
+  word_t input_low : 32;
+  word_t input_high : 32;
   word_t trigger : 32;
   word_t sequence : 32;
 
@@ -46,7 +47,7 @@ public:
 } // namespace detdataformats
 } // namespace dunedaq
 
-#endif // DETDATAFORMATS_INCLUDE_HSI_TIMINGHSIFRAME_HPP_
+#endif // DETDATAFORMATS_INCLUDE_HSI_HSIFRAME_HPP_
 
 // Local Variables:
 // c-basic-offset: 2
