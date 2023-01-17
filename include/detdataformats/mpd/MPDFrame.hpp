@@ -74,7 +74,7 @@ class MPDFrame
   // It contains a Header with the data_type, data_lenth, channel number
   // followed by two emtpy words and an array of data
   // This is repeated for every enabled channel
-  // All this information is stored alltogether in an array of MStreamBlocks
+  // All this information is stored altogether in an array of MStreamBlocks
   word_t MStreamBlock[] ; 
 
   /** @brief Get the 64-bit timestamp of the frame
