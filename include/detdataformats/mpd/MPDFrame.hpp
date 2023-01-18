@@ -17,6 +17,7 @@
 #include <iostream>
 #include <stdint.h>
 #include <vector> 
+#include<bits/stdc++.h> 
 
 namespace dunedaq {
 namespace detdataformats {
@@ -30,8 +31,7 @@ class MPDFrame
   public:
 
   typedef uint32_t word_t ; // NOLINT(build/unsigned)
-  //  static constexpr unsigned int num_samples = 2048 ;
-  
+   
   struct MPDOSHeader {
     word_t timestamp_sync ; // 0x3f60b8a8 ;
     word_t timestamp_length ; // 0x00000008 ;
@@ -86,6 +86,21 @@ class MPDFrame
     timestamp *= 6.25E-2 ; 
     return timestamp ; 
   }
+
+  unsigned int get_frame_size() const { return sizeof(OSheader) + sizeof(event_header) + event_header.length ; }
+
+  unsigned int get_nchannels() const { 
+    unsigned int nchannels = 0 ; 
+    uint64_t channel_bit_mask = trigger_data_header.channel_bit_mask;
+    
+    for( auto i = 1 << 30 ; i > 0 ; i = i / 2 ) {
+      if( ( channel_bit_mask & i) != 0 ) {
+	++nchannels ; 
+      }
+    }
+  return nchannels ; 
+  }
+
 
   word_t get_data(unsigned int i) { return MStreamBlock[i] ; }
 
