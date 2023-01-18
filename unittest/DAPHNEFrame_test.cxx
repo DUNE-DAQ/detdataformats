@@ -1,15 +1,15 @@
 
 /**
- * @file WIBEthFrame_test.cxx WIBEthFrame class Unit Tests
+ * @file DAPHNEFrame_test.cxx DAPHNEFrame class Unit Tests
  *
  * This is part of the DUNE DAQ Application Framework, copyright 2022.
  * Licensing/copyright details are in the COPYING file that you should have
  * received with this code.
  */
 
-#include "detdataformats/wibeth/WIBEthFrame.hpp"
+#include "detdataformats/daphne/DAPHNEFrame.hpp"
 
-#define BOOST_TEST_MODULE WIBEthFrame_test
+#define BOOST_TEST_MODULE DAPHNEFrame_test
 
 #include "boost/test/unit_test.hpp"
 
@@ -17,9 +17,9 @@
 #include <vector>
 #include <random>
 
-using namespace dunedaq::detdataformats::wibeth;
+using namespace dunedaq::detdataformats::daphne;
 
-BOOST_AUTO_TEST_SUITE(WIBEthFrame_test)
+BOOST_AUTO_TEST_SUITE(DAPHNEFrame_test)
 
 BOOST_AUTO_TEST_CASE(WIBEthFrame_ADCDataMutators)
 {
@@ -27,21 +27,18 @@ BOOST_AUTO_TEST_CASE(WIBEthFrame_ADCDataMutators)
   std::mt19937 rng(dev());
   std::uniform_int_distribution<std::mt19937::result_type> dist(1,(1<<14)-1);
   std::vector<int> v;
-  for(int i=0; i<64 * 64; i++) {
+
+  for(int i=0; i<320; i++) {
     v.push_back(dist(rng));
   }
 
-  WIBEthFrame wibethframe {};
-  for(int i=0; i<64; i++) {
-    for(int j=0; j<64; j++) {
-      wibethframe.set_adc(i, j, v[i + 64*j]);
-    }
+  DAPHNEFrame daphneframe {};
+  for(int i=0; i<320; i++) {
+    daphneframe.set_adc(i, v[i]);
   }
 
-  for(int i=0; i<64; i++) {
-    for(int j=0; j<64; j++) {
-      BOOST_REQUIRE_EQUAL(wibethframe.get_adc(i, j), v[i + 64 * j]);
-    }
+  for(int i=0; i<320; i++) {
+    BOOST_REQUIRE_EQUAL(daphneframe.get_adc(i), v[i]);
   }
 
 }
