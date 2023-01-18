@@ -35,7 +35,7 @@ register_mpd(py::module& m)
     .def("get_trigger_header", [](MPDFrame& self) -> const MPDFrame::MPDTriggerHeader& {return self.trigger_header;})
     .def("get_trigger_data_header", [](MPDFrame& self) -> const MPDFrame::MPDTriggerDataHeader& {return self.trigger_data_header;})
     .def("get_data", &MPDFrame::get_data)
-
+    .def("get_frame_size", &MPDFrame::get_frame_size)
   ;
 
   py::class_<MPDFrame::MPDOSHeader>(m, "MPDOSHeader")

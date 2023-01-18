@@ -30,8 +30,7 @@ class MPDFrame
   public:
 
   typedef uint32_t word_t ; // NOLINT(build/unsigned)
-  //  static constexpr unsigned int num_samples = 2048 ;
-  
+   
   struct MPDOSHeader {
     word_t timestamp_sync ; // 0x3f60b8a8 ;
     word_t timestamp_length ; // 0x00000008 ;
@@ -86,6 +85,9 @@ class MPDFrame
     timestamp *= 6.25E-2 ; 
     return timestamp ; 
   }
+
+  unsigned int get_frame_size() const { return sizeof(OSheader) + sizeof(event_header) + event_header.length ; }
+
 
   word_t get_data(unsigned int i) { return MStreamBlock[i] ; }
 
