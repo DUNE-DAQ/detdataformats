@@ -37,6 +37,7 @@ register_mpd(py::module& m)
     .def("get_data", &MPDFrame::get_data)
     .def("get_frame_size", &MPDFrame::get_frame_size)
     .def("get_nchannels", &MPDFrame::get_nchannels)
+    .def("get_nsamples", &MPDFrame::get_nsamples)
   ;
 
   py::class_<MPDFrame::MPDOSHeader>(m, "MPDOSHeader")

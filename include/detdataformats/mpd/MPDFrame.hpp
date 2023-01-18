@@ -98,9 +98,20 @@ class MPDFrame
 	++nchannels ; 
       }
     }
+
   return nchannels ; 
   }
 
+  unsigned int get_nsamples() const {
+    // All Enabled channels contain the same number of samples
+    unsigned int word_length = sizeof(word_t) ;
+    unsigned int trigger_words = (unsigned int) ( ( sizeof(trigger_header)+sizeof(trigger_data_header))/word_length ) ;  
+    unsigned int mstreamblocks_words = (unsigned int) ( ( device_header.device_length / word_length ) - trigger_words ) ; 
+    unsigned int nchannels = get_nchannels() ; 
+   
+    unsigned int nsamples = (unsigned int) ( ( mstreamblocks_words - 3 * nchannels ) / nchannels * 2 ) ; 
+    return nsamples ; 
+  }
 
   word_t get_data(unsigned int i) { return MStreamBlock[i] ; }
 
