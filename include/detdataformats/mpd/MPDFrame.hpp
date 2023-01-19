@@ -1,8 +1,8 @@
-/**
+B/**
  * @file MPDFrame.hpp MPD 
  *
  * Contains declaration of MPDFrame. This class access raw MPD frames as produced by the MPD boards 
- *
+ 1;95;0c*
  * Dataformat: https://docs.google.com/spreadsheets/d/1b9ohCndIZcYHEPiRDz4TMbaf6CJNlXrEuMnt3XS2BZ8/edit#gid=1694585828
  * 
  * This is part of the DUNE DAQ , copyright 2022.
@@ -75,7 +75,7 @@ class MPDFrame
   // followed by two emtpy words and an array of data
   // This is repeated for every enabled channel
   // All this information is stored altogether in an array of MStreamBlocks
-  std::vector<word_t> MStreamBlock ; 
+  word_t MStreamBlock[] ; 
 
   /** @brief Get the 64-bit timestamp of the frame
    */
