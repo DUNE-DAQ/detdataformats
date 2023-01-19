@@ -1,8 +1,8 @@
-B/**
+/**
  * @file MPDFrame.hpp MPD 
  *
  * Contains declaration of MPDFrame. This class access raw MPD frames as produced by the MPD boards 
- 1;95;0c*
+ *
  * Dataformat: https://docs.google.com/spreadsheets/d/1b9ohCndIZcYHEPiRDz4TMbaf6CJNlXrEuMnt3XS2BZ8/edit#gid=1694585828
  * 
  * This is part of the DUNE DAQ , copyright 2022.
