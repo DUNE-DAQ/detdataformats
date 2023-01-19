@@ -75,7 +75,7 @@ class MPDFrame
   // followed by two emtpy words and an array of data
   // This is repeated for every enabled channel
   // All this information is stored altogether in an array of MStreamBlocks
-  word_t MStreamBlock[] ; 
+  std::vector<word_t> MStreamBlock ; 
 
   /** @brief Get the 64-bit timestamp of the frame
    */
