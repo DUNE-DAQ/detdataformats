@@ -75,7 +75,12 @@ class MPDFrame
   // followed by two emtpy words and an array of data
   // This is repeated for every enabled channel
   // All this information is stored altogether in an array of MStreamBlocks
+
+  // Flexible array members are allowed in C99 and are a G++ extension, but ANSI C++ does not allow them, thus a pedantic mode warning.
+  #pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
   word_t MStreamBlock[] ; 
+  #pragma GCC diagnostic pop
 
   /** @brief Get the 64-bit timestamp of the frame
    */
