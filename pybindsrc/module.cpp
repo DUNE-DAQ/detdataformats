@@ -47,6 +47,10 @@ PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     py::module_ tde_module = m.def_submodule("tde");
     tde::python::register_tde(tde_module);
+
+    py::module_ mpd_module = m.def_submodule("mpd");
+    mpd::python::register_mpd(mpd_module);
+
 }
 
 } // namespace python

@@ -61,6 +61,11 @@ extern void register_tde(pybind11::module &);
 }
 }  // namespace tde
 
+namespace mpd {
+namespace python {
+extern void register_mpd(pybind11::module &);    
+}
+}  // namespace mpd
 
 }  // namespace detdataformats
 }  // namespace dunedaq
