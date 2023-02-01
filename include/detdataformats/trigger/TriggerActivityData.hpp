@@ -33,6 +33,8 @@ struct TriggerActivityData
     kADCSimpleWindow = 3,
     kHorizontalMuon = 4,
     kMichelElectron = 5,
+    kDBSCAN = 6,
+    kLowEnergyEvent = 7,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
