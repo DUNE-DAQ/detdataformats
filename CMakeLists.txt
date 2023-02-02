@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(detdataformats VERSION 3.6.1)
+project(detdataformats VERSION 3.6.2)
 
 find_package(daq-cmake REQUIRED)
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
