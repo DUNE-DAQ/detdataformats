@@ -52,6 +52,13 @@ extern void register_hsi(py::module &);
 }
 }
 
+namespace toad {
+namespace python {
+extern void register_toad(py::module &);
+}
+}
+
+
 namespace python {
 
     extern void
@@ -80,6 +87,10 @@ PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     py::module_ hsi_module = m.def_submodule("hsi");
     hsi::python::register_hsi(hsi_module);
+
+    py::module_ toad_module = m.def_submodule("toad");
+    toad::python::register_toad(toad_module);
+
 }
 
 } // namespace python
