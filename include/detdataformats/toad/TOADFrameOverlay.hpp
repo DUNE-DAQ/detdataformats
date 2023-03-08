@@ -9,7 +9,7 @@ namespace detdataformats {
 namespace toad {
 
 struct TOADFrameOverlay {
-  unsigned fec: 10;
+  unsigned fec: 16;
   uint64_t tstmp;
   bool hdr_par_check: 1;
   size_t n_samples;

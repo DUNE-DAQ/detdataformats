@@ -8,7 +8,7 @@ namespace toad {
 class TOADFrame
 {
   public:
-  unsigned fec: 10;
+  unsigned fec: 16;
   uint64_t tstmp : 64;
   bool hdr_par_check: 1;
   std::vector<unsigned short> toadsamples;
