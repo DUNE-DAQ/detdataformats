@@ -80,7 +80,11 @@ register_wibeth(py::module& m)
       [](WIBEthFrame::WIBHeader& self) -> uint32_t {return self.colddata_timestamp_0;},
       [](WIBEthFrame::WIBHeader& self, uint32_t colddata_timestamp_0) {self.colddata_timestamp_0 = colddata_timestamp_0;}
       )
-  ;
+    .def_property("extra_data",
+      [](WIBEthFrame::WIBHeader& self) -> uint64_t {return self.extra_data;},
+      [](WIBEthFrame::WIBHeader& self, uint64_t extra_data) {self.extra_data = extra_data;}
+      )
+    ;
 
   py::class_<WIBEthFrame>(m, "WIBEthFrame", py::buffer_protocol())
     .def(py::init())
@@ -99,6 +103,8 @@ register_wibeth(py::module& m)
     .def("set_adc", &WIBEthFrame::set_adc)
     .def("get_timestamp", &WIBEthFrame::get_timestamp)
     .def("set_timestamp", &WIBEthFrame::set_timestamp)
+    .def("get_channel", &WIBEthFrame::get_channel)
+    .def("set_channel", &WIBEthFrame::set_channel)
     .def_static("sizeof", [](){ return sizeof(WIBEthFrame); })
     .def("get_bytes",
          [](WIBEthFrame* fr) -> py::bytes {

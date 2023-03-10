@@ -55,6 +55,7 @@ public:
   struct WIBHeader
   {	  
     word_t colddata_timestamp_0 : 15, colddata_timestamp_1 : 15, crc_err : 2, link_valid : 2, lol : 1, wib_sync : 1, femb_sync : 2, pulser : 1, calibration : 1, ready : 1, context : 8, reserved : 3, version : 4, channel : 8;
+    word_t extra_data; 
   };
 
   // ===============================================================
@@ -137,6 +138,21 @@ public:
   {
     daq_header.timestamp = new_timestamp;
   }
+
+  /** @brief Get the channel identifier of the frame
+   */
+  uint8_t get_channel() const // NOLINT(build/unsigned)
+  {
+    return header.channel ; // NOLINT(build/unsigned)
+  }
+
+  /** @brief Set the channel identifier of the frame
+   */
+  void set_channel(const uint8_t new_channel) // NOLINT(build/unsigned)
+  {
+    header.channel = new_channel;
+  }
+
 };
 
 } // namespace wibeth
