@@ -87,6 +87,8 @@ register_trigger_activity(py::module& m)
                 }
                 return self.inputs[i];
             })
+      .def("sizeof", [](TriggerActivity& self){ return sizeof(TriggerActivityData)+sizeof(uint64_t)+self.n_inputs*sizeof(TriggerPrimitive); })
+      
       ;
 }
 
