@@ -40,6 +40,11 @@ register_trigger_primitive(py::module& m)
         auto tp = *static_cast<TriggerPrimitive*>(capsule.get_pointer());
         return tp;
 		  } ))
+    .def(py::init([](py::bytes bytes){
+      py::buffer_info info(py::buffer(bytes).request());
+      auto tp = *static_cast<TriggerPrimitive*>(info.ptr);
+      return tp;
+    }))
     .def_property_readonly("version", [](TriggerPrimitive& self) -> uint16_t {return self.version;})
     .def_property_readonly("time_start", [](TriggerPrimitive& self) -> uint64_t {return self.time_start;})
     .def_property_readonly("time_peak", [](TriggerPrimitive& self) -> uint64_t {return self.time_peak;})

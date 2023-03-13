@@ -45,6 +45,7 @@ extern void register_ssp(pybind11::module &);
 namespace trigger {
 namespace python {
 extern void register_trigger_primitive(pybind11::module &);
+extern void register_trigger_activity(pybind11::module &);
 }
 }  // namespace trigger
 

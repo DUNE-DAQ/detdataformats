@@ -9,9 +9,9 @@
 #ifndef DETDATAFORMATS_INCLUDE_DETDATAFORMATS_TRIGGER_TRIGGEROBJECTOVERLAY_HPP_
 #define DETDATAFORMATS_INCLUDE_DETDATAFORMATS_TRIGGER_TRIGGEROBJECTOVERLAY_HPP_
 
-#include "detdataformats/trigger/TriggerActivityData.hpp"
-#include "detdataformats/trigger/TriggerCandidateData.hpp"
-#include "detdataformats/trigger/TriggerPrimitive.hpp"
+// #include "detdataformats/trigger/TriggerPrimitive.hpp"
+// #include "detdataformats/trigger/TriggerActivityData.hpp"
+// #include "detdataformats/trigger/TriggerCandidateData.hpp"
 
 namespace dunedaq {
 namespace detdataformats {
@@ -30,12 +30,12 @@ struct TriggerObjectOverlay
   #pragma GCC diagnostic pop
 };
 
-using TriggerActivity = TriggerObjectOverlay<TriggerActivityData, TriggerPrimitive>;
+// using TriggerActivity = TriggerObjectOverlay<TriggerActivityData, TriggerPrimitive>;
 
-using TriggerCandidate = TriggerObjectOverlay<TriggerCandidateData, TriggerActivityData>;
+// using TriggerCandidate = TriggerObjectOverlay<TriggerCandidateData, TriggerActivityData>;
 
 } // namespace trigger
 } // namespace detdataformats
 } // namespace dunedaq
 
-#endif // DETDATAFORMATS_INCLUDE_DETDATAFORMATS_TRIGGER_TRIGGERCANDIDATEOVERLAY_HPP_
+#endif // DETDATAFORMATS_INCLUDE_DETDATAFORMATS_TRIGGER_TRIGGEROBJECTOVERLAY_HPP_
