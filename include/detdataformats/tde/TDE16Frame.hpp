@@ -35,6 +35,8 @@ struct TDE16Header
   uint32_t tde_header : 10, tde_errors : 22;
 
   uint64_t get_timestamp() const { return (uint64_t)(timestamp_1) | ((uint64_t)(timestamp_2) << 32); }
+  uint16_t get_channel() const { return link; }
+
   uint64_t get_TAItime() const { return (uint64_t)(TAItime_1) | ((uint64_t)(TAItime_2) << 32); }
   void set_timestamp(const uint64_t new_timestamp) 
   {
@@ -105,6 +107,7 @@ public:
   void set_timestamp(const uint64_t new_timestamp) { tde16header.set_timestamp(new_timestamp); } 
   void set_TAItime(const uint64_t new_TAItime) { tde16header.set_TAItime(new_TAItime); } 
   uint64_t get_timestamp() const { return tde16header.get_timestamp(); } 
+  uint32_t get_channel() const { return tde16header.get_channel(); } 
 
   // ADC16Data mutators
   void set_adc_samples(const uint16_t new_adc_val, int sample_no) { adc16data.samples_info[sample_no].sample = new_adc_val; } 
