@@ -42,7 +42,8 @@ struct TriggerCandidateData
     kADCSimpleWindow = 4,
     kHorizontalMuon = 5,
     kMichelElectron = 6, 
-    kLowEnergyEvent = 7, 
+    kLowEnergyEvent = 7,
+    kCustom = 8, 
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
