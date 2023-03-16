@@ -107,7 +107,7 @@ public:
   void set_timestamp(const uint64_t new_timestamp) { tde16header.set_timestamp(new_timestamp); } 
   void set_TAItime(const uint64_t new_TAItime) { tde16header.set_TAItime(new_TAItime); } 
   uint64_t get_timestamp() const { return tde16header.get_timestamp(); } 
-  uint32_t get_channel() const { return tde16header.get_channel(); } 
+  uint16_t get_channel() const { return tde16header.get_channel(); } 
 
   // ADC16Data mutators
   void set_adc_samples(const uint16_t new_adc_val, int sample_no) { adc16data.samples_info[sample_no].sample = new_adc_val; } 
