@@ -30,10 +30,6 @@ struct TriggerObjectOverlay
   #pragma GCC diagnostic pop
 };
 
-// using TriggerActivity = TriggerObjectOverlay<TriggerActivityData, TriggerPrimitive>;
-
-// using TriggerCandidate = TriggerObjectOverlay<TriggerCandidateData, TriggerActivityData>;
-
 } // namespace trigger
 } // namespace detdataformats
 } // namespace dunedaq
