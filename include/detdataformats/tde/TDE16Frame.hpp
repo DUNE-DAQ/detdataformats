@@ -105,6 +105,7 @@ public:
   // TDE16Header mutators
   void set_tde_errors(const uint16_t new_tde_errors) { tde16header.tde_errors = new_tde_errors; } 
   void set_timestamp(const uint64_t new_timestamp) { tde16header.set_timestamp(new_timestamp); } 
+  void set_channel(const uint16_t new_channel) { tde16header.link=new_channel; } 
   void set_TAItime(const uint64_t new_TAItime) { tde16header.set_TAItime(new_TAItime); } 
   uint64_t get_timestamp() const { return tde16header.get_timestamp(); } 
   uint16_t get_channel() const { return tde16header.get_channel(); } 
