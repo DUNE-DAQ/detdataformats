@@ -32,10 +32,10 @@ register_wibeth(py::module& m)
       [](WIBEthFrame::WIBHeader& self) -> uint32_t {return self.version;},
       [](WIBEthFrame::WIBHeader& self, uint32_t version) {self.version = version;}
       )
-    .def_property("reserved",
-      [](WIBEthFrame::WIBHeader& self) -> uint32_t {return self.reserved;},
-      [](WIBEthFrame::WIBHeader& self, uint32_t reserved) {self.reserved = reserved;}
-      )
+    // .def_property("reserved",
+      // [](WIBEthFrame::WIBHeader& self) -> uint32_t {return self.reserved;},
+      // [](WIBEthFrame::WIBHeader& self, uint32_t reserved) {self.reserved = reserved;}
+      // )
     .def_property("context",
       [](WIBEthFrame::WIBHeader& self) -> uint32_t {return self.context;},
       [](WIBEthFrame::WIBHeader& self, uint32_t context) {self.version = context;}
@@ -76,7 +76,7 @@ register_wibeth(py::module& m)
       [](WIBEthFrame::WIBHeader& self) -> uint32_t {return self.colddata_timestamp_1;},
       [](WIBEthFrame::WIBHeader& self, uint32_t colddata_timestamp_1) {self.lol = colddata_timestamp_1;}
       )
-    .def_property("colddata_timestamp_1",
+    .def_property("colddata_timestamp_0",
       [](WIBEthFrame::WIBHeader& self) -> uint32_t {return self.colddata_timestamp_0;},
       [](WIBEthFrame::WIBHeader& self, uint32_t colddata_timestamp_0) {self.colddata_timestamp_0 = colddata_timestamp_0;}
       )
