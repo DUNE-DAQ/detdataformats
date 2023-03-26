@@ -54,7 +54,22 @@ public:
 
   struct WIBHeader
   {	  
-    word_t colddata_timestamp_0 : 15, colddata_timestamp_1 : 15, crc_err : 2, link_valid : 2, lol : 1, wib_sync : 1, femb_sync : 2, pulser : 1, calibration : 1, ready : 1, context : 8, reserved : 3, version : 4, channel : 8;
+    word_t colddata_timestamp_0 : 15;
+    word_t pad_0: 1;
+    word_t colddata_timestamp_1 : 15;
+    word_t pad_1: 1;
+    word_t cd: 1;
+    word_t crc_err : 2;
+    word_t link_valid : 2;
+    word_t lol : 1;
+    word_t wib_sync : 1;
+    word_t femb_sync : 2;
+    word_t pulser : 1;
+    word_t calibration : 1;
+    word_t ready : 1;
+    word_t context : 8;
+    word_t version : 4;
+    word_t channel : 8;
     word_t extra_data; 
   };
 
@@ -63,7 +78,8 @@ public:
   // ===============================================================
   detdataformats::DAQEthHeader daq_header;
   WIBHeader header;
-  word_t adc_words[s_num_adc_words_per_ts][s_time_samples_per_frame]; // NOLINT
+  // word_t adc_words[s_num_adc_words_per_ts][s_time_samples_per_frame]; // NOLINT
+  word_t adc_words[s_time_samples_per_frame][s_num_adc_words_per_ts]; // NOLINT
 
   // ===============================================================
   // Accessors
@@ -72,7 +88,8 @@ public:
   /**
    * @brief Get the ith ADC value in the frame
    *
-   * The ADC words are 14 bits long, stored packed in the data structure. 
+   * The ADC words are 14 bits long;
+   * wrod_t stored packed in the data structure. 
    * The order is: 64 channels repeated for 64 time samples
    *
    */
@@ -88,11 +105,13 @@ public:
     int first_bit_position = (s_bits_per_adc * i) % s_bits_per_word;
     // How many bits of our desired ADC are located in the `word_index`th word
     int bits_from_first_word = std::min(s_bits_per_adc, s_bits_per_word - first_bit_position);
-    uint16_t adc = adc_words[word_index][sample] >> first_bit_position; // NOLINT(build/unsigned)
+    // uint16_t adc = adc_words[word_index][sample] >> first_bit_position; // NOLINT(build/unsigned)
+    uint16_t adc = adc_words[sample][word_index] >> first_bit_position; // NOLINT(build/unsigned)
     // If we didn't get the full 14 bits from this word, we need the rest from the next word
     if (bits_from_first_word < s_bits_per_adc) {
       assert(word_index + 1 < s_num_adc_words_per_ts);
-      adc |= adc_words[word_index + 1][sample] << bits_from_first_word;
+      // adc |= adc_words[word_index + 1][sample] << bits_from_first_word;
+      adc |= adc_words[sample][word_index + 1] << bits_from_first_word;
     }
     // Mask out all but the lowest 14 bits;
     return adc & 0x3FFFu;
