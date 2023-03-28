@@ -22,6 +22,7 @@ namespace dunedaq {
 namespace detdataformats {
 namespace tde {
 
+static constexpr int ticks_between_adc_samples = 32;
 static constexpr int tot_adc16_samples = 4474;
 static constexpr int payload16 = 8972;
 
