@@ -35,6 +35,7 @@ register_tde(py::module& m)
     }))
     .def("get_timestamp", &TDE16Frame::get_timestamp)
     .def("set_timestamp", &TDE16Frame::set_timestamp)
+    .def("get_channel", &TDE16Frame::get_channel)
     .def("get_tde_header", [](TDE16Frame& self) -> TDE16Header* {return self.get_tde_header();}, py::return_value_policy::reference_internal)
     .def_static("sizeof", [](){ return sizeof(TDE16Frame); })
     .def("get_bytes",
