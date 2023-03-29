@@ -22,7 +22,9 @@ namespace dunedaq {
 namespace detdataformats {
 namespace tde {
 
+static constexpr int ticks_between_adc_samples = 32;
 static constexpr int tot_adc16_samples = 4474;
+static constexpr int n_channels_per_amc = 64;
 static constexpr int payload16 = 8972;
 
 struct TDE16Header
@@ -88,7 +90,7 @@ struct ADC16Data
 {
   Sample samples_info[tot_adc16_samples];
 
-  uint16_t get_adc_samples(int i) const
+  uint16_t get_adc_sample(int i) const
   {
     if (i < 0 || i >= tot_adc16_samples) { throw std::out_of_range("ADC sample index out of range"); }
     
@@ -111,8 +113,8 @@ public:
   uint16_t get_channel() const { return tde16header.get_channel(); } 
 
   // ADC16Data mutators
-  void set_adc_samples(const uint16_t new_adc_val, int sample_no) { adc16data.samples_info[sample_no].sample = new_adc_val; } 
-  uint16_t get_adc_samples(int sample_no) const { return adc16data.get_adc_samples(sample_no); } 
+  void set_adc_sample(const uint16_t new_adc_val, int sample_no) { adc16data.samples_info[sample_no].sample = new_adc_val; } 
+  uint16_t get_adc_sample(int sample_no) const { return adc16data.get_adc_sample(sample_no); } 
 
   friend std::ostream& operator<<(std::ostream& o, TDE16Frame const& tde16frame);
 

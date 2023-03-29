@@ -23,8 +23,10 @@ namespace dunedaq {
 namespace detdataformats {
 namespace tde {
 
+static constexpr int ticks_between_adc_samples = 32;
 static constexpr int tot_adc12_samples = 5960;
 static constexpr int bits_per_adc = 12;
+static constexpr int n_channels_per_amc = 64;
 static constexpr int bits_per_word = 8 * sizeof(uint32_t);
 //static constexpr int tot_num_words = tot_adc12_samples * bits_per_adc/bits_per_word;
 static constexpr int tot_num_words = 2235;
