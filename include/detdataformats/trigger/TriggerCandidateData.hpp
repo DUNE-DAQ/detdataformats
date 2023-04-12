@@ -31,6 +31,7 @@ struct TriggerCandidateData
     kHorizontalMuon = 7,
     kMichelElectron = 8,
     kPlaneCoincidence = 9,
+    kPDS = 10,
   };
 
   enum class Algorithm
@@ -44,6 +45,7 @@ struct TriggerCandidateData
     kMichelElectron = 6, 
     kPlaneCoincidence = 7,    
     kCustom = 8, 
+    kPDS = 9,
   };
 
   // Update this version number if there are any changes to the in-memory representation of this class!
