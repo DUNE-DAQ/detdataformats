@@ -41,15 +41,15 @@ BOOST_AUTO_TEST_CASE(WIBEthFrame_ADCDataMutators)
 
   // Set ADCs from ADC samples
   WIBEthFrame wibethframe {};
-  for(int i=0; i<v.size(); ++i) {
-    for(int j=0; j<v[i].size(); ++j) {
+  for(std::size_t i=0; i<v.size(); ++i) {
+    for(std::size_t j=0; j<v[i].size(); ++j) {
       wibethframe.set_adc(i, j, v[i][j]);
     }
   }
 
   // Get ADCs and compare
-  for(int i=0; i<v.size(); ++i) {
-    for(int j=0; j<v[i].size(); ++j) {
+  for(std::size_t i=0; i<v.size(); ++i) {
+    for(std::size_t j=0; j<v[i].size(); ++j) {
       BOOST_REQUIRE_EQUAL(wibethframe.get_adc(i, j), v[i][j]);
     }
   }
