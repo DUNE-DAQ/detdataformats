@@ -23,24 +23,34 @@ BOOST_AUTO_TEST_SUITE(WIBEthFrame_test)
 
 BOOST_AUTO_TEST_CASE(WIBEthFrame_ADCDataMutators)
 {
+  // RNG with max 14 bit values
   std::random_device dev;
   std::mt19937 rng(dev());
-  std::uniform_int_distribution<std::mt19937::result_type> dist(1,(1<<14)-1);
-  std::vector<int> v;
-  for(int i=0; i<64 * 64; i++) {
-    v.push_back(dist(rng));
-  }
+  int max_adc_value = (unsigned)(1<<14)-1;
+  std::uniform_int_distribution<std::mt19937::result_type> dist(1, max_adc_value);
 
-  WIBEthFrame wibethframe {};
-  for(int i=0; i<64; i++) {
-    for(int j=0; j<64; j++) {
-      wibethframe.set_adc(i, j, v[i + 64*j]);
+  // Prepare source vector with ADC samples
+  std::vector<std::vector<uint16_t>> v;
+  for(int i=0; i<64; ++i) {
+    v.emplace_back(std::vector<uint16_t>(64));
+    for (int j=0; j<64; ++j) {
+      auto rand_val = dist(rng);
+      v[i][j] = ((uint16_t)rand_val);
     }
   }
 
-  for(int i=0; i<64; i++) {
-    for(int j=0; j<64; j++) {
-      BOOST_REQUIRE_EQUAL(wibethframe.get_adc(i, j), v[i + 64 * j]);
+  // Set ADCs from ADC samples
+  WIBEthFrame wibethframe {};
+  for(int i=0; i<v.size(); ++i) {
+    for(int j=0; j<v[i].size(); ++j) {
+      wibethframe.set_adc(i, j, v[i][j]);
+    }
+  }
+
+  // Get ADCs and compare
+  for(int i=0; i<v.size(); ++i) {
+    for(int j=0; j<v[i].size(); ++j) {
+      BOOST_REQUIRE_EQUAL(wibethframe.get_adc(i, j), v[i][j]);
     }
   }
 
