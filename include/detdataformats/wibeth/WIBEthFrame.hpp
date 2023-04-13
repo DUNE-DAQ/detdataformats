@@ -135,12 +135,12 @@ public:
     // How many bits of our desired ADC are located in the `word_index`th word
     int bits_in_first_word = std::min(s_bits_per_adc, s_bits_per_word - first_bit_position);
     uint64_t mask = (static_cast<uint64_t>(1) << first_bit_position) - 1;
-    adc_words[word_index][sample] = ((static_cast<uint64_t>(val) << first_bit_position) & ~mask) | (adc_words[word_index][sample] & mask);
+    adc_words[sample][word_index] = ((static_cast<uint64_t>(val) << first_bit_position) & ~mask) | (adc_words[sample][word_index] & mask);
     // If we didn't put the full 14 bits in this word, we need to put the rest in the next word
     if (bits_in_first_word < s_bits_per_adc) {
       assert(word_index + 1 < s_num_adc_words);
       mask = (1 << (s_bits_per_adc - bits_in_first_word)) - 1;
-      adc_words[word_index + 1][sample] = ((val >> bits_in_first_word) & mask) | (adc_words[word_index + 1][sample] & ~mask);
+      adc_words[sample][word_index + 1] = ((val >> bits_in_first_word) & mask) | (adc_words[sample][word_index + 1] & ~mask);
     }
   }
 
