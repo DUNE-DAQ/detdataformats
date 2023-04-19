@@ -15,8 +15,7 @@ daq_add_library(LINK_LIBRARIES)
 
 ##############################################################################
 
-message(WARNING "Skipping Python bindings for now")
-#daq_add_python_bindings(*.cpp LINK_LIBRARIES ${PROJECT_NAME})
+daq_add_python_bindings(*.cpp LINK_LIBRARIES ${PROJECT_NAME})
 
 ##############################################################################
 # Plugins

@@ -12,24 +12,6 @@ void register_daqheader(pybind11::module &);
 void register_daqethheader(pybind11::module &);
 }  // namespace python
 
-namespace wib {
-namespace python {
-extern void register_wib(pybind11::module &);
-}
-}  // namespace wib
-
-namespace daphne {
-namespace python {
-extern void register_daphne(pybind11::module &);
-}
-}  // namespace daphne
-
-namespace ssp {
-namespace python {
-extern void register_ssp(pybind11::module &);
-}
-}  // namespace ssp
-
 namespace trigger {
 namespace python {
 extern void register_trigger_primitive(pybind11::module &);
@@ -41,13 +23,6 @@ namespace python {
 extern void register_hsi(pybind11::module &);
 }
 }  // namespace hsi
-
-
-namespace tde {
-namespace python {
-extern void register_tde(pybind11::module &);
-}
-}  // namespace tde
 
 }  // namespace detdataformats
 }  // namespace dunedaq
