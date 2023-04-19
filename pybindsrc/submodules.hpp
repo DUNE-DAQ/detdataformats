@@ -18,18 +18,6 @@ extern void register_wib(pybind11::module &);
 }
 }  // namespace wib
 
-namespace wib2 {
-namespace python {
-extern void register_wib2(pybind11::module &);
-}
-}  // namespace wib2
-
-namespace wibeth {
-namespace python {
-extern void register_wibeth(pybind11::module &);
-}
-} // namespace wibeth
-
 namespace daphne {
 namespace python {
 extern void register_daphne(pybind11::module &);

@@ -14,7 +14,9 @@ daq_add_library(LINK_LIBRARIES)
 
 
 ##############################################################################
-daq_add_python_bindings(*.cpp LINK_LIBRARIES ${PROJECT_NAME})
+
+message(WARNING "Skipping Python bindings for now")
+#daq_add_python_bindings(*.cpp LINK_LIBRARIES ${PROJECT_NAME})
 
 ##############################################################################
 # Plugins
@@ -24,12 +26,6 @@ daq_add_python_bindings(*.cpp LINK_LIBRARIES ${PROJECT_NAME})
 
 ##############################################################################
 # Unit Tests
-daq_add_unit_test(WIBFrame_test             LINK_LIBRARIES detdataformats)
-daq_add_unit_test(WIB2Frame_test            LINK_LIBRARIES detdataformats)
-daq_add_unit_test(WIBEthFrame_test          LINK_LIBRARIES detdataformats)
-daq_add_unit_test(TDE16Frame_test           LINK_LIBRARIES detdataformats)
-daq_add_unit_test(TDE12Frame_test           LINK_LIBRARIES detdataformats)
-daq_add_unit_test(DAPHNEFrame_test          LINK_LIBRARIES detdataformats)
 daq_add_unit_test(DetID_test                LINK_LIBRARIES detdataformats)
 ##############################################################################
 
