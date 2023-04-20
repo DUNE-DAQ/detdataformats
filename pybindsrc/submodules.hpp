@@ -12,12 +12,6 @@ void register_daqheader(pybind11::module &);
 void register_daqethheader(pybind11::module &);
 }  // namespace python
 
-namespace trigger {
-namespace python {
-extern void register_trigger_primitive(pybind11::module &);
-}
-}  // namespace trigger
-
 namespace hsi {
 namespace python {
 extern void register_hsi(pybind11::module &);

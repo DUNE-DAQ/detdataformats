@@ -24,9 +24,6 @@ PYBIND11_MODULE(_daq_detdataformats_py, m) {
     python::register_daqheader(m);
     python::register_daqethheader(m);
 
-    py::module_ trigger_primitive_module = m.def_submodule("trigger_primitive");
-    trigger::python::register_trigger_primitive(trigger_primitive_module);
-
     py::module_ hsi_module = m.def_submodule("hsi");
     hsi::python::register_hsi(hsi_module);
 
