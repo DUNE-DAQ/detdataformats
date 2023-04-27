@@ -22,7 +22,7 @@ class TOADObjectOverlay
     size_t sample_num = object.toadsamples.size();
     for (size_t i = 0; i < sample_num; i++) {
       overlay->toadsamples[i] = object.toadsamples[i];
-      //printf("sample: %d\n", (int)(overlay->toadsamples[i])); 
+      printf("sample: %d\n", (int)(overlay->toadsamples[i])); 
     }
     
   }
