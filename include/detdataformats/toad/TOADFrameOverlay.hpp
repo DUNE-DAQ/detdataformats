@@ -10,13 +10,15 @@ namespace detdataformats {
 namespace toad {
 
 struct TOADFrameOverlay {
-  unsigned fec: 16;
   uint64_t tstmp;
-  bool hdr_par_check: 1;
   size_t n_samples;
   size_t n_bytes;
+  uint64_t fec : 16;
+  uint64_t hdr_par_check : 1;
+  uint64_t padding1 : 15;
+  uint64_t padding2 : 32;
   //char toadsample_test[100];
-  unsigned short toadsamples[];
+  uint16_t toadsamples[];
 
   uint64_t get_timestamp() const {
     return tstmp;
@@ -26,20 +28,20 @@ struct TOADFrameOverlay {
     tstmp = new_tstmp;
   }
  
-  size_t get_size() {
+  size_t get_size() const {
     return n_bytes;
   }
 
-  int get_n_samples(){
+  int get_n_samples() const {
     return n_samples;
   }
 
-  int get_first_sample() {
-    printf("%p, %p, %p", &n_bytes, &toadsamples[0], &toadsamples[n_samples]); 
+  int get_first_sample() const {
+    printf("%p, %p, %p", (void*)&n_bytes, (void*)&toadsamples[0], (void*)&toadsamples[n_samples]); 
     return toadsamples[0];
   }
 
-  unsigned short get_samples(int j) {
+  unsigned short get_samples(int j)  const {
     return toadsamples[j];
   }    
 };
