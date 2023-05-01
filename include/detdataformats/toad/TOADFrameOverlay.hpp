@@ -9,13 +9,14 @@ namespace dunedaq {
 namespace detdataformats {
 namespace toad {
 
-struct TOADFrameOverlay {
-  unsigned fec: 16;
+class TOADFrameOverlay {
+  public:
   uint64_t tstmp;
-  bool hdr_par_check: 1;
   size_t n_samples;
-  size_t n_bytes;
-  //char toadsample_test[100];
+  size_t n_bytes; 
+  unsigned fec;
+  bool hdr_par_check;
+  //char toadsample_test[200];
   unsigned short toadsamples[];
 
   uint64_t get_timestamp() const {
@@ -35,13 +36,18 @@ struct TOADFrameOverlay {
   }
 
   int get_first_sample() {
-    printf("%p, %p, %p", &n_bytes, &toadsamples[0], &toadsamples[n_samples]); 
+    printf("%p, %p, %p\n", &n_bytes, &toadsamples[0], &toadsamples[n_samples]); 
     return toadsamples[0];
   }
 
   unsigned short get_samples(int j) {
     return toadsamples[j];
-  }    
+  } 
+
+  unsigned int bare_size()
+  {
+    return sizeof(tstmp)+sizeof(n_samples)+sizeof(n_bytes)+sizeof(fec)+sizeof(hdr_par_check);
+  }   
 };
  
 } // namespace toad
