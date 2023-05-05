@@ -9,6 +9,7 @@ namespace dunedaq {
 namespace detdataformats {
 namespace toad {
 
+
 struct TOADFrameOverlay {
   uint64_t tstmp;
   size_t n_samples;
@@ -43,7 +44,12 @@ struct TOADFrameOverlay {
 
   unsigned short get_samples(int j)  const {
     return toadsamples[j];
-  }    
+  } 
+
+  unsigned int bare_size()
+  {
+    return sizeof(tstmp)+sizeof(n_samples)+sizeof(n_bytes)+sizeof(fec)+sizeof(hdr_par_check);
+  }   
 };
  
 } // namespace toad

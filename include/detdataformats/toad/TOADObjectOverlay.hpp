@@ -27,7 +27,9 @@ class TOADObjectOverlay
     
   }
   size_t get_toad_overlay_nbytes(TOADFrame& object) {
-    return sizeof(TOADFrameOverlay) + object.toadsamples.size() * sizeof(unsigned short);
+    printf("%d %d %d %d\n", sizeof(TOADFrameOverlay), object.toadsamples.size() * sizeof(unsigned short),object.get_size(), sizeof(object));
+    return object.get_size() + sizeof(size_t) + sizeof(size_t);//sizeof(object);
+    //return overlay->bare_size() + object.toadsamples.size() * sizeof(unsigned short)+(640-544);
   }
     
 };
