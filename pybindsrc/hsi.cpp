@@ -5,17 +5,14 @@
  * Licensing/copyright details are in the COPYING file that you should have
  * received with this code.
  */
-#include "detdataformats/hsi/HSIFrame.hpp"
+#include "detdataformats/HSIFrame.hpp"
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dunedaq {
-namespace detdataformats {
-namespace hsi {
-namespace python {
+namespace dunedaq::detdataformats::python {
 
 void
 register_hsi(py::module& m)
@@ -45,7 +42,4 @@ register_hsi(py::module& m)
   ;
 }
 
-} // namespace python
-} // namespace hsi
-} // namespace detdataformats
-} // namespace dunedaq
+} // namespace dunedaq::detdataformats::python

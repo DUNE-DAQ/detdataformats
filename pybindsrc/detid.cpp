@@ -6,7 +6,6 @@
  * received with this code.
  */
 
-#include "submodules.hpp"
 #include "detdataformats/DetID.hpp"
 
 #include <pybind11/operators.h>

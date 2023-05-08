@@ -8,27 +8,25 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include "submodules.hpp"
 
 namespace py = pybind11;
 
-namespace dunedaq {
-namespace detdataformats {
-namespace python {
+namespace dunedaq::detdataformats::python {
+
+  extern void register_detid(py::module&);
+  extern void register_daqheader(py::module&);
+  extern void register_daqethheader(py::module&);
+  extern void register_hsi(py::module&);
 
 PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
     m.doc() = "c++ implementation of the dunedaq detdataformats modules"; // optional module docstring
 
-    python::register_detid(m);
-    python::register_daqheader(m);
-    python::register_daqethheader(m);
-
-    py::module_ hsi_module = m.def_submodule("hsi");
-    hsi::python::register_hsi(hsi_module);
+    register_detid(m);
+    register_daqheader(m);
+    register_daqethheader(m);
+    register_hsi(m);
 
 }
 
-} // namespace python
-} // namespace detdataformats
-} // namespace dunedaq
+} // namespace dunedaq::detdataformats::python
