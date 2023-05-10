@@ -6,17 +6,14 @@
  * received with this code.
  */
 
+#include "registrators.hpp"
+
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
 namespace dunedaq::detdataformats::python {
-
-  extern void register_detid(py::module&);
-  extern void register_daqheader(py::module&);
-  extern void register_daqethheader(py::module&);
-  extern void register_hsi(py::module&);
 
 PYBIND11_MODULE(_daq_detdataformats_py, m) {
 
