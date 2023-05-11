@@ -8,14 +8,12 @@
  * received with this code.
  */
 
-#ifndef DETDATAFORMATS_INCLUDE_HSI_HSIFRAME_HPP_
-#define DETDATAFORMATS_INCLUDE_HSI_HSIFRAME_HPP_
+#ifndef DETDATAFORMATS_INCLUDE_HSIFRAME_HPP_
+#define DETDATAFORMATS_INCLUDE_HSIFRAME_HPP_
 
 #include <cstdint>  // For uint32_t etc
 
-namespace dunedaq {
-namespace detdataformats {
-namespace hsi {
+namespace dunedaq::detdataformats {
 
 class HSIFrame
 {
@@ -43,11 +41,9 @@ public:
   }
 };
 
-} // namespace hsi
-} // namespace detdataformats
-} // namespace dunedaq
+} // namespace dunedaq::detdataformats
 
-#endif // DETDATAFORMATS_INCLUDE_HSI_HSIFRAME_HPP_
+#endif // DETDATAFORMATS_INCLUDE_HSIFRAME_HPP_
 
 // Local Variables:
 // c-basic-offset: 2

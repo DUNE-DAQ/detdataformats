@@ -6,7 +6,6 @@
  * received with this code.
  */
 
-#include "submodules.hpp"
 #include "detdataformats/DAQHeader.hpp"
 
 #include <pybind11/operators.h>
@@ -22,11 +21,6 @@ namespace dunedaq::detdataformats::python {
 void register_daqheader(py::module& m) {
 
   py::class_<DAQHeader>(m, "DAQHeader", py::buffer_protocol())
-    // .def(py::init())
-    // .def(py::init([](py::capsule capsule) {
-    //     auto dhp = *static_cast<DAQHeader*>(capsule.get_pointer());
-    //     return dhp;
-    // } ))
     .def_property("version", 
       [](DAQHeader& self) -> uint32_t { return self.version; }, 
       [](DAQHeader& self, uint32_t version) { self.version = version; } 
