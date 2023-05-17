@@ -12,7 +12,6 @@ class TOADFrame
   uint64_t tstmp : 64;
   bool hdr_par_check: 1;
   std::vector<unsigned short> toadsamples;
-  int get_size(){ return sizeof(unsigned) + sizeof(uint64_t) + sizeof(bool) + sizeof(unsigned short)*toadsamples.size();}
 };
 } // namespace toad
 } // namespace detdataformats
