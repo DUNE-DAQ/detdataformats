@@ -39,6 +39,7 @@ register_hsi(py::module& m)
     .def_property_readonly("input_high", [](const HSIFrame& self) -> uint64_t {return self.input_high;})
     .def_property_readonly("trigger", [](const HSIFrame& self) -> uint64_t {return self.trigger;})
     .def_property_readonly("sequence", [](const HSIFrame& self) -> uint64_t {return self.sequence;})
+    .def_static("sizeof", [](){ return sizeof(HSIFrame); })
   ;
 }
 
