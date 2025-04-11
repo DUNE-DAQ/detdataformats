@@ -83,8 +83,10 @@ DetID::subdetector_to_string(const Subdetector& type)
       return "VD_Bottom_TPC";
     case Subdetector::kVD_TopTPC:
       return "VD_Top_TPC";
-    case Subdetector::kVD_CRT:
-      return "VD_CRT";
+    case Subdetector::kVD_BernCRT:
+      return "VD_BernCRT";
+    case Subdetector::kVD_GrenobleCRT:
+      return "VD_GrenobleCRT";
     case Subdetector::kNDLAr_TPC:
       return "NDLAr_TPC";
     case Subdetector::kNDLAr_PDS:
@@ -115,8 +117,10 @@ DetID::string_to_subdetector(const std::string& typestring)
     return Subdetector::kVD_BottomTPC;
   if (typestring == "VD_Top_TPC")
     return Subdetector::kVD_TopTPC;
-  if (typestring == "VD_CRT")
-    return Subdetector::kVD_CRT;
+  if (typestring == "VD_BernCRT")
+    return Subdetector::kVD_BernCRT;
+  if (typestring == "VD_GrenobleCRT")
+    return Subdetector::kVD_GrenobleCRT;
   if (typestring == "NDLAr_TPC")
     return Subdetector::kNDLAr_TPC;
   if (typestring == "NDLAr_PDS")
