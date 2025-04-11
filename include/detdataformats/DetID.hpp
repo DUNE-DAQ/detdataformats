@@ -47,6 +47,8 @@ struct DetID
     kVD_MembranePDS = 9,
     kVD_BottomTPC = 10,
     kVD_TopTPC = 11,
+    kVD_BernCRT = 12,
+    kVD_GrenobleCRT = 13,
     kNDLAr_TPC = 32,
     kNDLAr_PDS = 33,
     kND_GAr = 34
