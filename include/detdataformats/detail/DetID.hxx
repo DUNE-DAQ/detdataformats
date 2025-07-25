@@ -76,13 +76,13 @@ DetID::subdetector_to_string(const Subdetector& type)
     case Subdetector::kHD_CRT:
       return "HD_CRT";
     case Subdetector::kVD_CathodePDS:
-      return "VD_Cathode_PDS";
+      return "VD_CathodePDS";
     case Subdetector::kVD_MembranePDS:
-      return "VD_Membrane_PDS";
+      return "VD_MembranePDS";
     case Subdetector::kVD_BottomTPC:
-      return "VD_Bottom_TPC";
+      return "VD_BottomTPC";
     case Subdetector::kVD_TopTPC:
-      return "VD_Top_TPC";
+      return "VD_TopTPC";
     case Subdetector::kVD_BernCRT:
       return "VD_BernCRT";
     case Subdetector::kVD_GrenobleCRT:
@@ -109,13 +109,13 @@ DetID::string_to_subdetector(const std::string& typestring)
     return Subdetector::kHD_TPC;
   if (typestring == "HD_CRT")
     return Subdetector::kHD_CRT;
-  if (typestring == "VD_Cathode_PDS")
+  if (typestring == "VD_CathodePDS")
     return Subdetector::kVD_CathodePDS;
-  if (typestring == "VD_Membrane_PDS")
+  if (typestring == "VD_MembranePDS")
     return Subdetector::kVD_MembranePDS;
-  if (typestring == "VD_Bottom_TPC")
+  if (typestring == "VD_BottomTPC")
     return Subdetector::kVD_BottomTPC;
-  if (typestring == "VD_Top_TPC")
+  if (typestring == "VD_TopTPC")
     return Subdetector::kVD_TopTPC;
   if (typestring == "VD_BernCRT")
     return Subdetector::kVD_BernCRT;
