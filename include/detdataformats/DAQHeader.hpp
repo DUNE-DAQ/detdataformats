@@ -22,6 +22,8 @@ struct DAQHeader
 {
   using word_t = uint32_t; // NOLINT(build/unsigned)
 
+  static constexpr size_t s_expected_bytes { 12 };
+
   word_t version : 6, det_id : 6, crate_id : 10, slot_id : 4, link_id : 6;
   word_t timestamp_1 : 32;
   word_t timestamp_2 : 32;
@@ -39,6 +41,8 @@ operator<<(std::ostream& o, DAQHeader const& h)
            << " SlotID:" << unsigned(h.slot_id) << " LinkID:" << unsigned(h.link_id)
            << " Timestamp: " << h.get_timestamp() << '\n';
 }
+
+  static_assert(DAQHeader::s_expected_bytes == sizeof(DAQHeader));
 
 } // namespace dunedaq::detdataformats
 

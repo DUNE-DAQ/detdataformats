@@ -22,6 +22,8 @@ struct DAQEthHeader
 {
   using word_t = uint64_t; // NOLINT(build/unsigned)
 
+  static constexpr size_t s_expected_bytes { 16 };
+
   word_t version : 6, det_id : 6, crate_id : 10, slot_id : 4, stream_id : 8, reserved : 6, seq_id : 12, block_length : 12;
   word_t timestamp : 64;
 
@@ -39,6 +41,8 @@ operator<<(std::ostream& o, DAQEthHeader const& h)
            << " SequenceID: " << unsigned(h.seq_id) << " Block length: " << unsigned(h.block_length)
 	   << " Timestamp: " << h.get_timestamp() << '\n';
 }
+
+  static_assert(DAQEthHeader::s_expected_bytes == sizeof(DAQEthHeader));
 
 } // namespace dunedaq::detdataformats
 
