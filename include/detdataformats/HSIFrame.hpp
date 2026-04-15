@@ -22,12 +22,12 @@ public:
   typedef uint32_t word_t; // NOLINT
   
   word_t version : 6, detector_id : 6, crate : 10, slot : 4, link : 6;
-  word_t timestamp_low : 32;
-  word_t timestamp_high : 32;
-  word_t input_low : 32;
-  word_t input_high : 32;
-  word_t trigger : 32;
-  word_t sequence : 32;
+  word_t timestamp_low;
+  word_t timestamp_high;
+  word_t input_low;
+  word_t input_high;
+  word_t trigger;
+  word_t sequence;
 
   uint64_t get_timestamp() const // NOLINT(build/unsigned)
   {
@@ -40,8 +40,10 @@ public:
     timestamp_high = ts >> 32;
   }
 };
-
+  
 } // namespace dunedaq::detdataformats
+
+#include "detail/HSIFrame.hxx"
 
 #endif // DETDATAFORMATS_INCLUDE_HSIFRAME_HPP_
 

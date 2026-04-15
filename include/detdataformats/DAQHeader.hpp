@@ -23,8 +23,8 @@ struct DAQHeader
   using word_t = uint32_t; // NOLINT(build/unsigned)
 
   word_t version : 6, det_id : 6, crate_id : 10, slot_id : 4, link_id : 6;
-  word_t timestamp_1 : 32;
-  word_t timestamp_2 : 32;
+  word_t timestamp_1;
+  word_t timestamp_2;
 
   uint64_t get_timestamp() const // NOLINT(build/unsigned)
   {
@@ -41,5 +41,7 @@ operator<<(std::ostream& o, DAQHeader const& h)
 }
 
 } // namespace dunedaq::detdataformats
+
+#include "detail/DAQHeader.hxx"
 
 #endif // DETDATAFORMATS_INCLUDE_DETDATAFORMATS_DAQHEADER_HPP_
