@@ -14,4 +14,13 @@ static_assert(sizeof(DAQHeader) == 12, "DAQHeader struct size different than exp
 static_assert(offsetof(DAQHeader, timestamp_1) == 4, "DAQHeader timestamp_1 field not at expected offset");
 static_assert(offsetof(DAQHeader, timestamp_2) == 8, "DAQHeader timestamp_2 field not at expected offset");
 
+
+inline std::ostream&
+operator<<(std::ostream& o, DAQHeader const& h)
+{
+  return o << "Version:" << unsigned(h.version) << " DetID:" << unsigned(h.det_id) << " CrateID:" << unsigned(h.crate_id)
+           << " SlotID:" << unsigned(h.slot_id) << " LinkID:" << unsigned(h.link_id)
+           << " Timestamp: " << h.get_timestamp() << '\n';
+}
+
 } // namespace dunedaq::detdataformats

@@ -63,10 +63,13 @@ struct DetID
     : subdetector(subdetector_arg)
   {}
 
-  inline static std::string subdetector_to_string(const Subdetector& type);
-  inline static Subdetector string_to_subdetector(const std::string& typestring);
+  static std::string subdetector_to_string(const Subdetector& type);
+  static Subdetector string_to_subdetector(const std::string& typestring);
 };
 
+  std::ostream& operator<<(std::ostream& o, DetID const& det_id);
+  std::istream& operator>>(std::istream& is, DetID& det_id);
+  
 } // namespace dunedaq::detdataformats
 
 #include "detail/DetID.hxx"

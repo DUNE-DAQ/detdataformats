@@ -33,13 +33,7 @@ struct DAQHeader
   } 
 };
 
-inline std::ostream&
-operator<<(std::ostream& o, DAQHeader const& h)
-{
-  return o << "Version:" << unsigned(h.version) << " DetID:" << unsigned(h.det_id) << " CrateID:" << unsigned(h.crate_id)
-           << " SlotID:" << unsigned(h.slot_id) << " LinkID:" << unsigned(h.link_id)
-           << " Timestamp: " << h.get_timestamp() << '\n';
-}
+std::ostream& operator<<(std::ostream& o, DAQHeader const& h);
 
 } // namespace dunedaq::detdataformats
 

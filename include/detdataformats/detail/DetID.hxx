@@ -56,7 +56,7 @@ operator>>(std::istream& is, DetID& det_id)
   return is;
 }
 
-std::string
+inline std::string
 DetID::subdetector_to_string(const Subdetector& type)
 {
   switch (type) {
@@ -91,7 +91,7 @@ DetID::subdetector_to_string(const Subdetector& type)
   }
 }
 
-DetID::Subdetector
+inline DetID::Subdetector
 DetID::string_to_subdetector(const std::string& typestring)
 {
   if (typestring == "DAQ")
