@@ -11,6 +11,7 @@
 #define DETDATAFORMATS_INCLUDE_DETDATAFORMATS_DAQETHHEADER_HPP_
 
 #include <cstdint>
+#include <limits>
 #include <ostream>
 
 namespace dunedaq::detdataformats {
@@ -23,7 +24,7 @@ struct DAQEthHeader
   using word_t = uint64_t; // NOLINT(build/unsigned)
 
   word_t version : 6, det_id : 6, crate_id : 10, slot_id : 4, stream_id : 8, reserved : 6, seq_id : 12, block_length : 12;
-  word_t timestamp;
+  word_t timestamp { std::numeric_limits<word_t>::max() };
 
   uint64_t get_timestamp() const // NOLINT(build/unsigned)
   {

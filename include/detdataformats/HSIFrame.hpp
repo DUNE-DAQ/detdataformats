@@ -12,6 +12,7 @@
 #define DETDATAFORMATS_INCLUDE_HSIFRAME_HPP_
 
 #include <cstdint>  // For uint32_t etc
+#include <limits>
 
 namespace dunedaq::detdataformats {
 
@@ -22,12 +23,12 @@ public:
   typedef uint32_t word_t; // NOLINT
   
   word_t version : 6, detector_id : 6, crate : 10, slot : 4, link : 6;
-  word_t timestamp_low;
-  word_t timestamp_high;
-  word_t input_low;
-  word_t input_high;
-  word_t trigger;
-  word_t sequence;
+  word_t timestamp_low { std::numeric_limits<word_t>::max() } ;
+  word_t timestamp_high { std::numeric_limits<word_t>::max() } ;
+  word_t input_low { std::numeric_limits<word_t>::max() } ;
+  word_t input_high { std::numeric_limits<word_t>::max() } ;
+  word_t trigger { std::numeric_limits<word_t>::max() } ;
+  word_t sequence { std::numeric_limits<word_t>::max() } ;
 
   uint64_t get_timestamp() const // NOLINT(build/unsigned)
   {
@@ -40,7 +41,7 @@ public:
     timestamp_high = ts >> 32;
   }
 };
-  
+
 } // namespace dunedaq::detdataformats
 
 #include "detail/HSIFrame.hxx"
