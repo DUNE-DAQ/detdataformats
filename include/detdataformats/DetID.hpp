@@ -28,8 +28,6 @@ namespace dunedaq::detdataformats {
  */
 struct DetID
 {
-
-  using Version_t = uint16_t;   // NOLINT(build/unsigned)
   using Subdetector_t = uint16_t; // NOLINT(build/unsigned)
 
   /**
@@ -55,15 +53,6 @@ struct DetID
   };
 
   /**
-   * @brief The version of this DetID struct.
-   */
-  static constexpr Version_t s_det_id_version = 1;
-
-  /**
-   * @brief Version number of the DetID
-   */
-  Version_t version{ s_det_id_version };
-  /**
    * @brief The general subdetector of the source of the data
    */
   Subdetector subdetector{ Subdetector::kUnknown };
@@ -73,15 +62,6 @@ struct DetID
   DetID(const Subdetector& subdetector_arg)
     : subdetector(subdetector_arg)
   {}
-
-  std::string to_string() const
-  {
-    std::ostringstream ostr;
-    ostr << subdetector_to_string(subdetector);
-    return ostr.str();
-  }
-
-  bool is_in_valid_state() const noexcept { return subdetector != Subdetector::kUnknown; }
 
   inline static std::string subdetector_to_string(const Subdetector& type);
   inline static Subdetector string_to_subdetector(const std::string& typestring);

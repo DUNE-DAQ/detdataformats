@@ -25,8 +25,6 @@ BOOST_AUTO_TEST_CASE(Comprehensive)
 
   DetID detid = { DetID::Subdetector::kND_GAr };
 
-  BOOST_REQUIRE(detid.is_in_valid_state());
-
   std::ostringstream ostr;
   ostr << detid;
   std::string output = ostr.str();
@@ -39,11 +37,10 @@ BOOST_AUTO_TEST_CASE(Comprehensive)
   std::istringstream iss(ostr.str());
   DetID detid_from_stream;
   iss >> detid_from_stream;
-  BOOST_REQUIRE_EQUAL(detid_from_stream.version, detid.version);
   BOOST_REQUIRE_EQUAL(detid_from_stream.subdetector, detid.subdetector);
 
   DetID detid_default;
-  BOOST_REQUIRE(!detid_default.is_in_valid_state());
+  BOOST_REQUIRE(detid_default.subdetector == DetID::Subdetector::kUnknown);
 
 }
 

@@ -24,11 +24,9 @@ void register_detid(py::module& m) {
       .def(py::init<const DetID::Subdetector&>())
       .def("__repr__", [](const DetID& gid) {
         std::ostringstream oss;
-        oss << "<detdataformats::DetID " << gid.to_string() << ">";
+        oss << "<detdataformats::DetID " << DetID::subdetector_to_string(gid.subdetector) << ">";
         return oss.str();
       })
-      .def("to_string", &DetID::to_string)
-      .def("is_in_valid_state", &DetID::is_in_valid_state)
       .def("subdetector_to_string", &DetID::subdetector_to_string)
       .def("string_to_subdetector", &DetID::string_to_subdetector);
 
@@ -47,8 +45,7 @@ void register_detid(py::module& m) {
       .value("kND_GAr", DetID::Subdetector::kND_GAr)
       .export_values();
 
-  py_detid.def_readwrite("version", &DetID::version)
-      .def_readwrite("subdetector", &DetID::subdetector);
+      py_detid.def_readwrite("subdetector", &DetID::subdetector);
 }
 
 }  // namespace dunedaq::detdataformats::python
