@@ -18,9 +18,13 @@ static_assert(offsetof(DAQHeader, timestamp_2) == 8, "DAQHeader timestamp_2 fiel
 inline std::ostream&
 operator<<(std::ostream& o, DAQHeader const& h)
 {
-  return o << "Version:" << unsigned(h.version) << " DetID:" << unsigned(h.det_id) << " CrateID:" << unsigned(h.crate_id)
-           << " SlotID:" << unsigned(h.slot_id) << " LinkID:" << unsigned(h.link_id)
-           << " Timestamp: " << h.get_timestamp() << '\n';
+  return o << "Version:" << static_cast<unsigned>(h.version) <<
+    " DetID:" << static_cast<unsigned>(h.det_id) <<
+    " CrateID:" << static_cast<unsigned>(h.crate_id) <<
+    " SlotID:" << static_cast<unsigned>(h.slot_id) <<
+      " LinkID:" << static_cast<unsigned>(h.link_id) <<
+      " Timestamp: " << h.get_timestamp() <<
+      '\n';
 }
 
 } // namespace dunedaq::detdataformats

@@ -29,7 +29,7 @@ struct DAQHeader
 
   uint64_t get_timestamp() const // NOLINT(build/unsigned)
   {
-    return uint64_t(timestamp_1) | (uint64_t(timestamp_2) << 32); // NOLINT(build/unsigned)
+    return static_cast<uint64_t>(timestamp_1) | (static_cast<uint64_t>(timestamp_2) << 32); // NOLINT(build/unsigned)
   } 
 };
 

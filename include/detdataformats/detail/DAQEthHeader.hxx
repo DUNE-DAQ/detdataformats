@@ -12,10 +12,15 @@ namespace dunedaq::detdataformats {
   inline std::ostream&
   operator<<(std::ostream& o, DAQEthHeader const& h)
   {
-    return o << "Version:" << unsigned(h.version) << " DetID:" << unsigned(h.det_id) << " CrateID:" << unsigned(h.crate_id)
-           << " SlotID:" << unsigned(h.slot_id) << " StreamID:" << unsigned(h.stream_id)
-           << " SequenceID: " << unsigned(h.seq_id) << " Block length: " << unsigned(h.block_length)
-	   << " Timestamp: " << h.get_timestamp() << '\n';
+    return o << "Version:" << static_cast<unsigned>(h.version) <<
+      " DetID:" << static_cast<unsigned>(h.det_id) <<
+      " CrateID:" << static_cast<unsigned>(h.crate_id) <<
+	" SlotID:" << static_cast<unsigned>(h.slot_id) <<
+	  " StreamID:" << static_cast<unsigned>(h.stream_id) <<
+	    " SequenceID: " << static_cast<unsigned>(h.seq_id) <<
+	      " Block length: " << static_cast<unsigned>(h.block_length) <<
+	      " Timestamp: " << h.get_timestamp() <<
+	      '\n';
   }
 
 } // namespace dunedaq::detdataformats
