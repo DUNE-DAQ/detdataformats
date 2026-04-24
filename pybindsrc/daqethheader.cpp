@@ -72,7 +72,7 @@ register_daqethheader(py::module& m)
       "timestamp",
       [](DAQEthHeader& self) -> ui64_t { return self.timestamp; },
       [](DAQEthHeader& self, ui64_t timestamp) { self.timestamp = timestamp; })
-    //    .def("get_timestamp", &DAQEthHeader::get_timestamp)
+    .def("get_timestamp", &DAQEthHeader::get_timestamp)
     .def_static("sizeof", []() { return sizeof(DAQEthHeader); });
 }
 

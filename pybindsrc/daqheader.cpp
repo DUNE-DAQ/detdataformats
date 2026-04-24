@@ -24,6 +24,7 @@ namespace dunedaq::detdataformats::python {
 void register_daqheader(py::module& m) {
 
   py::class_<DAQHeader>(m, "DAQHeader", py::buffer_protocol())
+    .def(py::init<>())
     .def_property("version", 
       [](DAQHeader& self) -> ui32_t { return self.version; },
       [](DAQHeader& self, ui32_t version) { self.version = version; }
@@ -43,6 +44,18 @@ void register_daqheader(py::module& m) {
     .def_property("link_id", 
       [](DAQHeader& self) -> ui32_t { return self.link_id; },
       [](DAQHeader& self, ui32_t link_id) { self.link_id = link_id; }
+      )
+    .def_property("timestamp_1", 
+      [](DAQHeader& self) -> ui32_t { 
+        throw std::runtime_error("Cannot read timestamp_1; use get_timestamp() instead"); 
+      },
+      [](DAQHeader& self, ui32_t timestamp_1) { self.timestamp_1 = timestamp_1; }
+      )
+    .def_property("timestamp_2", 
+      [](DAQHeader& self) -> ui32_t { 
+        throw std::runtime_error("Cannot read timestamp_2; use get_timestamp() instead"); 
+      },
+      [](DAQHeader& self, ui32_t timestamp_2) { self.timestamp_2 = timestamp_2; }
       )
     .def("get_timestamp", &DAQHeader::get_timestamp)
     ;
