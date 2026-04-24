@@ -19,6 +19,8 @@
 #include <tuple>
 #include <vector>
 
+#pragma GCC diagnostic ignored "-Woverflow" // intentional overflows are performed as part of testing
+
 using namespace dunedaq::detdataformats;
 
 namespace {

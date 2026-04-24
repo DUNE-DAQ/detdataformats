@@ -46,14 +46,14 @@ void register_daqheader(py::module& m) {
       [](DAQHeader& self, ui32_t link_id) { self.link_id = link_id; }
       )
     .def_property("timestamp_1", 
-      [](DAQHeader& self) -> ui32_t { 
-        throw std::runtime_error("Cannot read timestamp_1; use get_timestamp() instead"); 
+      [](DAQHeader& ) -> ui32_t { 
+        throw std::runtime_error("Cannot directly read timestamp_1; use get_timestamp() instead"); 
       },
       [](DAQHeader& self, ui32_t timestamp_1) { self.timestamp_1 = timestamp_1; }
       )
     .def_property("timestamp_2", 
-      [](DAQHeader& self) -> ui32_t { 
-        throw std::runtime_error("Cannot read timestamp_2; use get_timestamp() instead"); 
+      [](DAQHeader& ) -> ui32_t { 
+        throw std::runtime_error("Cannot directly read timestamp_2; use get_timestamp() instead"); 
       },
       [](DAQHeader& self, ui32_t timestamp_2) { self.timestamp_2 = timestamp_2; }
       )
