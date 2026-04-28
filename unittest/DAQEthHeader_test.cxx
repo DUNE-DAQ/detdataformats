@@ -22,6 +22,9 @@
 
 using namespace dunedaq::detdataformats;
 
+// Unit tests for a data formats library can expect to work with a lot of unsigned integers
+// NOLINTBEGIN(build/unsigned)
+
 namespace {
 using word_t = DAQEthHeader::word_t;
 
@@ -85,7 +88,7 @@ header_from_stream_output(const std::string& output)
     static_cast<word_t>(block_length_value),
     static_cast<word_t>(timestamp_value));
 }
-} // namespace
+} // namespace ""
 
 BOOST_AUTO_TEST_SUITE(DAQEthHeader_test)
 
@@ -140,14 +143,14 @@ BOOST_AUTO_TEST_CASE(BitfieldMasking)
 {
   DAQEthHeader header = make_header(0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-  header.version = 99;         // 99 & 0x3F = 35
-  header.det_id = 127;         // 127 & 0x3F = 63
-  header.crate_id = 2048;      // 2048 & 0x3FF = 0
-  header.slot_id = 31;         // 31 & 0x0F = 15
-  header.stream_id = 511;      // 511 & 0xFF = 255
-  header.reserved = 127;       // 127 & 0x3F = 63
-  header.seq_id = 5000;        // 5000 & 0xFFF = 904
-  header.block_length = 5000;  // 5000 & 0xFFF = 904
+  header.version = 99;         // NOLINT 99 & 0x3F = 35
+  header.det_id = 127;         // NOLINT 127 & 0x3F = 63
+  header.crate_id = 2048;      // NOLINT 2048 & 0x3FF = 0
+  header.slot_id = 31;         // NOLINT 31 & 0x0F = 15
+  header.stream_id = 511;      // NOLINT 511 & 0xFF = 255
+  header.reserved = 127;       // NOLINT 127 & 0x3F = 63
+  header.seq_id = 5000;        // NOLINT 5000 & 0xFFF = 904
+  header.block_length = 5000;  // NOLINT 5000 & 0xFFF = 904
 
   BOOST_REQUIRE_EQUAL(header.version, 35);
   BOOST_REQUIRE_EQUAL(header.det_id, 63);
@@ -204,7 +207,7 @@ BOOST_AUTO_TEST_CASE(ByteRoundTrip)
     1024,
     0x1122334455667788ULL);
 
-  uint8_t buffer[sizeof(DAQEthHeader)]{};
+  uint8_t buffer[sizeof(DAQEthHeader)]; // NOLINT(modernize-avoid-c-arrays)
   std::memcpy(buffer, &original, sizeof(DAQEthHeader));
 
   DAQEthHeader recovered;
@@ -223,3 +226,5 @@ BOOST_AUTO_TEST_CASE(ByteRoundTrip)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+// NOLINTEND(build/unsigned)

@@ -14,8 +14,12 @@
 
 #include <cstring>
 #include <limits>
+#include <vector>
 
 using namespace dunedaq::detdataformats;
+
+// Unit tests for a data formats library can expect to work with a lot of unsigned integers
+// NOLINTBEGIN(build/unsigned)
 
 namespace {
   // Helper to create HSIFrame from individual components
@@ -37,7 +41,7 @@ namespace {
     frame.sequence = sequence;
     return frame;
   }
-}
+} // namespace ""
 
 BOOST_AUTO_TEST_SUITE(HSIFrame_test)
 
@@ -200,7 +204,7 @@ BOOST_AUTO_TEST_CASE(ByteRoundTrip)
   );
   
   // Serialize to bytes
-  uint8_t buffer[ sizeof(HSIFrame) ];
+  uint8_t buffer[ sizeof(HSIFrame) ]; // NOLINT(modernize-avoid-c-arrays)
   std::memcpy(buffer, &original, sizeof(HSIFrame));
 
   // Deserialize from bytes
@@ -275,3 +279,5 @@ BOOST_AUTO_TEST_CASE(EdgeCaseHighBitfieldValues)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+// NOLINTEND(build/unsigned)

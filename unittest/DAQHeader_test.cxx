@@ -17,11 +17,15 @@
 #include <sstream>
 #include <string>
 #include <tuple>
+#include <utility>
 #include <vector>
 
 #pragma GCC diagnostic ignored "-Woverflow" // intentional overflows are performed as part of testing
 
 using namespace dunedaq::detdataformats;
+
+// Unit tests for a data formats library can expect to work with a lot of unsigned integers
+// NOLINTBEGIN(build/unsigned)
 
 namespace {
 using word_t = DAQHeader::word_t;
@@ -81,7 +85,7 @@ header_from_stream_output(const std::string& output)
     timestamp_1,
     timestamp_2);
 }
-}
+} // namespace ""
 
 BOOST_AUTO_TEST_SUITE(DAQHeader_test)
 
@@ -136,11 +140,11 @@ BOOST_AUTO_TEST_CASE(BitfieldMasking)
 {
   DAQHeader header = make_header(0, 0, 0, 0, 0, 0, 0);
 
-  header.version = 99;     // 99 & 0x3F = 35
-  header.det_id = 127;     // 127 & 0x3F = 63
-  header.crate_id = 2048;  // 2048 & 0x3FF = 0
-  header.slot_id = 31;     // 31 & 0x0F = 15
-  header.link_id = 65;     // 65 & 0x3F = 1
+  header.version = 99;     // NOLINT 99 & 0x3F = 35
+  header.det_id = 127;     // NOLINT 127 & 0x3F = 63
+  header.crate_id = 2048;  // NOLINT 2048 & 0x3FF = 0
+  header.slot_id = 31;     // NOLINT 31 & 0x0F = 15
+  header.link_id = 65;     // NOLINT 65 & 0x3F = 1
 
   BOOST_REQUIRE_EQUAL(header.version, 35);
   BOOST_REQUIRE_EQUAL(header.det_id, 63);
@@ -174,7 +178,7 @@ BOOST_AUTO_TEST_CASE(ByteRoundTrip)
 {
   const DAQHeader original = make_header(13, 21, 777, 10, 55, 0x11111111, 0x22222222);
 
-  uint8_t buffer[sizeof(DAQHeader)]{};
+  uint8_t buffer[sizeof(DAQHeader)]; // NOLINT(modernize-avoid-c-arrays)
   std::memcpy(buffer, &original, sizeof(DAQHeader));
 
   DAQHeader recovered;
@@ -191,3 +195,5 @@ BOOST_AUTO_TEST_CASE(ByteRoundTrip)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+// NOLINTEND(build/unsigned)

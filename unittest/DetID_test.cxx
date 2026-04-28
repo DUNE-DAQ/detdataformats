@@ -18,13 +18,6 @@
 
 using namespace dunedaq::detdataformats;
 
-namespace {
-  inline DetID from_string(const std::string& str)
-  {
-    return DetID(DetID::string_to_subdetector(str));
-  }
-}
-
 BOOST_AUTO_TEST_SUITE(DetID_test)
 
 BOOST_AUTO_TEST_CASE(DefaultConstruction)
