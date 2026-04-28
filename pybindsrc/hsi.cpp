@@ -14,9 +14,8 @@ namespace py = pybind11;
 
 namespace dunedaq::detdataformats::python {
 
-  // Quiet the linter about use of unsigned ints below
-  using ui64_t = uint64_t; // NOLINT
-
+// Quiet the linter about use of unsigned ints in the file
+// NOLINTBEGIN(build/unsigned)
   
 void
 register_hsi(py::module& m)
@@ -34,17 +33,19 @@ register_hsi(py::module& m)
       return wfp;
     }))
     .def("get_timestamp", &HSIFrame::get_timestamp)
-    .def_property_readonly("version", [](const HSIFrame& self) -> ui64_t {return self.version;})
-    .def_property_readonly("detector_id", [](const HSIFrame& self) -> ui64_t {return self.detector_id;})
-    .def_property_readonly("crate", [](const HSIFrame& self) -> ui64_t {return self.crate;})
-    .def_property_readonly("slot", [](const HSIFrame& self) -> ui64_t {return self.slot;})
-    .def_property_readonly("link", [](const HSIFrame& self) -> ui64_t {return self.link;})
-    .def_property_readonly("input_low", [](const HSIFrame& self) -> ui64_t {return self.input_low;})
-    .def_property_readonly("input_high", [](const HSIFrame& self) -> ui64_t {return self.input_high;})
-    .def_property_readonly("trigger", [](const HSIFrame& self) -> ui64_t {return self.trigger;})
-    .def_property_readonly("sequence", [](const HSIFrame& self) -> ui64_t {return self.sequence;})
+    .def_property_readonly("version", [](const HSIFrame& self) -> uint64_t {return self.version;})
+    .def_property_readonly("detector_id", [](const HSIFrame& self) -> uint64_t {return self.detector_id;})
+    .def_property_readonly("crate", [](const HSIFrame& self) -> uint64_t {return self.crate;})
+    .def_property_readonly("slot", [](const HSIFrame& self) -> uint64_t {return self.slot;})
+    .def_property_readonly("link", [](const HSIFrame& self) -> uint64_t {return self.link;})
+    .def_property_readonly("input_low", [](const HSIFrame& self) -> uint64_t {return self.input_low;})
+    .def_property_readonly("input_high", [](const HSIFrame& self) -> uint64_t {return self.input_high;})
+    .def_property_readonly("trigger", [](const HSIFrame& self) -> uint64_t {return self.trigger;})
+    .def_property_readonly("sequence", [](const HSIFrame& self) -> uint64_t {return self.sequence;})
     .def_static("sizeof", [](){ return sizeof(HSIFrame); })
   ;
 }
 
 } // namespace dunedaq::detdataformats::python
+
+// NOLINTEND(build/unsigned)
