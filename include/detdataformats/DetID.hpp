@@ -58,15 +58,18 @@ struct DetID
   DetID() = default;
 
   DetID(const Subdetector& subdetector_arg) // NOLINT(runtime/explicit) as DetID is just an enhanced enum
-     : subdetector(subdetector_arg)
-   {}
+    : subdetector(subdetector_arg)
+  {
+  }
 
   static std::string subdetector_to_string(const Subdetector& type);
   static Subdetector string_to_subdetector(const std::string& typestring);
 };
 
-  std::ostream& operator<<(std::ostream& o, DetID const& det_id);
-  std::istream& operator>>(std::istream& is, DetID& det_id);
+std::ostream&
+operator<<(std::ostream& o, DetID const& det_id);
+std::istream&
+operator>>(std::istream& is, DetID& det_id);
 
 } // namespace dunedaq::detdataformats
 

@@ -18,49 +18,50 @@ namespace py = pybind11;
 
 namespace dunedaq::detdataformats::python {
 
-  // Quiet the linter about use of unsigned ints in the file
-  // NOLINTBEGIN(build/unsigned)
+// Quiet the linter about use of unsigned ints in the file
+// NOLINTBEGIN(build/unsigned)
 
-void register_daqheader(py::module& m) {
+void
+register_daqheader(py::module& m)
+{
 
   py::class_<DAQHeader>(m, "DAQHeader", py::buffer_protocol())
     .def(py::init<>())
-    .def_property("version", 
+    .def_property(
+      "version",
       [](DAQHeader& self) -> uint32_t { return self.version; },
-      [](DAQHeader& self, uint32_t version) { self.version = version; }
-      )
-    .def_property("det_id", 
+      [](DAQHeader& self, uint32_t version) { self.version = version; })
+    .def_property(
+      "det_id",
       [](DAQHeader& self) -> uint32_t { return self.det_id; },
-      [](DAQHeader& self, uint32_t det_id) { self.det_id = det_id; }
-      )
-    .def_property("crate_id", 
+      [](DAQHeader& self, uint32_t det_id) { self.det_id = det_id; })
+    .def_property(
+      "crate_id",
       [](DAQHeader& self) -> uint32_t { return self.crate_id; },
-      [](DAQHeader& self, uint32_t crate_id) { self.crate_id = crate_id; }
-      )
-    .def_property("slot_id", 
+      [](DAQHeader& self, uint32_t crate_id) { self.crate_id = crate_id; })
+    .def_property(
+      "slot_id",
       [](DAQHeader& self) -> uint32_t { return self.slot_id; },
-      [](DAQHeader& self, uint32_t slot_id) { self.slot_id = slot_id; }
-      )
-    .def_property("link_id", 
+      [](DAQHeader& self, uint32_t slot_id) { self.slot_id = slot_id; })
+    .def_property(
+      "link_id",
       [](DAQHeader& self) -> uint32_t { return self.link_id; },
-      [](DAQHeader& self, uint32_t link_id) { self.link_id = link_id; }
-      )
-    .def_property("timestamp_1", 
-      [](DAQHeader& ) -> uint32_t { 
-        throw std::runtime_error("Cannot directly read timestamp_1; use get_timestamp() instead"); 
+      [](DAQHeader& self, uint32_t link_id) { self.link_id = link_id; })
+    .def_property(
+      "timestamp_1",
+      [](DAQHeader&) -> uint32_t {
+        throw std::runtime_error("Cannot directly read timestamp_1; use get_timestamp() instead");
       },
-      [](DAQHeader& self, uint32_t timestamp_1) { self.timestamp_1 = timestamp_1; }
-      )
-    .def_property("timestamp_2", 
-      [](DAQHeader& ) -> uint32_t { 
-        throw std::runtime_error("Cannot directly read timestamp_2; use get_timestamp() instead"); 
+      [](DAQHeader& self, uint32_t timestamp_1) { self.timestamp_1 = timestamp_1; })
+    .def_property(
+      "timestamp_2",
+      [](DAQHeader&) -> uint32_t {
+        throw std::runtime_error("Cannot directly read timestamp_2; use get_timestamp() instead");
       },
-      [](DAQHeader& self, uint32_t timestamp_2) { self.timestamp_2 = timestamp_2; }
-      )
-    .def("get_timestamp", &DAQHeader::get_timestamp)
-    ;
+      [](DAQHeader& self, uint32_t timestamp_2) { self.timestamp_2 = timestamp_2; })
+    .def("get_timestamp", &DAQHeader::get_timestamp);
 }
 
-}  // namespace dunedaq::detdataformats::python
+} // namespace dunedaq::detdataformats::python
 
 // NOLINTEND(build/unsigned)

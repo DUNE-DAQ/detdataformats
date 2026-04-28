@@ -8,7 +8,6 @@
  * received with this code.
  */
 
-
 #ifndef DETDATAFORMATS_PYBINDSRC_REGISTRATORS_HPP_
 #define DETDATAFORMATS_PYBINDSRC_REGISTRATORS_HPP_
 
@@ -16,10 +15,14 @@
 
 namespace dunedaq::detdataformats::python {
 
-  void register_detid(pybind11::module&);
-  void register_daqheader(pybind11::module&);
-  void register_daqethheader(pybind11::module&);
-  void register_hsi(pybind11::module&);
+void
+register_detid(pybind11::module&);
+void
+register_daqheader(pybind11::module&);
+void
+register_daqethheader(pybind11::module&);
+void
+register_hsi(pybind11::module&);
 } // namespace dunedaq::detdataformats::python
 
 #endif // DETDATAFORMATS_PYBINDSRC_REGISTRATORS_HPP_

@@ -1,5 +1,5 @@
 /**
- * @file DAQEthHeader.hpp Common header structure that is used by 
+ * @file DAQEthHeader.hpp Common header structure that is used by
  * every FrontEnd electronics board sending data over ethernet.
  *
  * This is part of the DUNE DAQ Application Framework, copyright 2020.
@@ -19,20 +19,22 @@ namespace dunedaq::detdataformats {
 /**
  * @brief DAQEthHeader is a versioned and unified structure for every FE electronics.
  */
-struct DAQEthHeader 
+struct DAQEthHeader
 {
   using word_t = uint64_t; // NOLINT(build/unsigned)
 
-  word_t version : 6, det_id : 6, crate_id : 10, slot_id : 4, stream_id : 8, reserved : 6, seq_id : 12, block_length : 12;
-  word_t timestamp { std::numeric_limits<word_t>::max() };
+  word_t version : 6, det_id : 6, crate_id : 10, slot_id : 4, stream_id : 8, reserved : 6, seq_id : 12,
+    block_length : 12;
+  word_t timestamp{ std::numeric_limits<word_t>::max() };
 
   uint64_t get_timestamp() const // NOLINT(build/unsigned) maintain a consistent interface with DAQHeader
   {
     return timestamp;
-  } 
+  }
 };
 
-std::ostream& operator<<(std::ostream& o, DAQEthHeader const& h);
+std::ostream&
+operator<<(std::ostream& o, DAQEthHeader const& h);
 
 } // namespace dunedaq::detdataformats
 

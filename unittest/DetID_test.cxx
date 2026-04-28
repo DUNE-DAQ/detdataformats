@@ -9,7 +9,7 @@
 
 #include "detdataformats/DetID.hpp"
 
-#define BOOST_TEST_MODULE DetID_test  // NOLINT
+#define BOOST_TEST_MODULE DetID_test // NOLINT
 
 #include "boost/test/unit_test.hpp"
 
@@ -43,20 +43,13 @@ BOOST_AUTO_TEST_CASE(AllSubdetectorValues)
 {
   // Test all defined subdetector enum values
   const std::vector<DetID::Subdetector> all_subdetectors = {
-    DetID::Subdetector::kUnknown,
-    DetID::Subdetector::kDAQ,
-    DetID::Subdetector::kHD_PDS,
-    DetID::Subdetector::kHD_TPC,
-    DetID::Subdetector::kHD_CRT,
-    DetID::Subdetector::kVD_CathodePDS,
-    DetID::Subdetector::kVD_MembranePDS,
-    DetID::Subdetector::kVD_BottomTPC,
-    DetID::Subdetector::kVD_TopTPC,
-    DetID::Subdetector::kVD_BernCRT,
-    DetID::Subdetector::kVD_GrenobleCRT,
-    DetID::Subdetector::kNDLAr_TPC,
-    DetID::Subdetector::kNDLAr_PDS,
-    DetID::Subdetector::kND_GAr
+    DetID::Subdetector::kUnknown,        DetID::Subdetector::kDAQ,
+    DetID::Subdetector::kHD_PDS,         DetID::Subdetector::kHD_TPC,
+    DetID::Subdetector::kHD_CRT,         DetID::Subdetector::kVD_CathodePDS,
+    DetID::Subdetector::kVD_MembranePDS, DetID::Subdetector::kVD_BottomTPC,
+    DetID::Subdetector::kVD_TopTPC,      DetID::Subdetector::kVD_BernCRT,
+    DetID::Subdetector::kVD_GrenobleCRT, DetID::Subdetector::kNDLAr_TPC,
+    DetID::Subdetector::kNDLAr_PDS,      DetID::Subdetector::kND_GAr
   };
 
   for (const auto& subdet : all_subdetectors) {
@@ -106,27 +99,20 @@ BOOST_AUTO_TEST_CASE(StringToSubdetectorInvalid)
   // Invalid strings should fall back to kUnknown
   BOOST_REQUIRE_EQUAL(DetID::string_to_subdetector("InvalidName"), DetID::Subdetector::kUnknown);
   BOOST_REQUIRE_EQUAL(DetID::string_to_subdetector(""), DetID::Subdetector::kUnknown);
-  BOOST_REQUIRE_EQUAL(DetID::string_to_subdetector("hd_tpc"), DetID::Subdetector::kUnknown);  // case sensitive
+  BOOST_REQUIRE_EQUAL(DetID::string_to_subdetector("hd_tpc"), DetID::Subdetector::kUnknown); // case sensitive
 }
 
 BOOST_AUTO_TEST_CASE(ConversionRoundTrip)
 {
   // Test that conversion to/from string is reversible for all values
   const std::vector<DetID::Subdetector> all_subdetectors = {
-    DetID::Subdetector::kUnknown,
-    DetID::Subdetector::kDAQ,
-    DetID::Subdetector::kHD_PDS,
-    DetID::Subdetector::kHD_TPC,
-    DetID::Subdetector::kHD_CRT,
-    DetID::Subdetector::kVD_CathodePDS,
-    DetID::Subdetector::kVD_MembranePDS,
-    DetID::Subdetector::kVD_BottomTPC,
-    DetID::Subdetector::kVD_TopTPC,
-    DetID::Subdetector::kVD_BernCRT,
-    DetID::Subdetector::kVD_GrenobleCRT,
-    DetID::Subdetector::kNDLAr_TPC,
-    DetID::Subdetector::kNDLAr_PDS,
-    DetID::Subdetector::kND_GAr
+    DetID::Subdetector::kUnknown,        DetID::Subdetector::kDAQ,
+    DetID::Subdetector::kHD_PDS,         DetID::Subdetector::kHD_TPC,
+    DetID::Subdetector::kHD_CRT,         DetID::Subdetector::kVD_CathodePDS,
+    DetID::Subdetector::kVD_MembranePDS, DetID::Subdetector::kVD_BottomTPC,
+    DetID::Subdetector::kVD_TopTPC,      DetID::Subdetector::kVD_BernCRT,
+    DetID::Subdetector::kVD_GrenobleCRT, DetID::Subdetector::kNDLAr_TPC,
+    DetID::Subdetector::kNDLAr_PDS,      DetID::Subdetector::kND_GAr
   };
 
   for (const auto& subdet : all_subdetectors) {
@@ -157,7 +143,7 @@ BOOST_AUTO_TEST_CASE(StreamOperatorRoundTrip)
   std::istringstream iss(ostr.str());
   DetID detid_from_stream;
   iss >> detid_from_stream;
-  
+
   BOOST_REQUIRE_EQUAL(detid_from_stream.subdetector, detid.subdetector);
 }
 
@@ -166,35 +152,28 @@ BOOST_AUTO_TEST_CASE(StreamOperatorRoundTripAll)
   // Test round-trip for all subdetector values:
   // DetID -> (<<) -> string -> (>>) -> DetID', verify equal
   const std::vector<DetID::Subdetector> all_subdetectors = {
-    DetID::Subdetector::kUnknown,
-    DetID::Subdetector::kDAQ,
-    DetID::Subdetector::kHD_PDS,
-    DetID::Subdetector::kHD_TPC,
-    DetID::Subdetector::kHD_CRT,
-    DetID::Subdetector::kVD_CathodePDS,
-    DetID::Subdetector::kVD_MembranePDS,
-    DetID::Subdetector::kVD_BottomTPC,
-    DetID::Subdetector::kVD_TopTPC,
-    DetID::Subdetector::kVD_BernCRT,
-    DetID::Subdetector::kVD_GrenobleCRT,
-    DetID::Subdetector::kNDLAr_TPC,
-    DetID::Subdetector::kNDLAr_PDS,
-    DetID::Subdetector::kND_GAr
+    DetID::Subdetector::kUnknown,        DetID::Subdetector::kDAQ,
+    DetID::Subdetector::kHD_PDS,         DetID::Subdetector::kHD_TPC,
+    DetID::Subdetector::kHD_CRT,         DetID::Subdetector::kVD_CathodePDS,
+    DetID::Subdetector::kVD_MembranePDS, DetID::Subdetector::kVD_BottomTPC,
+    DetID::Subdetector::kVD_TopTPC,      DetID::Subdetector::kVD_BernCRT,
+    DetID::Subdetector::kVD_GrenobleCRT, DetID::Subdetector::kNDLAr_TPC,
+    DetID::Subdetector::kNDLAr_PDS,      DetID::Subdetector::kND_GAr
   };
 
   for (const auto& subdet : all_subdetectors) {
     DetID original(subdet);
-    
+
     // Serialize to string using <<
     std::ostringstream oss;
     oss << original;
     std::string serialized = oss.str();
-    
+
     // Deserialize from string using >>
     std::istringstream iss(serialized);
     DetID recovered;
     iss >> recovered;
-    
+
     // Verify they're equal
     BOOST_REQUIRE_EQUAL(recovered.subdetector, original.subdetector);
   }

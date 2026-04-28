@@ -13,15 +13,15 @@
 
 namespace dunedaq::detdataformats::python {
 
-PYBIND11_MODULE(_daq_detdataformats_py, m) {
+PYBIND11_MODULE(_daq_detdataformats_py, m)
+{
 
-    m.doc() = "c++ implementation of the dunedaq detdataformats modules"; // optional module docstring
+  m.doc() = "c++ implementation of the dunedaq detdataformats modules"; // optional module docstring
 
-    register_detid(m);
-    register_daqheader(m);
-    register_daqethheader(m);
-    register_hsi(m);
-
+  register_detid(m);
+  register_daqheader(m);
+  register_daqethheader(m);
+  register_hsi(m);
 }
 
 } // namespace dunedaq::detdataformats::python

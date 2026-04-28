@@ -11,7 +11,7 @@
 #ifndef DETDATAFORMATS_INCLUDE_DETDATAFORMATS_HSIFRAME_HPP_
 #define DETDATAFORMATS_INCLUDE_DETDATAFORMATS_HSIFRAME_HPP_
 
-#include <cstdint>  // For uint32_t etc
+#include <cstdint> // For uint32_t etc
 #include <limits>
 
 namespace dunedaq::detdataformats {
@@ -23,16 +23,17 @@ public:
   using word_t = uint32_t; // NOLINT
 
   word_t version : 6, detector_id : 6, crate : 10, slot : 4, link : 6;
-  word_t timestamp_low { std::numeric_limits<word_t>::max() } ;
-  word_t timestamp_high { std::numeric_limits<word_t>::max() } ;
-  word_t input_low { std::numeric_limits<word_t>::max() } ;
-  word_t input_high { std::numeric_limits<word_t>::max() } ;
-  word_t trigger { std::numeric_limits<word_t>::max() } ;
-  word_t sequence { std::numeric_limits<word_t>::max() } ;
+  word_t timestamp_low{ std::numeric_limits<word_t>::max() };
+  word_t timestamp_high{ std::numeric_limits<word_t>::max() };
+  word_t input_low{ std::numeric_limits<word_t>::max() };
+  word_t input_high{ std::numeric_limits<word_t>::max() };
+  word_t trigger{ std::numeric_limits<word_t>::max() };
+  word_t sequence{ std::numeric_limits<word_t>::max() };
 
   uint64_t get_timestamp() const // NOLINT(build/unsigned)
   {
-    return static_cast<uint64_t>(timestamp_low) | (static_cast<uint64_t>(timestamp_high) << 32); // NOLINT(build/unsigned)
+    return static_cast<uint64_t>(timestamp_low) |         // NOLINT(build/unsigned)
+           (static_cast<uint64_t>(timestamp_high) << 32); // NOLINT(build/unsigned)
   }
 
   void set_timestamp(uint64_t ts) // NOLINT(build/unsigned)
