@@ -1,5 +1,5 @@
 /**
- * @file DAQHeader.hpp Common header structure that is used by 
+ * @file DAQHeader.hpp Common header structure that is used by
  * every FrontEnd electronics board.
  *
  * This is part of the DUNE DAQ Application Framework, copyright 2020.
@@ -19,21 +19,22 @@ namespace dunedaq::detdataformats {
 /**
  * @brief DAQHeader is a versioned and unified structure for every FE electronics.
  */
-struct DAQHeader 
+struct DAQHeader
 {
   using word_t = uint32_t; // NOLINT(build/unsigned)
 
   word_t version : 6, det_id : 6, crate_id : 10, slot_id : 4, link_id : 6;
-  word_t timestamp_1 { std::numeric_limits<word_t>::max() };
-  word_t timestamp_2 { std::numeric_limits<word_t>::max() };
+  word_t timestamp_1{ std::numeric_limits<word_t>::max() };
+  word_t timestamp_2{ std::numeric_limits<word_t>::max() };
 
   uint64_t get_timestamp() const // NOLINT(build/unsigned)
   {
     return static_cast<uint64_t>(timestamp_1) | (static_cast<uint64_t>(timestamp_2) << 32); // NOLINT(build/unsigned)
-  } 
+  }
 };
 
-std::ostream& operator<<(std::ostream& o, DAQHeader const& h);
+std::ostream&
+operator<<(std::ostream& o, DAQHeader const& h);
 
 } // namespace dunedaq::detdataformats
 

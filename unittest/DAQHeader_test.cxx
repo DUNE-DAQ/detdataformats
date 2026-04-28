@@ -8,7 +8,7 @@
 
 #include "detdataformats/DAQHeader.hpp"
 
-#define BOOST_TEST_MODULE DAQHeader_test  // NOLINT
+#define BOOST_TEST_MODULE DAQHeader_test // NOLINT
 
 #include "boost/test/unit_test.hpp"
 
@@ -53,10 +53,7 @@ make_header(word_t version,
 std::pair<word_t, word_t>
 split_timestamp(uint64_t timestamp)
 {
-  return {
-    static_cast<word_t>(timestamp),
-    static_cast<word_t>(timestamp >> 32)
-  };
+  return { static_cast<word_t>(timestamp), static_cast<word_t>(timestamp >> 32) };
 }
 
 DAQHeader
@@ -72,18 +69,18 @@ header_from_stream_output(const std::string& output)
   std::string timestamp_label;
   uint64_t timestamp_value{};
 
-  iss >> version_token >> det_id_token >> crate_id_token >> slot_id_token >> link_id_token >> timestamp_label >> timestamp_value;
+  iss >> version_token >> det_id_token >> crate_id_token >> slot_id_token >> link_id_token >> timestamp_label >>
+    timestamp_value;
 
   const auto [timestamp_1, timestamp_2] = split_timestamp(timestamp_value);
 
-  return make_header(
-    static_cast<word_t>(std::stoul(version_token.substr(std::string("Version:").size()))),
-    static_cast<word_t>(std::stoul(det_id_token.substr(std::string("DetID:").size()))),
-    static_cast<word_t>(std::stoul(crate_id_token.substr(std::string("CrateID:").size()))),
-    static_cast<word_t>(std::stoul(slot_id_token.substr(std::string("SlotID:").size()))),
-    static_cast<word_t>(std::stoul(link_id_token.substr(std::string("LinkID:").size()))),
-    timestamp_1,
-    timestamp_2);
+  return make_header(static_cast<word_t>(std::stoul(version_token.substr(std::string("Version:").size()))),
+                     static_cast<word_t>(std::stoul(det_id_token.substr(std::string("DetID:").size()))),
+                     static_cast<word_t>(std::stoul(crate_id_token.substr(std::string("CrateID:").size()))),
+                     static_cast<word_t>(std::stoul(slot_id_token.substr(std::string("SlotID:").size()))),
+                     static_cast<word_t>(std::stoul(link_id_token.substr(std::string("LinkID:").size()))),
+                     timestamp_1,
+                     timestamp_2);
 }
 } // namespace ""
 
@@ -107,13 +104,11 @@ BOOST_AUTO_TEST_CASE(TimestampAssembly)
 
 BOOST_AUTO_TEST_CASE(TimestampRoundTripFromGetTimestamp)
 {
-  const std::vector<std::pair<word_t, word_t>> values = {
-    { 0x00000000u, 0x00000000u },
-    { 0xFFFFFFFFu, 0x00000000u },
-    { 0x00000000u, 0xFFFFFFFFu },
-    { 0x01234567u, 0x89ABCDEFu },
-    { 0xFFFFFFFFu, 0xFFFFFFFFu }
-  };
+  const std::vector<std::pair<word_t, word_t>> values = { { 0x00000000u, 0x00000000u },
+                                                          { 0xFFFFFFFFu, 0x00000000u },
+                                                          { 0x00000000u, 0xFFFFFFFFu },
+                                                          { 0x01234567u, 0x89ABCDEFu },
+                                                          { 0xFFFFFFFFu, 0xFFFFFFFFu } };
 
   for (const auto& value : values) {
     const DAQHeader original = make_header(0, 0, 0, 0, 0, value.first, value.second);
@@ -140,11 +135,11 @@ BOOST_AUTO_TEST_CASE(BitfieldMasking)
 {
   DAQHeader header = make_header(0, 0, 0, 0, 0, 0, 0);
 
-  header.version = 99;     // NOLINT 99 & 0x3F = 35
-  header.det_id = 127;     // NOLINT 127 & 0x3F = 63
-  header.crate_id = 2048;  // NOLINT 2048 & 0x3FF = 0
-  header.slot_id = 31;     // NOLINT 31 & 0x0F = 15
-  header.link_id = 65;     // NOLINT 65 & 0x3F = 1
+  header.version = 99;    // NOLINT 99 & 0x3F = 35
+  header.det_id = 127;    // NOLINT 127 & 0x3F = 63
+  header.crate_id = 2048; // NOLINT 2048 & 0x3FF = 0
+  header.slot_id = 31;    // NOLINT 31 & 0x0F = 15
+  header.link_id = 65;    // NOLINT 65 & 0x3F = 1
 
   BOOST_REQUIRE_EQUAL(header.version, 35);
   BOOST_REQUIRE_EQUAL(header.det_id, 63);

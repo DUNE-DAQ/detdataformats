@@ -1,12 +1,14 @@
 
-#include <type_traits>
 #include <bit>
 #include <cstddef>
+#include <type_traits>
 
 namespace dunedaq::detdataformats {
 
-static_assert(std::is_trivially_copyable_v<HSIFrame>, "HSIFrame isn't trivially copyable and can't be safely std::memcpy'd");
-static_assert(std::is_standard_layout_v<HSIFrame>, "HSIFrame isn't standard layout; reinterpret_cast and offsetof can't safely be used with it");
+static_assert(std::is_trivially_copyable_v<HSIFrame>,
+              "HSIFrame isn't trivially copyable and can't be safely std::memcpy'd");
+static_assert(std::is_standard_layout_v<HSIFrame>,
+              "HSIFrame isn't standard layout; reinterpret_cast and offsetof can't safely be used with it");
 static_assert(std::endian::native == std::endian::little,
               "The HSIFrame bitfield layout assumes little-endian architecture");
 
