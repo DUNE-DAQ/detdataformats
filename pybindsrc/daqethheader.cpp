@@ -18,6 +18,9 @@ namespace py = pybind11;
 
 namespace dunedaq::detdataformats::python {
 
+  // Quiet the linter about use of unsigned ints in the file
+  // NOLINTBEGIN(build/unsigned)
+
 void
 register_daqethheader(py::module& m)
 {
@@ -73,3 +76,5 @@ register_daqethheader(py::module& m)
 }
 
 } // namespace dunedaq::detdataformats::python
+
+// NOLINTEND(build/unsigned)

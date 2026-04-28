@@ -8,10 +8,11 @@
  * received with this code.
  */
 
-#ifndef DETDATAFORMATS_INCLUDE_HSIFRAME_HPP_
-#define DETDATAFORMATS_INCLUDE_HSIFRAME_HPP_
+#ifndef DETDATAFORMATS_INCLUDE_DETDATAFORMATS_HSIFRAME_HPP_
+#define DETDATAFORMATS_INCLUDE_DETDATAFORMATS_HSIFRAME_HPP_
 
 #include <cstdint>  // For uint32_t etc
+#include <limits>
 
 namespace dunedaq::detdataformats {
 
@@ -19,19 +20,19 @@ class HSIFrame
 {
 public:
   // The definition of the format is in terms of 32-bit words
-  typedef uint32_t word_t; // NOLINT
-  
+  using word_t = uint32_t; // NOLINT
+
   word_t version : 6, detector_id : 6, crate : 10, slot : 4, link : 6;
-  word_t timestamp_low : 32;
-  word_t timestamp_high : 32;
-  word_t input_low : 32;
-  word_t input_high : 32;
-  word_t trigger : 32;
-  word_t sequence : 32;
+  word_t timestamp_low { std::numeric_limits<word_t>::max() } ;
+  word_t timestamp_high { std::numeric_limits<word_t>::max() } ;
+  word_t input_low { std::numeric_limits<word_t>::max() } ;
+  word_t input_high { std::numeric_limits<word_t>::max() } ;
+  word_t trigger { std::numeric_limits<word_t>::max() } ;
+  word_t sequence { std::numeric_limits<word_t>::max() } ;
 
   uint64_t get_timestamp() const // NOLINT(build/unsigned)
   {
-    return (uint64_t)timestamp_low | ((uint64_t)timestamp_high << 32); // NOLINT(build/unsigned)
+    return static_cast<uint64_t>(timestamp_low) | (static_cast<uint64_t>(timestamp_high) << 32); // NOLINT(build/unsigned)
   }
 
   void set_timestamp(uint64_t ts) // NOLINT(build/unsigned)
@@ -43,8 +44,6 @@ public:
 
 } // namespace dunedaq::detdataformats
 
-#endif // DETDATAFORMATS_INCLUDE_HSIFRAME_HPP_
+#include "detail/HSIFrame.hxx"
 
-// Local Variables:
-// c-basic-offset: 2
-// End:
+#endif // DETDATAFORMATS_INCLUDE_DETDATAFORMATS_HSIFRAME_HPP_

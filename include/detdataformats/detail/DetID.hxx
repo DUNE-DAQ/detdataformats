@@ -1,13 +1,6 @@
 
 namespace dunedaq::detdataformats {
 
-static_assert(DetID::s_det_id_version == 1,
-              "This is intentionally designed to tell the developer to update the static_assert checks (including this "
-              "one) when the version is bumped");
-static_assert(sizeof(DetID) == 4, "DetID struct size different than expected!");
-static_assert(offsetof(DetID, version) == 0, "DetID version field not at expected offset");
-static_assert(offsetof(DetID, subdetector) == 2, "DetID subdetector field not at expected offset");
-
 /**
  * @brief Stream a Subdetector instance in a human-readable form
  * @param o Stream to output to
@@ -63,7 +56,7 @@ operator>>(std::istream& is, DetID& det_id)
   return is;
 }
 
-std::string
+inline std::string
 DetID::subdetector_to_string(const Subdetector& type)
 {
   switch (type) {
@@ -98,7 +91,7 @@ DetID::subdetector_to_string(const Subdetector& type)
   }
 }
 
-DetID::Subdetector
+inline DetID::Subdetector
 DetID::string_to_subdetector(const std::string& typestring)
 {
   if (typestring == "DAQ")

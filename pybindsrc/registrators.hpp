@@ -20,6 +20,6 @@ namespace dunedaq::detdataformats::python {
   void register_daqheader(pybind11::module&);
   void register_daqethheader(pybind11::module&);
   void register_hsi(pybind11::module&);
-}
+} // namespace dunedaq::detdataformats::python
 
 #endif // DETDATAFORMATS_PYBINDSRC_REGISTRATORS_HPP_

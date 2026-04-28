@@ -23,20 +23,16 @@
 namespace dunedaq::detdataformats {
 
 /**
- * @brief DetID is a versioned structure containing the 6 bits field of the unique identifier for a subdetector in the raw data.
+ * @brief DetID is a structure containing the 6 bits field of the unique identifier for a subdetector in the raw data.
  * For convenience this field is expanded to 16 bits.
  */
 struct DetID
 {
-
-  using Version_t = uint16_t;   // NOLINT(build/unsigned)
-  using Subdetector_t = uint16_t; // NOLINT(build/unsigned)
-
   /**
    * @brief The Subdetector enum describes the kind of source we're dealing with
    */
 
-  enum class Subdetector : Subdetector_t
+  enum class Subdetector : uint16_t // NOLINT(build/unsigned)
   {
     kUnknown = 0,
     kDAQ = 1,
@@ -55,37 +51,22 @@ struct DetID
   };
 
   /**
-   * @brief The version of this DetID struct.
-   */
-  static constexpr Version_t s_det_id_version = 1;
-
-  /**
-   * @brief Version number of the DetID
-   */
-  Version_t version{ s_det_id_version };
-  /**
    * @brief The general subdetector of the source of the data
    */
   Subdetector subdetector{ Subdetector::kUnknown };
 
   DetID() = default;
 
-  DetID(const Subdetector& subdetector_arg)
-    : subdetector(subdetector_arg)
-  {}
+  DetID(const Subdetector& subdetector_arg) // NOLINT(runtime/explicit) as DetID is just an enhanced enum
+     : subdetector(subdetector_arg)
+   {}
 
-  std::string to_string() const
-  {
-    std::ostringstream ostr;
-    ostr << subdetector_to_string(subdetector);
-    return ostr.str();
-  }
-
-  bool is_in_valid_state() const noexcept { return subdetector != Subdetector::kUnknown; }
-
-  inline static std::string subdetector_to_string(const Subdetector& type);
-  inline static Subdetector string_to_subdetector(const std::string& typestring);
+  static std::string subdetector_to_string(const Subdetector& type);
+  static Subdetector string_to_subdetector(const std::string& typestring);
 };
+
+  std::ostream& operator<<(std::ostream& o, DetID const& det_id);
+  std::istream& operator>>(std::istream& is, DetID& det_id);
 
 } // namespace dunedaq::detdataformats
 

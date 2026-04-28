@@ -11,6 +11,7 @@
 #define DETDATAFORMATS_INCLUDE_DETDATAFORMATS_DAQETHHEADER_HPP_
 
 #include <cstdint>
+#include <limits>
 #include <ostream>
 
 namespace dunedaq::detdataformats {
@@ -23,23 +24,18 @@ struct DAQEthHeader
   using word_t = uint64_t; // NOLINT(build/unsigned)
 
   word_t version : 6, det_id : 6, crate_id : 10, slot_id : 4, stream_id : 8, reserved : 6, seq_id : 12, block_length : 12;
-  word_t timestamp : 64;
+  word_t timestamp { std::numeric_limits<word_t>::max() };
 
-  uint64_t get_timestamp() const // NOLINT(build/unsigned)
+  uint64_t get_timestamp() const // NOLINT(build/unsigned) maintain a consistent interface with DAQHeader
   {
-    return uint64_t(timestamp); // NOLINT(build/unsigned)
+    return timestamp;
   } 
 };
 
-inline std::ostream&
-operator<<(std::ostream& o, DAQEthHeader const& h)
-{
-  return o << "Version:" << unsigned(h.version) << " DetID:" << unsigned(h.det_id) << " CrateID:" << unsigned(h.crate_id)
-           << " SlotID:" << unsigned(h.slot_id) << " StreamID:" << unsigned(h.stream_id)
-           << " SequenceID: " << unsigned(h.seq_id) << " Block length: " << unsigned(h.block_length)
-	   << " Timestamp: " << h.get_timestamp() << '\n';
-}
+std::ostream& operator<<(std::ostream& o, DAQEthHeader const& h);
 
 } // namespace dunedaq::detdataformats
+
+#include "detail/DAQEthHeader.hxx"
 
 #endif // DETDATAFORMATS_INCLUDE_DETDATAFORMATS_DAQETHHEADER_HPP_
