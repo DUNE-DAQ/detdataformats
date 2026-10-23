@@ -17,6 +17,9 @@ namespace dunedaq::detdataformats::python {
 
 void
 register_detid(pybind11::module&);
+
+void
+register_geoid(pybind11::module&);
 void
 register_daqheader(pybind11::module&);
 void
