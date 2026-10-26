@@ -29,10 +29,11 @@ register_geoid(py::module& m)
          py::arg("crate_id"),
          py::arg("slot_id"),
          py::arg("stream_id"))
-    .def_readwrite("detector_id", &GeoID::detector_id)
-    .def_readwrite("crate_id", &GeoID::crate_id)
-    .def_readwrite("slot_id", &GeoID::slot_id)
-    .def_readwrite("stream_id", &GeoID::stream_id)
+    // read-only, so that a GeoID used as a dict key or set member can't change its hash
+    .def_readonly("detector_id", &GeoID::detector_id)
+    .def_readonly("crate_id", &GeoID::crate_id)
+    .def_readonly("slot_id", &GeoID::slot_id)
+    .def_readonly("stream_id", &GeoID::stream_id)
     .def("subdetector", &GeoID::subdetector)
     .def("encode", &GeoID::encode)
     .def_static("decode", &GeoID::decode, py::arg("value"))
