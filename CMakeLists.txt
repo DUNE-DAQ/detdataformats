@@ -26,6 +26,7 @@ daq_add_python_bindings(*.cpp)
 ##############################################################################
 # Unit Tests
 daq_add_unit_test(DetID_test                LINK_LIBRARIES detdataformats)
+daq_add_unit_test(GeoID_test                LINK_LIBRARIES detdataformats)
 daq_add_unit_test(HSIFrame_test             LINK_LIBRARIES detdataformats)
 daq_add_unit_test(DAQHeader_test            LINK_LIBRARIES detdataformats)
 daq_add_unit_test(DAQEthHeader_test         LINK_LIBRARIES detdataformats)
