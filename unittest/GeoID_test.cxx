@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(ExplicitConstruction)
 {
   GeoID geo_id(DetID::Subdetector::kHD_TPC, 1, 2, 3);
   BOOST_REQUIRE_EQUAL(geo_id.subdetector(), DetID::Subdetector::kHD_TPC);
-  BOOST_REQUIRE_EQUAL(geo_id.detector_id, static_cast<uint16_t>(DetID::Subdetector::kHD_TPC));
+  BOOST_REQUIRE_EQUAL(geo_id.detector_id, static_cast<uint16_t>(DetID::Subdetector::kHD_TPC)); // NOLINT(build/unsigned)
   BOOST_REQUIRE_EQUAL(geo_id.crate_id, 1);
   BOOST_REQUIRE_EQUAL(geo_id.slot_id, 2);
   BOOST_REQUIRE_EQUAL(geo_id.stream_id, 3);
@@ -42,7 +42,8 @@ BOOST_AUTO_TEST_CASE(EncodingMatchesFileFormat)
 {
   // the layout already used in raw data files: stream<<48 | slot<<32 | crate<<16 | detector
   GeoID geo_id(DetID::Subdetector::kHD_TPC, 1, 0, 1);
-  const uint64_t expected = (uint64_t{ 1 } << 48) | (uint64_t{ 0 } << 32) | (uint64_t{ 1 } << 16) | uint64_t{ 3 };
+  using encoded_t = GeoID::encoded_t;
+  const encoded_t expected = (encoded_t{ 1 } << 48) | (encoded_t{ 0 } << 32) | (encoded_t{ 1 } << 16) | encoded_t{ 3 };
   BOOST_REQUIRE_EQUAL(geo_id.encode(), expected);
 }
 
@@ -55,7 +56,7 @@ BOOST_AUTO_TEST_CASE(EncodeDecodeRoundTrip)
     BOOST_REQUIRE(GeoID::decode(geo_id.encode()) == geo_id);
   }
 
-  const uint64_t all_ones = ~uint64_t{ 0 };
+  const uint64_t all_ones = ~uint64_t{ 0 }; // NOLINT(build/unsigned)
   BOOST_REQUIRE_EQUAL(GeoID::decode(all_ones).encode(), all_ones);
 }
 
